@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://kevin:!comp777!@cluster0-ansxp.gcp.mongodb.net/test?retryWrites=true&w=majority",
+  "mongoURI": "mongodb+srv://kcharders:password321@fitness-website-cluster-lam0s.mongodb.net/test?retryWrites=true&w=majority",
   "jwtSecret": "#kchsecret"
 }

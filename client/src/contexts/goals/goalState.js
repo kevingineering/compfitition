@@ -7,19 +7,20 @@ import {
   ADD_GOAL,
   DELETE_GOAL,
   UPDATE_GOAL,
-  SET_CURRENT,
-  CLEAR_CURRENT,
-  SET_LOADING,
+  SET_CURRENT_GOAL,
+  CLEAR_CURRENT_GOAL,
+  SET_GOAL_LOADING,
   GOAL_ERROR,
-  CLEAR_ERRORS
+  CLEAR_GOAL_ERRORS,
+  CLEAR_GOALS
 } from '../types';
 
 const GoalState = props => {
   const initialState = {
-    goals: null,
-    current: null,
+    goals: [],
+    current: {},
     error: null,
-    loading: true
+    loading: false
   };
 
   const [state, dispatch] = useReducer(GoalReducer, initialState);
@@ -35,32 +36,37 @@ const GoalState = props => {
   const getGoals = async () => {
     try {
       setLoading();
-      const res = await axios.get('/goals');
+      const res = await axios.get('/api/goals');
       dispatch({ type: GET_GOALS, payload: res.data});
     } catch (err) {
-      dispatch({ type: GOAL_ERROR, payload: err });
+      dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
     }
   };
+
+  //TODO getPublicGoals
+
+  //TODO getFriendsGoals
 
   //add goal
   const addGoal = async goal => {
     try {
       setLoading();
-      const res = await axios.post('/goals', goal, config);
+      const res = await axios.post('/api/goals', goal, config);
       dispatch({ type: ADD_GOAL, payload: res.data});
     } catch (err) {
-      dispatch({ type: GOAL_ERROR, payload: err });
+      console.log(err);
+      dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
     }
   };
 
   //delete goal
-  const deleteGoal = async id => {
+  const deleteGoal = async _id => {
     try {
       setLoading();
-      await axios.delete(`/goals/${id}`);
-      dispatch({ type: DELETE_GOAL, payload: id });
+      await axios.delete(`/api/goals/${_id}`);
+      dispatch({ type: DELETE_GOAL, payload: _id });
     } catch (err) {
-      dispatch({ type: GOAL_ERROR, payload: err });
+      dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
     }
   };
 
@@ -68,31 +74,36 @@ const GoalState = props => {
   const updateGoal = async goal => {
     try {
       setLoading();
-      const res = await axios.put(`/goals/${goal.id}`, goal, config);
+      const res = await axios.put(`/api/goals/${goal._id}`, goal, config);
       dispatch({ type: UPDATE_GOAL, payload: res.data });
     } catch (err) {
-      dispatch({ type: GOAL_ERROR, payload: err });
+      dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
     }
   };
 
   //set loading
   const setLoading = () => {
-    return {type: SET_LOADING}
+    return { type: SET_GOAL_LOADING }
   };
 
   //clear errors
-  const clearErrors = () => {
-    dispatch({ type: CLEAR_ERRORS });
+  const clearGoalErrors = () => {
+    dispatch({ type: CLEAR_GOAL_ERRORS });
   };
 
   //set current
-  const setCurrent = goal => {
-    dispatch({ type: SET_CURRENT });
+  const setCurrent = _id => {
+    dispatch({ type: SET_CURRENT_GOAL, payload: _id });
   };
 
   //clear current
   const clearCurrent = () => {
-    dispatch({ type: CLEAR_CURRENT });
+    dispatch({ type: CLEAR_CURRENT_GOAL });
+  };
+
+  //clear goals
+  const clearGoals = () => {
+    dispatch({ type: CLEAR_GOALS });
   };
 
   return (
@@ -105,10 +116,11 @@ const GoalState = props => {
       getGoals,
       addGoal,
       deleteGoal,
+      updateGoal,
+      clearGoalErrors,
       setCurrent,
       clearCurrent,
-      updateGoal,
-      clearErrors
+      clearGoals
     }}>
       {props.children}
     </GoalContext.Provider>

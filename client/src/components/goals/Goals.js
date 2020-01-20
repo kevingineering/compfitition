@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import GoalContext from '../../contexts/goals/goalContext';
 import GoalItem from './GoalItem';
-import GoalForm from '../goals/GoalForm'
 
 const Goals = () => {
   const goalContext = useContext(GoalContext);
@@ -13,29 +12,44 @@ const Goals = () => {
     //eslint-disable-next-line
   }, []);
 
-  if (goals !== null && goals.length === 0 && !loading) {
-    return <h4>Add a goal!</h4>
-  };
+  let listItems = null;
+
+  if (goals === null && loading)
+    listItems = (
+      <li className='collection-item'>
+        <h6>Loading...</h6>
+      </li>
+    )
+  else if (goals !== null && goals.length === 0 && !loading) {
+    listItems = (
+      <li className='collection-item center'>
+        You have no saved goals. Add one!
+      </li>
+    );
+  }
+  else {
+    listItems = (
+      <React.Fragment>
+        {goals && goals.map(goal => <GoalItem goal={goal} key={goal._id} />)}
+      </React.Fragment>
+    );
+  }
 
   return (
     <React.Fragment>
-      
-      <ul className='collection with-header'>
-        <li className='collection-header center indigo white-text'>
-          <h5 className='no-margin'>Current Goals</h5>
+      <ul className='collection'>
+        <li className='collection-header'>
+          <h1 className='collection-header'>Current Goals</h1>
         </li>
-        {goals === null ? <h4>Loading...</h4> : (
-          goals.map(goal => <GoalItem goal={goal} key={goal.id} />)
-        )}
-        <li className='collection-header center indigo'>
-          <Link to='/newgoal'>
-            <h6 className='white-text'>+ Add Goal</h6>
+        {listItems}
+        <li className='collection-footer'>
+          <Link to='/goalform' className='text-secondary'>
+            <p><i className='fas fa-plus'/> Add Goal</p>
           </Link>
         </li>
       </ul>
-      <GoalForm />
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default Goals;

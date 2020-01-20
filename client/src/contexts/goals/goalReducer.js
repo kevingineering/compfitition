@@ -3,11 +3,12 @@ import {
   ADD_GOAL,
   DELETE_GOAL,
   UPDATE_GOAL,
-  SET_CURRENT,
-  CLEAR_CURRENT,
-  SET_LOADING,
+  SET_CURRENT_GOAL,
+  CLEAR_CURRENT_GOAL,
+  SET_GOAL_LOADING,
   GOAL_ERROR,
-  CLEAR_ERRORS
+  CLEAR_GOAL_ERRORS,
+  CLEAR_GOALS
 } from '../types';
 
 export default (state, action) => {
@@ -27,17 +28,17 @@ export default (state, action) => {
     case DELETE_GOAL:
       return {
         ...state,
-        goals: state.goals.filter(goal => goal.id !== action.payload),
+        goals: state.goals.filter(goal => goal._id !== action.payload),
         loading: false
       }
     case UPDATE_GOAL:
       return {
         ...state,
         goals: state.goals.map(goal => 
-          goal.id === action.payload.id ? action.payload : goal),
+          goal._id === action.payload._id ? action.payload : goal),
         loading: false
       }
-    case SET_LOADING:
+    case SET_GOAL_LOADING:
       return {
         ...state,
         loading: true
@@ -48,20 +49,28 @@ export default (state, action) => {
         error: action.payload,
         loading: false
       }
-    case CLEAR_ERRORS:
+    case CLEAR_GOAL_ERRORS:
       return {
         ...state,
         error: null
       }
-    case SET_CURRENT:
+    case SET_CURRENT_GOAL:
       return {
         ...state,
-        current: action.payload
+        current: state.goals.find(goal => goal._id === action.payload)
       }
-    case CLEAR_CURRENT:
+    case CLEAR_CURRENT_GOAL:
       return {
         ...state,
-        current: null
+        current: {}
+      }
+    case CLEAR_GOALS:
+      return { 
+        ...state,
+        goals: [],
+        current: {},
+        error: null,
+        loading: true
       }
     default: 
       return state;

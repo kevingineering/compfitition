@@ -4,11 +4,11 @@ import Goals from '../goals/Goals';
 
 const Home = () => {
   return (
-    <div className='row'>
-      <div className="col s6">
+    <div className='grid-2'>
+      <div>
         <Goals/>
       </div>
-      <div className="col s6">
+      <div>
         Friends
       </div>
     </div>
