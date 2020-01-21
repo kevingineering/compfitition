@@ -38,14 +38,13 @@ export default (state, action) => {
     case UPDATE_SUCCESS:
       return {
         ...state,
-        user: action.payload,
-        loading: false
+        user: action.payload.user,
+        loading: false,
+        error: action.payload.msg
       }
     case LOGIN_FAIL:
     case REGISTER_FAIL:
-    case UPDATE_FAIL:
     case AUTH_ERROR:
-    case LOGOUT:
     case USER_DELETED_SUCCESS:
       localStorage.removeItem('token');
       return {
@@ -56,8 +55,19 @@ export default (state, action) => {
         error: action.payload,
         loading: false
       }
+    case LOGOUT:
+      localStorage.removeItem('token');
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        user: null,
+        error: null,
+        loading: false
+      }
     case PASSWORD_SUCCESS:
     case PASSWORD_FAIL:
+    case UPDATE_FAIL:
     case USER_DELETED_FAIL:
       return {
         ...state,

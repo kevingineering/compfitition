@@ -5,7 +5,7 @@ import AlertContext from '../../contexts/alerts/alertContext';
 
 const GoalPage = props => {
   const goalContext = useContext(GoalContext);
-  const { current, error, deleteGoal } = goalContext;
+  const { current, clearCurrent, error, deleteGoal } = goalContext;
 
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlerts } = alertContext;
@@ -18,12 +18,12 @@ const GoalPage = props => {
   const handleDelete = () => {
     deleteGoal(_id);
     if (error) {
-      console.log(error);
       setAlert(error);
     }
     else {
       setAlert('Goal deleted!');
       props.history.push('/');
+      clearCurrent();
       setTimeout(() => {
         clearAlerts();
       }, 2000);

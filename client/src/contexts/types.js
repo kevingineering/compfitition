@@ -1,7 +1,10 @@
 //goal types
-export const GET_GOALS = 'GET_GOALS';
+export const GET_USER_GOALS = 'GET_USER_GOALS';
+export const GET_PUBLIC_GOALS = 'GET_PUBLIC_GOALS';
+export const GET_FRIEND_GOALS = 'GET_FRIEND_GOALS';
 export const ADD_GOAL = 'ADD_GOAL';
 export const DELETE_GOAL = 'DELETE_GOAL';
+export const DELETE_GOALS = 'DELETE_GOALS';
 export const UPDATE_GOAL = 'UPDATE_GOAL';
 export const SET_CURRENT_GOAL = 'SET_CURRENT';
 export const CLEAR_CURRENT_GOAL = 'CLEAR_CURRENT';

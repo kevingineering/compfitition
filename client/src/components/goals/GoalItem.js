@@ -26,9 +26,19 @@ const GoalItem = ({goal: { _id, name, startDate, duration }}) => {
         </h3>
       </div>
       <div>
-        <span className='right'>Day: {time} / {duration}</span>
-        <br/>
-        <span className='right'>100%</span>
+        {time > 0 ? (
+        <React.Fragment>
+          <span className='right'>Day: {time} / {duration}</span>
+          <br/>
+          <span className='right'>100%</span>
+        </React.Fragment>
+        ) : (
+        <React.Fragment>
+          <span className='right'>Begins </span>
+          <br/>
+          <span className='right'>{moment(startDate).format('MMM Do')}</span>
+        </React.Fragment>
+        )}
       </div>
     </li>
   );

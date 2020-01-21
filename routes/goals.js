@@ -11,7 +11,6 @@ router.get('/', auth, async(req, res) => {
     const goals = await Goal.find({ user: req.user.id }).sort({ startDate: 1 });
     res.json(goals);
   } catch (err) {
-    console.log(err.message);
     res.status(500).json({ msg: 'Server error.' });
   }
 });
@@ -24,7 +23,6 @@ router.get('/public', async(req, res) => {
     const goals = await Goal.find({ privacy: 'public' }).sort({ startDate: 1 });
     res.json(goals);
   } catch (err) {
-    console.log(err.message);
     res.status(500).json({ msg: 'Server error.' });
   }
 });
@@ -33,7 +31,6 @@ router.get('/public', async(req, res) => {
 //POST api/goals
 //Private route
 router.post('/', auth, async (req, res) => {
-  
   //check request for errors
   const msg = validateRequest(req.body);
   if (msg) res.status(400).json({ msg: msg });
@@ -56,7 +53,6 @@ router.post('/', auth, async (req, res) => {
     await goal.save();
     res.json(goal);
   } catch (err) {
-    console.log(err.message);
     res.status(500).json({ msg: 'Server error.' });
   }
 });
@@ -122,7 +118,6 @@ router.delete('/:id', auth, async (req, res) => {
     await Goal.findByIdAndRemove(req.params.id);
     res.json({ msg: 'Goal deleted.'});
   } catch (err) {
-    console.log(err.message);
     res.status(500).json({ msg: 'Server error.' });
   }
 });
@@ -138,7 +133,6 @@ router.delete('/user/:id', auth, async (req, res) => {
 
     //verify user has goals
     let goal = await Goal.find({ user: req.user.id });
-    console.log(goal);
     if(goal.length === 0) return res.status(404).json({ msg: 'No goals were found for user.'});
 
     //delete goals
@@ -182,7 +176,6 @@ router.get('/friends', auth, async(req, res) => {
     const goals = await Goal.find({ privacy: 'friends' || 'public' }).sort({ startDate: 1 });
     res.json(goals);
   } catch (err) {
-    console.log(err.message);
     res.status(500).json({ msg: 'Server error.' });
   }
 });

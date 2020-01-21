@@ -1,13 +1,17 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AuthContext from '../../contexts/auth/authContext';
 import AlertContext from '../../contexts/alerts/alertContext';
+import GoalContext from '../../contexts/goals/goalContext';
 
-const UserPage = () => {
+const UserPage = props => {
   const authContext = useContext(AuthContext);
-  const { user, updateUser, isAuthenticated, error, clearUserErrors } = authContext;
+  const { user, updateUser, changeUserPassword, deleteUser, error, clearUserErrors } = authContext;
   
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlerts } = alertContext;
+
+  const goalContext = useContext(GoalContext);
+  const { deleteGoals } = goalContext;
   
   const [current, setCurrent] = useState({
     firstName: '',
@@ -15,44 +19,60 @@ const UserPage = () => {
     alias: '',
     searchable: true,
     email: '',
-    password: '',
+    oldPassword: '',
     newPassword: '',
     newPassword2: ''
   });
-
-  const [changePassword, setChangePassword] = useState(false);
-  const [editUser, setEditUser] = useState(false);
+  const [passwordToggle, setPasswordToggle] = useState(false);
+  const [editToggle, setEditToggle] = useState(false);
+  const [deleteToggle, setDeleteToggle] = useState(false);
+  
+  const { firstName, lastName, alias, searchable, email, oldPassword, newPassword, newPassword2} = current;
 
   //populate current with user values
   useEffect(() => {
     setCurrent({...current, ...user});
+    //eslint-disable-next-line
   },[user]);
 
-  //redirect if not authenticated, set alert if error
+  //set alert if error
   useEffect(() => {
+    if(error === 'User updated!') {
+      setEditToggle(false);
+      setTimeout(() => {
+        clearAlerts();
+      }, 2000);
+    }
+    else if (error === 'Password changed!') {
+      setPasswordToggle(false);
+      setCurrent({...current, oldPassword: '', newPassword: '', newPassword2: ''});
+      setTimeout(() => {
+        clearAlerts();
+      }, 2000);
+    }
+    else if (error === 'User deleted.') {
+      setDeleteToggle(false);
+      setTimeout(() => {
+        clearAlerts();
+      }, 2000);
+    }
     if (error) {
       setAlert(error);
       clearUserErrors();
     }
     //eslint-disable-next-line
-  }, [error, isAuthenticated]);
-
-
-  const { firstName, lastName, alias, searchable, email, password, newPassword, newPassword2} = current;
-
-  const handleDelete = () => {
-    //TODO
-  };
+  }, [error]);
 
   const handlePassword = () => {
-    //TODO
+    clearAlerts();
     if (newPassword !== newPassword2)
       setAlert('Passwords do not match.');
-  }
+    else {
+      changeUserPassword({oldPassword, newPassword, newPassword2}, props.match.params.id);
+    }
+  };
 
-  const handleSave = () => {
-    //TODO
-    //ENTER PASSWORD TO SAVE CHANGES
+  const handleEdit = () => {
     clearAlerts();
     if (firstName === '') 
       setAlert('Please enter a first name.');
@@ -60,17 +80,24 @@ const UserPage = () => {
       setAlert('Please enter a last name.');
     else if (email === '')
       setAlert('Please enter an email.');
-    else updateUser(current);
-    if (!error) {
-      setAlert('User updated!')
-      setEditUser(false);
+    else {
+      updateUser(current);
     }
-    else setAlert(error);
+  };
+
+  const handleDelete = () => {
+    clearAlerts();
+    if (oldPassword === '')
+      setAlert('Please enter your password.');
+    else {
+      deleteUser(oldPassword, current._id);
+      deleteGoals(current._id);
+    }
   }
 
   const handleChange = e => {
     setCurrent({...current, [e.target.name]: e.target.value});
-  }
+  };
   
   const handleClick = () => {
     setCurrent({ ...current, searchable: !searchable });
@@ -79,9 +106,9 @@ const UserPage = () => {
   return (
     <div className='form-container'>
       <h1>User Profile</h1>
-      <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et beatae inventore porro non aut incidunt excepturi expedita molestias quod ex unde veniam omnis, fugit corporis saepe placeat sit veritatis itaque?</span>
-      {editUser && (
-      <form onSubmit={handleSave}>
+      {/*Edit module*/}
+      {editToggle && (
+      <form autoComplete='off'>
         {/*First Name*/}
         <div className="form-group">
           <label htmlFor='firstName'>First Name</label>
@@ -141,30 +168,107 @@ const UserPage = () => {
           type='button'
           value='Save User'
           className='btn btn-primary btn-block'
-          onClick={handleSave}
+          onClick={handleEdit}
         />
       </form>
       )}
+      {/*Password module*/}
+      {passwordToggle && (
+      <form autoComplete='off'>
+        {/*Old password*/}
+        <div className="form-group">
+          <label htmlFor='oldPassword'>Current Password</label>
+          <input
+            type='password'
+            value={oldPassword}
+            name='oldPassword'
+            onChange={handleChange}
+          />
+        </div>
+        {/*New Password*/}
+        <div className="form-group">
+          <label htmlFor='newPassword'>New Password</label>
+          <input
+            type='password'
+            value={newPassword}
+            name='newPassword'
+            onChange={handleChange}
+          />
+        </div>
+        {/*New Password 2*/}
+        <div className="form-group">
+          <label htmlFor='newPassword2'>Verify New Password</label>
+          <input
+            type='password'
+            value={newPassword2}
+            name='newPassword2'
+            onChange={handleChange}
+          />
+        </div>
+        {/*Save Button*/}
+        <input
+          type='button'
+          value='Change Password'
+          className='btn btn-primary btn-block'
+          onClick={handlePassword}
+        />
+        {/*Cancel Button*/}
+        <input
+          type='button'
+          value='Cancel'
+          className='btn btn-primary btn-block'
+          onClick={() => setPasswordToggle(false)}
+        />
+      </form>
+      )}
+      {/*Delete module*/}
+      {deleteToggle && (
+      <form autoComplete='off'>
+        <span>Deleting your account cannot be undone and your information cannot be recovered. Any goals, competitions, or friendships you have will be permanently lost. Are you sure you want to delete your account?</span>
+        <div className="form-group">
+          <label htmlFor='oldPassword'>Password</label>
+          <input
+            type='password'
+            value={oldPassword}
+            name='oldPassword'
+            onChange={handleChange}
+          />
+        </div>
+        <input
+            type='button'
+            value='No, keep my account.'
+            className='btn btn-primary btn-block'
+            onClick={() => setDeleteToggle(false)}
+          />
+        <input
+            type='button'
+            value='Yes, delete my account.'
+            className='btn btn-danger btn-block'
+            onClick={handleDelete}
+          />
+      </form>
+      )}
       {/*Edit, Change Password, and Delete Button*/}
-      {!editUser && !changePassword && (
+      {!editToggle && !passwordToggle && !deleteToggle && (
         <React.Fragment>
+          <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et beatae inventore porro non aut incidunt excepturi expedita molestias quod ex unde veniam omnis, fugit corporis saepe placeat sit veritatis itaque?</span>
           <input
             type='button'
             value='Edit User'
             className='btn btn-primary btn-block'
-            onClick={() => setEditUser(true)}
+            onClick={() => setEditToggle(true)}
           />
           <input
             type='button'
             value='Change Password'
             className='btn btn-primary btn-block'
-            onClick={() => setChangePassword(true)}
+            onClick={() => setPasswordToggle(true)}
           />
           <input
             type='button'
             value='Delete User'
             className='btn btn-danger btn-block'
-            onClick={handleDelete}
+            onClick={() => setDeleteToggle(true)}
           />
         </React.Fragment>
       )}

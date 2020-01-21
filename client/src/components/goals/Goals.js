@@ -5,22 +5,22 @@ import GoalItem from './GoalItem';
 
 const Goals = () => {
   const goalContext = useContext(GoalContext);
-  const { getGoals, goals, loading } = goalContext;
+  const { getUserGoals, userGoals, loading } = goalContext;
 
   useEffect(() => {
-    getGoals();
+    getUserGoals();
     //eslint-disable-next-line
   }, []);
 
   let listItems = null;
 
-  if (goals === null && loading)
+  if (loading)
     listItems = (
       <li className='collection-item'>
         <h6>Loading...</h6>
       </li>
     )
-  else if (goals !== null && goals.length === 0 && !loading) {
+  else if (userGoals !== null && userGoals.length === 0 && !loading) {
     listItems = (
       <li className='collection-item center'>
         You have no saved goals. Add one!
@@ -30,7 +30,7 @@ const Goals = () => {
   else {
     listItems = (
       <React.Fragment>
-        {goals && goals.map(goal => <GoalItem goal={goal} key={goal._id} />)}
+        {userGoals && userGoals.map(goal => <GoalItem goal={goal} key={goal._id} />)}
       </React.Fragment>
     );
   }

@@ -83,7 +83,7 @@ const AuthState = props => {
     try {
       setLoading();
       const res = await axios.put(`/api/auth/${user._id}`, user, config);
-      dispatch({ type: UPDATE_SUCCESS, payload: res.data });
+      dispatch({ type: UPDATE_SUCCESS, payload: { user: res.data.user, msg: res.data.msg }});
     } catch (err) {
       dispatch({ type: UPDATE_FAIL, payload: err.response.data.msg });
     }
@@ -93,19 +93,25 @@ const AuthState = props => {
   const changeUserPassword = async (formData, _id) => {
     try { 
       setLoading();
-      await axios.put(`/api/auth/password/${_id}`, formData, config);
-      dispatch({ type: PASSWORD_SUCCESS });
+      const res = await axios.put(`/api/auth/password/${_id}`, formData, config);
+      dispatch({ type: PASSWORD_SUCCESS, payload: res.data.msg });
     } catch (err) {
       dispatch({ type: PASSWORD_FAIL, payload: err.response.data.msg });
     }
   };
 
   //delete user
-  const deleteUser = async password => {
+  const deleteUser = async (password, _id) => {
     try {
       setLoading();
-      await axios.delete(`api/auth/${id}`, password, config);
-      dispatch({ type: USER_DELETED_SUCCESS});
+      const res = await axios.delete(`/api/auth/${_id}`, {
+        config,
+        data: {
+          password
+        }
+
+      });
+      dispatch({ type: USER_DELETED_SUCCESS, payload: res.data.msg });
     } catch (err) {
       dispatch({ type: USER_DELETED_FAIL, payload: err.response.data.msg });
     }
@@ -139,7 +145,7 @@ const AuthState = props => {
       registerUser,
       updateUser,
       changeUserPassword,
-      deleteUser
+      deleteUser,
       logoutUser,
       clearUserErrors
     }}>

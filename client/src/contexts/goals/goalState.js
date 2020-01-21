@@ -3,9 +3,12 @@ import axios from 'axios';
 import GoalContext from './goalContext';
 import GoalReducer from './goalReducer';
 import {
-  GET_GOALS,
+  GET_USER_GOALS,
+  GET_PUBLIC_GOALS,
+  GET_FRIEND_GOALS,
   ADD_GOAL,
   DELETE_GOAL,
+  DELETE_GOALS,
   UPDATE_GOAL,
   SET_CURRENT_GOAL,
   CLEAR_CURRENT_GOAL,
@@ -17,10 +20,12 @@ import {
 
 const GoalState = props => {
   const initialState = {
-    goals: [],
+    userGoals: [],
+    publicGoals: [],
+    friendGoals: [],
     current: {},
     error: null,
-    loading: false
+    loading: true
   };
 
   const [state, dispatch] = useReducer(GoalReducer, initialState);
@@ -32,20 +37,26 @@ const GoalState = props => {
     }
   };
 
-  //get goals
-  const getGoals = async () => {
+  //get user goals
+  const getUserGoals = async () => {
     try {
       setLoading();
       const res = await axios.get('/api/goals');
-      dispatch({ type: GET_GOALS, payload: res.data});
+      dispatch({ type: GET_USER_GOALS, payload: res.data });
     } catch (err) {
       dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
     }
   };
 
-  //TODO getPublicGoals
+  //TODO get public goals
+  const getPublicGoals = async () => {
+    
+  };
 
-  //TODO getFriendsGoals
+  //TODO get friend goals
+  const getFriendGoals = async () => {
+
+  };
 
   //add goal
   const addGoal = async goal => {
@@ -54,7 +65,6 @@ const GoalState = props => {
       const res = await axios.post('/api/goals', goal, config);
       dispatch({ type: ADD_GOAL, payload: res.data});
     } catch (err) {
-      console.log(err);
       dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
     }
   };
@@ -69,6 +79,17 @@ const GoalState = props => {
       dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
     }
   };
+
+  //delete goals
+  const deleteGoals = async _id => {
+    try {
+      setLoading();
+      await axios.delete(`/api/goals/user/${_id}`);
+      dispatch({ type: DELETE_GOALS, payload: _id });
+    } catch (err) {
+      dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
+    }
+  }
 
   //update goal
   const updateGoal = async goal => {
@@ -109,13 +130,18 @@ const GoalState = props => {
   return (
     <GoalContext.Provider
     value={{
-      goals: state.goals,
+      userGoals: state.userGoals,
+      publicGoals: state.publicGoals,
+      friendGoals: state.friendGoals,
       current: state.current,
       error: state.error,
       loading: state.loading,
-      getGoals,
+      getUserGoals,
+      getPublicGoals,
+      getFriendGoals,
       addGoal,
       deleteGoal,
+      deleteGoals,
       updateGoal,
       clearGoalErrors,
       setCurrent,

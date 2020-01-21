@@ -5,7 +5,7 @@ import moment from 'moment';
 
 const GoalForm = props => {
   const goalContext = useContext(GoalContext);
-  const { addGoal, updateGoal, current } = goalContext;
+  const { addGoal, updateGoal, current, clearCurrent } = goalContext;
 
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlerts } = alertContext;
@@ -44,6 +44,7 @@ const GoalForm = props => {
       if (message === 'Modify Goal') {
         updateGoal(goal);
         setAlert('Goal updated!');
+        clearCurrent();
       } else {
         addGoal(goal);
         setAlert('Goal added!');
@@ -91,7 +92,7 @@ const GoalForm = props => {
   return (
     <div className='form-container'>
       <h1>{message}</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete='off'>
         {/* Name */}
         <div className="form-group">
           <label>Goal Name</label>

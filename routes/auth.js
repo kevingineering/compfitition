@@ -70,8 +70,7 @@ router.post('/', [
 router.put('/:id', [ auth, [
   check('firstName', 'Please enter your first name.').not().isEmpty(),
   check('lastName', 'Please enter your last name.').not().isEmpty(),
-  check('email', 'Please enter a valid email.').isEmail(),
-  check('password', 'Password is incorrect.').isLength({ min: 8 })
+  check('email', 'Please enter a valid email.').isEmail()
 ]], async (req, res) => {
   const errors = validationResult(req);
   if(!errors.isEmpty())
@@ -82,7 +81,7 @@ router.put('/:id', [ auth, [
   const userFields = {};
   if(firstName) userFields.firstName = firstName;
   if(lastName) userFields.lastName = lastName;
-  if(alias) userFields.alias = alias;
+  if(alias || alias === '') userFields.alias = alias;
   if(email) userFields.email = email;
   if(searchable) userFields.searchable = searchable;
 
@@ -96,15 +95,11 @@ router.put('/:id', [ auth, [
     if(!user) 
       return res.status(400).json({ msg: 'User not found.'});
 
-    //validate password - gets salt and rounds from saved hash
-    const isMatch = await bcrypt.compare(password, user.password);
-    if(!isMatch) 
-      return res.status(400).json({msg: 'Password is incorrect.'});
-
     //ensure email has not already been used
-    let test = await User.findOne({ email })
-    if(test && test._id !== user._id) 
+    let test = await User.findOne({ email });
+    if(test && test._id.toString() !== user._id.toString()) {
       return res.status(400).json({ msg: 'Another account already exists for this email.'});
+    }
 
     //update user
     user = await User.findByIdAndUpdate(
@@ -113,7 +108,7 @@ router.put('/:id', [ auth, [
       { new: true}
     );
 
-    res.json(user);
+    res.json({user, msg: 'User updated!'});
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }
@@ -169,7 +164,7 @@ router.delete('/:id', auth, async (req, res) => {
   try {
     //verify current user sent request
     if(req.params.id !== req.user.id)
-    return res.status(401).json({ msg: 'User is not authorized to perform this action.'});
+      return res.status(401).json({ msg: 'User is not authorized to perform this action.'});
 
     //find user
     let user = await User.findOne({ _id: req.params.id  });
@@ -181,7 +176,7 @@ router.delete('/:id', auth, async (req, res) => {
     if(!isMatch) 
       return res.status(400).json({msg: 'Password is incorrect.'});
 
-    //delete goal
+    //delete user
     await User.findByIdAndRemove(req.params.id);
     res.json({msg: 'User deleted.'});
   } catch (err) {
