@@ -21,6 +21,13 @@ const Login = props => {
     //eslint-disable-next-line
   }, [isAuthenticated, error, props.history]);
 
+  //clear alerts before redirect
+  useEffect(() => {
+    return () => {
+      clearAlerts();
+    }
+  }, []);
+
   const [user, setUser] = useState({
     email: '',
     password: ''
@@ -28,10 +35,10 @@ const Login = props => {
 
   const { email, password } = user;
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     clearAlerts();
-    loginUser(user);
+    await loginUser(user);
   }
 
   const handleChange = e => {

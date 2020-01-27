@@ -1,24 +1,48 @@
-import React from 'react'
+import React from 'react';
+import Chart from 'react-google-charts';
 
 const Test = () => {
-  return (
-    <div className="form-container">
-      <form>
-        <div className="form-group">
-          <label className="switch">
-            <input type="checkbox" value="true"/>
-            <span className="slider round"/>
-          </label>
-          <span>Are other users allowed to search for your name, email, and alias? This is how friends will find you.</span>
-        </div>
-        <div className="form-group">
-          <label>
-            <input type="checkbox" value="true"/>
-          </label>
-        </div>
-      </form>
-    </div>
-  )
-}
+  const dataPoints = [['x', 'Total'], [0, 0]];
+  let runningTotal = 0;
+  for (let i = 1; i <= 20; i++) {
+    runningTotal += i;
+    dataPoints.push(
+      [i, runningTotal]
+    );
+  }
 
+  return (
+  <div className='border'>
+    <Chart
+      chartType="LineChart"
+      loader={<div>Loading Chart</div>}
+      data={dataPoints}
+      options={{
+        tooltip: {
+
+        },
+        pointsVisible: true,
+        legend: {
+          position: 'none'
+        },
+        hAxis: {
+          title: 'Days',
+          minValue: 30,
+          minorGridlines: {
+            count: 0
+          }
+        },
+        vAxis: {
+          title: 'Miles',
+          minorGridlines: {
+            count: 0
+          }
+        },
+      }}
+      rootProps={{ 'data-testid': '1' }}
+    />
+  </div>
+  );
+}
+  
 export default Test;

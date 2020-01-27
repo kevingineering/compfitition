@@ -63,16 +63,23 @@ const UserPage = props => {
     //eslint-disable-next-line
   }, [error]);
 
-  const handlePassword = () => {
+  //clear alerts before redirect
+  useEffect(() => {
+    return () => {
+      clearAlerts();
+    }
+  }, []);
+
+  const handlePassword = async () => {
     clearAlerts();
     if (newPassword !== newPassword2)
       setAlert('Passwords do not match.');
     else {
-      changeUserPassword({oldPassword, newPassword, newPassword2}, props.match.params.id);
+      await changeUserPassword({oldPassword, newPassword, newPassword2}, props.match.params.id);
     }
   };
 
-  const handleEdit = () => {
+  const handleEdit = async () => {
     clearAlerts();
     if (firstName === '') 
       setAlert('Please enter a first name.');
@@ -81,17 +88,17 @@ const UserPage = props => {
     else if (email === '')
       setAlert('Please enter an email.');
     else {
-      updateUser(current);
+      await updateUser(current);
     }
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     clearAlerts();
     if (oldPassword === '')
       setAlert('Please enter your password.');
     else {
-      deleteUser(oldPassword, current._id);
-      deleteGoals(current._id);
+      await deleteUser(oldPassword, current._id);
+      await deleteGoals(current._id);
     }
   }
 
@@ -248,10 +255,25 @@ const UserPage = props => {
           />
       </form>
       )}
-      {/*Edit, Change Password, and Delete Button*/}
+      {/*User Information, Edit, Change Password, and Delete Button*/}
       {!editToggle && !passwordToggle && !deleteToggle && (
         <React.Fragment>
-          <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et beatae inventore porro non aut incidunt excepturi expedita molestias quod ex unde veniam omnis, fugit corporis saepe placeat sit veritatis itaque?</span>
+          <p>
+            <strong>Name: &nbsp;&nbsp;&nbsp;</strong>
+            {firstName} {lastName}
+          </p>
+          <p>
+            <strong>Alias: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+            {alias !== '' ? alias : 'none'}
+          </p>
+          <p>
+            <strong>Email: &nbsp;&nbsp;&nbsp;&nbsp;</strong>
+            {email}
+          </p>
+          <p>
+            <strong>Privacy: &nbsp;</strong>
+            Other users {searchable ? 'can' : 'cannot'} search for me using my name, email, and alias.
+          </p>
           <input
             type='button'
             value='Edit User'
@@ -267,7 +289,7 @@ const UserPage = props => {
           <input
             type='button'
             value='Delete User'
-            className='btn btn-danger btn-block'
+            className='btn btn-primary btn-block'
             onClick={() => setDeleteToggle(true)}
           />
         </React.Fragment>

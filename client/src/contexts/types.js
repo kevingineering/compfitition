@@ -6,6 +6,7 @@ export const ADD_GOAL = 'ADD_GOAL';
 export const DELETE_GOAL = 'DELETE_GOAL';
 export const DELETE_GOALS = 'DELETE_GOALS';
 export const UPDATE_GOAL = 'UPDATE_GOAL';
+export const UPDATE_GOAL_TRACKER = 'UPDATE_GOAL_TRACKER';
 export const SET_CURRENT_GOAL = 'SET_CURRENT';
 export const CLEAR_CURRENT_GOAL = 'CLEAR_CURRENT';
 export const SET_GOAL_LOADING = 'SET_GOAL_LOADING';

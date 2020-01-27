@@ -20,7 +20,7 @@ import AlertState from './contexts/alerts/alertState';
 // import CompetitionState from './contexts/competitions/competitionState';
 
 import setAuthToken from './utils/setAuthToken';
-import PrivateRoute from './components/routing/PrivateRoute';
+//import PrivateRoute from './components/routing/PrivateRoute';
 
 import './App.css';
 
@@ -42,12 +42,12 @@ const App = () => {
                 <Switch>
                   <Route exact path='/register' component={Register} />
                   <Route exact path='/login' component={Login} />
-                  <PrivateRoute exact path='/user/:id' component={UserPage} />
-                  <PrivateRoute exact path='/' component={Home}/>
+                  <Route exact path='/user/:id' component={UserPage} />
+                  <Route exact path='/' component={Home}/>
                   <Route exact path='/test' component={Test}/>
-                  <PrivateRoute exact path='/goalform' component={GoalForm}/>
+                  <Route exact path='/goalform' component={GoalForm}/>
                   <Route exact path='/about' component={About}/>
-                  <PrivateRoute exact path='/goal/:id' component={GoalPage}/>
+                  <Route exact path='/goal/:id' component={GoalPage}/>
                   <Route component={NotFound}/>
                 </Switch>
               </div>

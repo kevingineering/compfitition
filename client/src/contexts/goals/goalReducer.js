@@ -1,11 +1,12 @@
 import {
   GET_USER_GOALS,
-  GET_PUBLIC_GOALS,
-  GET_FRIEND_GOALS,
+  //GET_PUBLIC_GOALS,
+  //GET_FRIEND_GOALS,
   ADD_GOAL,
   DELETE_GOAL,
   DELETE_GOALS,
   UPDATE_GOAL,
+  UPDATE_GOAL_TRACKER,
   SET_CURRENT_GOAL,
   CLEAR_CURRENT_GOAL,
   SET_GOAL_LOADING,
@@ -17,14 +18,12 @@ import {
 export default (state, action) => {
   switch(action.type) {
     case GET_USER_GOALS:
-      console.log('fetch')
       return {
         ...state, 
         userGoals: action.payload,
         loading: false
       }
     case ADD_GOAL:
-      console.log('set')
       return {
         ...state,
         userGoals: [...state.userGoals, action.payload],
@@ -37,6 +36,7 @@ export default (state, action) => {
         loading: false
       }
     case UPDATE_GOAL:
+    case UPDATE_GOAL_TRACKER:
       return {
         ...state,
         userGoals: state.userGoals.map(goal => 

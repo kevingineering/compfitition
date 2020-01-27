@@ -11,7 +11,7 @@ const GoalSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  // duration is time in days
+  // duration is time in weeks
   duration: {
     type: Number,
     required: true

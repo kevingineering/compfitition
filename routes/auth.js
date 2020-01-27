@@ -83,7 +83,7 @@ router.put('/:id', [ auth, [
   if(lastName) userFields.lastName = lastName;
   if(alias || alias === '') userFields.alias = alias;
   if(email) userFields.email = email;
-  if(searchable) userFields.searchable = searchable;
+  userFields.searchable = searchable;
 
   try {
     //verify current user sent request

@@ -4,12 +4,13 @@ import GoalContext from './goalContext';
 import GoalReducer from './goalReducer';
 import {
   GET_USER_GOALS,
-  GET_PUBLIC_GOALS,
-  GET_FRIEND_GOALS,
+  //GET_PUBLIC_GOALS,
+  //GET_FRIEND_GOALS,
   ADD_GOAL,
   DELETE_GOAL,
   DELETE_GOALS,
   UPDATE_GOAL,
+  UPDATE_GOAL_TRACKER,
   SET_CURRENT_GOAL,
   CLEAR_CURRENT_GOAL,
   SET_GOAL_LOADING,
@@ -102,6 +103,16 @@ const GoalState = props => {
     }
   };
 
+  //update goal tracker
+  const updateGoalTracker = async (tracker, _id) => {
+    try {
+      setLoading();
+      const res = await axios.put(`/api/goals/tracker/${_id}`, {tracker}, config);
+      dispatch({ type: UPDATE_GOAL_TRACKER, payload: res.data });
+    } catch (err) {
+      dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
+    }
+  }
   //set loading
   const setLoading = () => {
     return { type: SET_GOAL_LOADING }
@@ -143,6 +154,7 @@ const GoalState = props => {
       deleteGoal,
       deleteGoals,
       updateGoal,
+      updateGoalTracker,
       clearGoalErrors,
       setCurrent,
       clearCurrent,

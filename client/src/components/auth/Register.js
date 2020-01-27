@@ -21,6 +21,13 @@ const Register = props => {
     //eslint-disable-next-line
   }, [error, isAuthenticated, props.history]);
 
+  //clear alerts before redirect
+  useEffect(() => {
+    return () => {
+      clearAlerts();
+    }
+  }, []);
+
   const [user, setUser] = useState({
     firstName: '',
     lastName: '',
@@ -33,12 +40,12 @@ const Register = props => {
 
   const { firstName, lastName, alias, searchable, email, password, password2 } = user;
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     clearAlerts();
     if (password !== password2)
       setAlert('Passwords do not match.');
-    else registerUser(user);
+    else await registerUser(user);
   }
 
   const handleChange = e => {

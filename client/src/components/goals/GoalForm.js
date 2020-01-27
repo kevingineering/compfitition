@@ -12,55 +12,77 @@ const GoalForm = props => {
 
   const [goal, setGoal] = useState({
     name: '',
-    duration: 90,
-    startDate: moment().format('YYYY-MM-DD'),
+    duration: 28,
+    startDate: moment().startOf('day').format('YYYY-MM-DD'),
     type: 'pass/fail',
     units: '',
     total: 7,
     privacy: 'only me',
-    sign: true
+    initialValue: 0,
+    started: false
   });
 
-  //control if current or not
+  //control if current or not - TODO - fix startDate
   useEffect(() => {
     if (Object.entries(current).length) {
-      setGoal({ ...current, sign: (total >= 0), startDate: moment(current.startDate).format('YYYY-MM-DD') });
+      setGoal({ ...current, startDate: moment(current.startDate).startOf('day')});
+      if (moment(current.startDate).startOf('day') < moment.now()) {
+        setGoal({...current, started: true })
+        setAlert('This goal has already begun, so some attributes cannot be changed.')
+      }
     }
-      //eslint-disable-next-line
+    //eslint-disable-next-line
   }, [])
 
+  //clear alerts before redirect
+  useEffect(() => {
+    return () => {
+      clearAlerts();
+    }
+  }, []);
+
   const message = Object.entries(current).length ? 'Modify Goal' : 'Add Goal';
-
-  const { name, duration, startDate, type, units, total, privacy, sign } = goal;
-
-  const handleSubmit = e => {
+  
+  const { name, duration, startDate, type, units, total, privacy, initialValue, started } = goal;
+  
+  const handleSubmit = async (e) => {
     e.preventDefault();
     clearAlerts();
-    //set sign on type 'difference'
-    if(!sign)
-      setGoal({ ...goal, total: total * -1 })
+    
+    //fix date issues
+    let time = moment().startOf('day').diff(startDate, 'days');
+
+    //verify start date not in past
+    if(time > 0 && !started) {
+      setAlert('Start date cannot be in the past.');
+      return null;
+    }
+
+    //verify finish date is not in past (for goals that have started)
+    if(duration - time < 0){
+      setAlert('Finish date cannot be in the past.');
+      return null;
+    }
+
+    //THIS DOES NOT WORK HERE BECAUSE setState IS ASYNC - INSTEAD HANDLING ON BACKEND
+    // //readjust duration if using 'pass/fail'
+    // if (type === 'pass/fail' && duration % 7 !== 0 ) {
+    //   let newDuration = (duration - (duration % 7) + 7);
+    //   setGoal({ ...goal, duration: newDuration });
+    // }
+
+    //try to submit goal
     if(name && duration && startDate && type && total && (units || type === 'pass/fail')) {
       //add/update goal and tell user
       if (message === 'Modify Goal') {
-        updateGoal(goal);
+        await updateGoal(goal);
         setAlert('Goal updated!');
         clearCurrent();
       } else {
-        addGoal(goal);
+        await addGoal(goal);
         setAlert('Goal added!');
       }
-      
-      //clear state
-      setGoal({
-        name: '',
-        duration: 90,
-        startDate: Date.now(),
-        type: 'pass/fail',
-        units: '',
-        total: 7,
-        privacy: 'only me'
-      });
-      
+
       //redirect to homepage and clear alerts
       props.history.push('/');
       setTimeout(() => {
@@ -71,17 +93,15 @@ const GoalForm = props => {
       setAlert('Please enter all fields.');
   };
 
-  const handleClick = e => {
-    e.preventDefault();
-    setGoal({ ...goal, sign: !sign });
-  };
-
   const handleChange = e => {
-    if (e.target.name === 'duration' || e.target.name === 'total')
-      setGoal({
-        ...goal,
-        [e.target.name]: parseInt(e.target.value)
-      })
+    if (e.target.name === 'duration' || e.target.name === 'total' || e.target.name === 'initialValue') {
+      if (e.target.value === '') 
+        setGoal({ ...goal, [e.target.name]: ''});
+      else 
+        setGoal({ ...goal, [e.target.name]: parseInt(e.target.value)});
+    }
+    else if (e.target.name === 'type' && e.target.value === 'pass/fail')
+      setGoal({ ...goal, total: 7, type: 'pass/fail' });
     else
       setGoal({
         ...goal, 
@@ -108,10 +128,11 @@ const GoalForm = props => {
         <div className="form-group">
           <label>Start Date</label>
           <input 
+            disabled={started}
             type='date' 
             name='startDate' 
-            onChange={handleChange}
-            value={startDate}
+            onChange={started ? null : handleChange}
+            value={moment.utc(startDate).format('YYYY-MM-DD')}
           />
         </div>
         {/* Duration */}
@@ -123,37 +144,43 @@ const GoalForm = props => {
             onChange={handleChange}
             value={duration}
           />
+          {type === 'pass/fail' && !(Number.isInteger(duration / 7)) && (duration !== '') &&
+            <span className='block small-text'>*Goal duration will be adjusted to {duration - (duration % 7) + 7} days to use full weeks.</span>
+          }
         </div>
         {/* Type */}
         <div className="form-group">
           <label>What type of goal would you like?
             <select
+              disabled={started}
               name='type'
               value={type}
-              onChange={handleChange}>
-              <option value='pass/fail'>Pass/Fail  (e.g. I went to the gym today)</option>
-              <option value='total'>Total  (e.g. I ran three miles today)</option>
-              <option value='difference'>Difference  (e.g. I lost three pounds this month)</option>
+              onChange={handleChange}
+            >
+              <option value='pass/fail'>Pass/Fail  (e.g. Stretch every day)</option>
+              <option value='total'>Total  (e.g. Run 100 miles)</option>
+              <option value='difference'>Difference  (e.g. Gain 10 lbs)</option>
             </select>  
           </label>
         </div>
-        {/* Total / Sign */}
+        {/* Total */}
         <div className="form-group">
           {type === 'pass/fail' && (
             <React.Fragment>
-              <label>How often do you want to hit your goal?</label>
+              <label>How many days a week do you want to hit your goal?</label>
               <select
+                disabled={started}
                 name='total'
                 value={total}
-                onChange={handleChange}>
-                <option value='7'>Daily</option>
+                onChange={handleChange}
+              >
+                <option value='7'>Every day</option>
                 <option value='6'>Six days a week</option>
                 <option value='5'>Five days a week</option>
                 <option value='4'>Four days a week</option>
                 <option value='3'>Three days a week</option>
                 <option value='2'>Twice a week</option>
                 <option value='1'>Once a week</option>
-                <option value='30'>Once a month</option>
               </select>  
             </React.Fragment>
           )}
@@ -171,20 +198,21 @@ const GoalForm = props => {
           )}
           {type === 'difference' && (
             <React.Fragment>
-              <label className='block'>What difference do you want to achieve?</label>
-              <button
-                type='button'
-                onClick={handleClick}
-                className='btn-square btn-primary'
-              >
-              <i className={sign ? 'fas fa-plus' : 'fas fa-minus' } />
-              </button>
+              <label>What is your current number?</label>
+              <input 
+                type='number' 
+                name='initialValue' 
+                onChange={handleChange}
+                value={initialValue}
+                min='0'
+              />
+              <label>What number do you want to achieve?</label>
               <input 
                 type='number' 
                 name='total' 
                 onChange={handleChange}
                 value={total}
-                id='input-special'
+                min='0'
               />
             </React.Fragment>
           )}

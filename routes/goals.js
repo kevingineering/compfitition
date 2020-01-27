@@ -35,20 +35,39 @@ router.post('/', auth, async (req, res) => {
   const msg = validateRequest(req.body);
   if (msg) res.status(400).json({ msg: msg });
 
-  const { name, duration, startDate, type, units, total, compId, privacy } = req.body;
+  const { name, duration, startDate, type, units, total, compId, privacy, initialValue } = req.body;
   
+  //fix duration if pass/fail
+  let newDuration = duration;
+  if ( type === 'pass/fail' && duration % 7 !== 0) {
+    newDuration = duration - duration % 7 + 7;
+  }
+
+  //create tracker array
+  let length = newDuration;
+  if ( type === 'pass/fail') {
+    length = newDuration / 7 * total;
+  } 
+  let tracker = new Array(length);
+  if ( type === 'total') {
+    tracker = tracker.fill(0);
+  }
+  if ( type === 'difference') {
+    tracker[0] = initialValue;
+  }
+
   try {
     const goal = new Goal({ 
       user: req.user.id, 
       name, 
-      duration, 
+      duration: newDuration, 
       startDate, 
       type, 
       units,
       total,
       privacy, 
       compId, 
-      tracker: new Array()
+      tracker
     });
     await goal.save();
     res.json(goal);
@@ -61,20 +80,42 @@ router.post('/', auth, async (req, res) => {
 //PUT api/goals/:id
 //Private route
 router.put('/:id', auth, async (req, res) => {
-  const { name, duration, startDate, type, units, total, privacy } = req.body;
+  const { name, duration, startDate, type, units, total, privacy, tracker } = req.body;
   
   //check request for errors
   const msg = validateRequest(req.body);
   if (msg) res.status(400).json({ msg: msg });
 
+  //fix duration if pass/fail
+  let newDuration = duration;
+  if ( type === 'pass/fail' && duration % 7 !== 0) {
+    newDuration = duration - duration % 7 + 7;
+  }
+
+  //update tracker array
+  let length = newDuration - tracker.length;
+  if ( type === 'pass/fail') {
+    length = newDuration / 7 * total - tracker.length;
+  } 
+
+  let newTracker = [];
+
+  if (length < 0) newTracker = tracker.splice(-1*length);
+  else if ( type === 'total')
+    newTracker = tracker.concat(new Array(length).fill(0))
+  else newTracker = tracker.concat(new Array(length));
+  
+
+  //makes object containing fields that exist - object required for $set
   const goalFields = {};
   if(name) goalFields.name = name;
-  if(duration) goalFields.duration = duration;
+  if(newDuration) goalFields.duration = newDuration;
   if(startDate) goalFields.startDate = startDate;
   if(type) goalFields.type = type;
   if(units) goalFields.units = units;
   if(total) goalFields.total = total;
   if(privacy) goalFields.privacy = privacy;
+  if(tracker) goalFields.tracker = newTracker;
 
   try {
     //verify goal exists
@@ -90,6 +131,35 @@ router.put('/:id', auth, async (req, res) => {
     goal = await Goal.findByIdAndUpdate(
       req.params.id,
       { $set: goalFields },
+      { new: true}
+    );
+
+    res.json(goal);
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error.' });
+  }
+});
+
+//update goal tracker
+//PUT api/goals/tracker/:id (goal id)
+//Private route
+router.put('/tracker/:id', auth, async (req, res) => {
+  const tracker = req.body;
+  try {
+    //verify goal exists
+    let goal = await Goal.findById(req.params.id);
+    if(!goal) 
+      return res.status(404).json({ msg: 'Goal not found.'});
+
+    //ensure user owns goal
+    if(goal.user.toString() !== req.user.id) 
+      return res.status(401).json({ msg: 'User is not authorized to perform this action.'});
+
+    //update goal - new option returns the new goal (default is false and returns old goal)
+    //tracker is passed in as object, so it works with $set
+    goal = await Goal.findByIdAndUpdate(
+      req.params.id,
+      { $set: tracker },
       { new: true}
     );
 
