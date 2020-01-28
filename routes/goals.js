@@ -192,27 +192,6 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
-//delete all goals for user - will be paired with deleting user
-//GET api/goals/user/:id (user id)
-//Private route
-router.delete('/user/:id', auth, async (req, res) => {
-  try {
-    //verify current user sent request
-    if(req.params.id !== req.user.id)
-      return res.status(401).json({ msg: 'User is not authorized to perform this action.'});
-
-    //verify user has goals
-    let goal = await Goal.find({ user: req.user.id });
-    if(goal.length === 0) return res.status(404).json({ msg: 'No goals were found for user.'});
-
-    //delete goals
-    await Goal.deleteMany({ user: req.params.id });
-    res.json({ msg: 'Goals deleted.'});
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
-});
-
 const validateRequest = body => {
   const { name, duration, startDate, type, total } = body;
 

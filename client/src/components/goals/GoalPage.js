@@ -26,6 +26,7 @@ const GoalPage = props => {
     return () => {
       clearAlerts();
     }
+    //eslint-disable-next-line
   }, []);
   
   const handleDelete = async () => {
@@ -95,6 +96,7 @@ const GoalPage = props => {
         {/*Delete module*/}
         {deleteToggle && (
           <React.Fragment>
+            <hr/>
             <span className='alert lr-border'>
               Are you sure you want to delete this goal? Deletions cannot be undone.
             </span>

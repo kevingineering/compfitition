@@ -26,6 +26,7 @@ const Register = props => {
     return () => {
       clearAlerts();
     }
+    //eslint-disable-next-line
   }, []);
 
   const [user, setUser] = useState({

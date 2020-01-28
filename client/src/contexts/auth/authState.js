@@ -109,7 +109,6 @@ const AuthState = props => {
         data: {
           password
         }
-
       });
       dispatch({ type: USER_DELETED_SUCCESS, payload: res.data.msg });
     } catch (err) {
@@ -127,7 +126,7 @@ const AuthState = props => {
     dispatch({ type: SET_AUTH_LOADING });
   };
 
-  //clear erros
+  //clear errors
   const clearUserErrors = () => {
     dispatch({ type: CLEAR_AUTH_ERRORS });
   };
@@ -140,7 +139,6 @@ const AuthState = props => {
       user: state.user,
       error: state.error,
       loading: state.loading,
-      getUser,
       loginUser,
       registerUser,
       updateUser,

@@ -1,14 +1,14 @@
 import React from 'react';
 import Chart from 'react-google-charts';
 
-const GoalChart = ({ units, record, time }) => {
+const GoalChartTotal = ({ units, record, time }) => {
   //format data array and configure tooltip
   const dataPoints = [[
     'x', 
     'Daily', 
-    { role: 'tooltip', type: 'string', p: { html: true}},
+    { role: 'tooltip', type: 'string', p: { html: true }},
     'Total', 
-    { role: 'tooltip', type: 'string', p: { html: true}}
+    { role: 'tooltip', type: 'string', p: { html: true }}
   ], [
     0, 0, 'Start', 0, 'Start'
   ]];
@@ -41,7 +41,6 @@ const GoalChart = ({ units, record, time }) => {
         },
         axisTitlesPosition: 'none',
         hAxis: {
-          title: 'none',
           textPosition: 'none',
           baselineColor: 'none',
           gridlines: {
@@ -55,16 +54,14 @@ const GoalChart = ({ units, record, time }) => {
           position: 'in'
         },
         vAxis: {
-          title: 'Miles',
           textPosition: 'none',
-          baselineColor: 'black',
+          baselineColor: 'none',
         },
         titlePosition: 'none',
       }}
-      rootProps={{ 'data-testid': '1' }}
     />
   </div>
   );
 }
   
-export default GoalChart;
+export default GoalChartTotal;

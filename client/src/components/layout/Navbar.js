@@ -30,7 +30,7 @@ const Navbar = () => {
     links = (
       <React.Fragment>
         <li>
-          <p>Hello,<Link to={`/user/${user._id}`}>{user && user.firstName}!</Link></p>
+          <p>Hello,<Link to={`/user/${user._id}`} style={{margin: 0}}>{user.alias !== '' ? user.alias : user.firstName}!</Link></p>
         </li>
         <li>
           <a href='#!' onClick={handleLogout}>

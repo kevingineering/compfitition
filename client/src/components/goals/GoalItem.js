@@ -28,7 +28,7 @@ const GoalItem = ({goal: { _id, name, startDate, duration, tracker, type, units 
   else {
     let temp = tracker.filter(value => value !== null)
     let count = temp.pop() - tracker[0];
-    progress = `Change: ${count} ${units}`
+    progress = `Change: ${count > 0 ? '+' : ''}${count} ${units}`
   }
 
   const handleClick = () => {

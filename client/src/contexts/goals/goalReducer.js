@@ -4,7 +4,6 @@ import {
   //GET_FRIEND_GOALS,
   ADD_GOAL,
   DELETE_GOAL,
-  DELETE_GOALS,
   UPDATE_GOAL,
   UPDATE_GOAL_TRACKER,
   SET_CURRENT_GOAL,
@@ -69,7 +68,6 @@ export default (state, action) => {
         ...state,
         current: {}
       }
-    case DELETE_GOALS:
     case CLEAR_GOALS:
       return { 
         ...state,

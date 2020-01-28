@@ -32,6 +32,7 @@ const GoalPassFail = ({handleSave, current: { duration, startDate, total, compId
     return () => {
       clearAlerts();
     }
+    //eslint-disable-next-line
   }, []);
 
   let success = 0;
@@ -56,15 +57,23 @@ const GoalPassFail = ({handleSave, current: { duration, startDate, total, compId
         clearAlerts();
       }, 2000);
     }
-    else setRecord(record.map((value, index) => {
-      if (index === clickLoc) {
-        if (value === null || value === false) {
-          value = true;
+    else if (time === clickLoc || time === clickLoc + 1) {
+      setRecord(record.map((value, index) => {
+        if (index === clickLoc) {
+          if (value === null || value === false) {
+            value = true;
+          }
+          else value = false;
         }
-        else value = false;
-      }
-      return value;
-    }))
+        return value;
+      }))
+    }
+    else {
+      setAlert("You can only record data for today and yesterday.");
+      setTimeout(() => {
+        clearAlerts();
+      }, 2000);
+    }
   };
 
   const table = () => {

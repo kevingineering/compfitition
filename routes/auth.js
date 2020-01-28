@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/Users');
+const Goal = require('../models/Goals');
+const Request = require('../models/Requests');
 const bcrypt = require('bcryptjs');
 const config = require('config');
 const jwt = require('jsonwebtoken');
@@ -155,7 +157,7 @@ router.put('/password/:id', [ auth, [
   }
 });
 
-// delete user
+// delete user, user goals, and user requests
 // DELETE api/auth/:id
 // Private route
 router.delete('/:id', auth, async (req, res) => {
@@ -176,13 +178,37 @@ router.delete('/:id', auth, async (req, res) => {
     if(!isMatch) 
       return res.status(400).json({msg: 'Password is incorrect.'});
 
+    //delete user goals
+    await Goal.deleteMany({ user: req.params.id });
+
+    //delete user requests
+    await Request.deleteMany({ $or: [ 
+      { requester: req.params.id} , 
+      { requestee: req.params.id } 
+    ]});
+
     //delete user
     await User.findByIdAndRemove(req.params.id);
     res.json({msg: 'User deleted.'});
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }
-})
+});
+
+// get searchable users
+// GET api/auth/users
+// Private route
+router.get('/users', auth, async (req, res) => {
+  try {
+    //finds user but does not return password
+    const users = await User.find(
+      { searchable: true, _id: { $ne: req.user.id }}
+    ).select('_id firstName lastName email alias');
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error.' });
+  }
+});
 
 // NEEDS FINISHED
 

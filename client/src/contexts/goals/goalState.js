@@ -8,7 +8,6 @@ import {
   //GET_FRIEND_GOALS,
   ADD_GOAL,
   DELETE_GOAL,
-  DELETE_GOALS,
   UPDATE_GOAL,
   UPDATE_GOAL_TRACKER,
   SET_CURRENT_GOAL,
@@ -31,7 +30,7 @@ const GoalState = props => {
 
   const [state, dispatch] = useReducer(GoalReducer, initialState);
 
-  //used for addGoal and updateGoal
+  //set headers for addGoal, updateGoal, and updateGoalTracker
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -80,17 +79,6 @@ const GoalState = props => {
       dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
     }
   };
-
-  //delete goals
-  const deleteGoals = async _id => {
-    try {
-      setLoading();
-      await axios.delete(`/api/goals/user/${_id}`);
-      dispatch({ type: DELETE_GOALS, payload: _id });
-    } catch (err) {
-      dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
-    }
-  }
 
   //update goal
   const updateGoal = async goal => {
@@ -152,7 +140,6 @@ const GoalState = props => {
       getFriendGoals,
       addGoal,
       deleteGoal,
-      deleteGoals,
       updateGoal,
       updateGoalTracker,
       clearGoalErrors,

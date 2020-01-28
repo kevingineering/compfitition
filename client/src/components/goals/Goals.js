@@ -39,9 +39,12 @@ const Goals = () => {
     )
   }
   else if (activeGoals.length === 0) {
+    const message = 'You have no goals :(';
     activeItems = (
-      <li className='collection-item center'>
-        You have no current goals. Add one!
+      <li className='collection-item center collection-item-block'>
+        {message}
+        <br/>
+        I'm sure that's not true, add your goals here!
       </li>
     );
   }
@@ -77,12 +80,14 @@ const Goals = () => {
           </Link>
         </li>
       </ul>
-      <ul className='collection'>
-        <li className='collection-header'>
-          <h2>Past Goals</h2>
-        </li>
-        {pastItems}
-      </ul>
+      {pastGoals.length !== 0 && 
+        <ul className='collection'>
+          <li className='collection-header'>
+            <h2>Past Goals</h2>
+          </li>
+          {pastItems}
+        </ul>
+      }
     </React.Fragment>
   );
 };

@@ -39,6 +39,7 @@ const GoalForm = props => {
     return () => {
       clearAlerts();
     }
+    //eslint-disable-next-line
   }, []);
 
   const message = Object.entries(current).length ? 'Modify Goal' : 'Add Goal';

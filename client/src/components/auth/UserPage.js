@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import AuthContext from '../../contexts/auth/authContext';
 import AlertContext from '../../contexts/alerts/alertContext';
-import GoalContext from '../../contexts/goals/goalContext';
 
 const UserPage = props => {
   const authContext = useContext(AuthContext);
@@ -9,9 +8,6 @@ const UserPage = props => {
   
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlerts } = alertContext;
-
-  const goalContext = useContext(GoalContext);
-  const { deleteGoals } = goalContext;
   
   const [current, setCurrent] = useState({
     firstName: '',
@@ -68,6 +64,7 @@ const UserPage = props => {
     return () => {
       clearAlerts();
     }
+    //eslint-disable-next-line
   }, []);
 
   const handlePassword = async () => {
@@ -98,7 +95,6 @@ const UserPage = props => {
       setAlert('Please enter your password.');
     else {
       await deleteUser(oldPassword, current._id);
-      await deleteGoals(current._id);
     }
   }
 

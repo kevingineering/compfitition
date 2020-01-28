@@ -1,38 +1,27 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
-//import AlertContext from '../../contexts/alerts/alertContext';
-import GoalChart from './GoalChart';
+import GoalChartTotal from './GoalChartTotal';
 import { round } from 'mathjs';
 
 const GoalTotal = ({handleSave, current: { duration, startDate, units, total, compId, tracker }}) => {
-  //const alertContext = useContext(AlertContext);
-  //const {setAlert, clearAlerts} = alertContext;
-
   const [record, setRecord] = useState(tracker);
 
+  //calc progress so far
   let runningTotal = 0;
-
   for (let i = 0; i < record.length; i++ ) {
     runningTotal += record[i];
   }
 
-  useEffect(() => {
-    setRecord(record.map(value => {
-      if (value === null) {
-        value = 0;
-      }
-      return value;
-    }));
-    //eslint-disable-next-line
-  }, []);
-
+  //calc time since goal started
   let time = moment().startOf('day').diff(startDate, 'days');
   if (time > duration)
     time = duration;
 
+  //state for controlled variables
   const [today, setToday] = useState(record[time]);
   const [yesterday, setYesterday] = useState(record[time - 1]);
 
+  //if value is less than zero, null, if value is empty ('') set zero in array, otherwise set value in array
   const handleChange = e => {
     if (e.target.value < 0)
       return null;
@@ -62,47 +51,43 @@ const GoalTotal = ({handleSave, current: { duration, startDate, units, total, co
   return (
     <React.Fragment>
       <ul>
-        <GoalChart duration={duration} units={units} total={total} record={record} time={time}/>
+        <GoalChartTotal units={units} record={record} time={time}/>
         <li className='table-info lr-border center'>
           <strong>Record Your Progress</strong>
         </li>
         <li className='table-info lr-border center'>
-          <div className="space-between width-200">
-            <span>
-              Today: 
-            </span>
-            <span>
-              <input 
-                className='center'
-                id='chart-input'
-                type='number' 
-                value={today} 
-                name='today' 
-                onChange={handleChange}
-                min='0'
-              />
-              {units}
-            </span>
-          </div>
+          <span className='width-75'>
+            Today:
+          </span>
+          <span>
+            <input 
+              className='center'
+              id='chart-input'
+              type='number' 
+              value={today} 
+              name='today' 
+              onChange={handleChange}
+              min='0'
+            />
+            {units}
+          </span>
         </li>
-        <li className='table-info lr-border'>
-          <div className="space-between width-200">
-            <span>
-              Yesterday: 
-            </span>
-            <span>
-              <input 
-                className='center'
-                id='chart-input'
-                type='number' 
-                value={yesterday} 
-                name='yesterday' 
-                onChange={handleChange}
-                min='0'
-              />
-              {units}
-            </span>
-          </div>
+        <li className='table-info lr-border center'>
+          <span className='width-75'>
+            Yesterday:
+          </span>
+          <span>
+            <input 
+              className='center'
+              id='chart-input'
+              type='number' 
+              value={yesterday} 
+              name='yesterday' 
+              onChange={handleChange}
+              min='0'
+            />
+            {units}
+          </span>
         </li>
         <hr/>
         <li className='table-info lr-border'>
@@ -110,12 +95,12 @@ const GoalTotal = ({handleSave, current: { duration, startDate, units, total, co
             <span>
               Total: {runningTotal} / {total} {units}
             </span>
-            <span>
+            <span className='right'>
               Day: {time + 1} / {duration}
             </span>
           </div>
         </li>
-        <li className='table-info lr-border'>You are {round(runningTotal / total * 100)}% finished with your goal.</li>
+        <li className='table-info lr-border'>Goal Completion: {round(runningTotal / total * 100)}%</li>
       </ul>
       <button className='btn btn-primary btn-block' onClick={() => handleSave(record)}>
         Save Goal
