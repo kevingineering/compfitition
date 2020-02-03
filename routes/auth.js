@@ -78,7 +78,7 @@ router.put('/:id', [ auth, [
   if(!errors.isEmpty())
     return res.status(400).json({ msg: errors.array()[0].msg });
 
-  const { firstName, lastName, alias, email, searchable, password } = req.body;
+  const { firstName, lastName, alias, email, searchable } = req.body;
 
   const userFields = {};
   if(firstName) userFields.firstName = firstName;
@@ -203,38 +203,11 @@ router.get('/users', auth, async (req, res) => {
     //finds user but does not return password
     const users = await User.find(
       { searchable: true, _id: { $ne: req.user.id }}
-    ).select('_id firstName lastName email alias');
+    ).select('_id firstName lastName email');
     res.json(users);
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }
 });
-
-// NEEDS FINISHED
-
-// //add friend to user
-// //PUT api/user/friends/:id
-// //Private route
-// router.put('/:id', auth, async (req, res) => {
-//   const { id } = req.body;
-
-//   try {
-//     //verify friend exists
-//     let friend = await User.findById(id);
-//     if(!friend) 
-//       return res.status(404).json({ msg: 'Friend is not found.'});
-
-//     //add friend id to user friend array
-//     await User.findByIdAndUpdate(
-//       req.params.id,
-//       user.friends.addToSet(id),
-//       { new: true }
-//     );
-
-//     res.json(goal);
-//   } catch (err) {
-//     res.status(500).json({ msg: 'Server error.' });
-//   }
-// });
 
 module.exports = router;

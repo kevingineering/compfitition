@@ -26,8 +26,8 @@ const AuthState = props => {
     token: localStorage.getItem('token'),
     isAuthenticated: false,
     user: null,
-    error: null,
-    loading: false
+    userError: null,
+    userLoading: false
   };
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
@@ -49,7 +49,6 @@ const AuthState = props => {
       const res = await axios.get('/api/auth');
       dispatch({ type: USER_LOADED, payload: res.data })
     } catch (err) {
-      console.log(err);
       dispatch({ type: AUTH_ERROR, payload: err.response.data.msg });
     }
   };
@@ -137,8 +136,8 @@ const AuthState = props => {
       token: state.token,
       isAuthenticated: state.isAuthenticated,
       user: state.user,
-      error: state.error,
-      loading: state.loading,
+      userError: state.userError,
+      userLoading: state.userLoading,
       loginUser,
       registerUser,
       updateUser,

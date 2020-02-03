@@ -19,64 +19,64 @@ export default (state, action) => {
     case GET_USER_GOALS:
       return {
         ...state, 
-        userGoals: action.payload,
-        loading: false
+        goalsOfUser: action.payload,
+        goalsLoading: false
       }
     case ADD_GOAL:
       return {
         ...state,
-        userGoals: [...state.userGoals, action.payload],
-        loading: false
+        goalsOfUser: [...state.goalsOfUser, action.payload],
+        goalsLoading: false
       }
     case DELETE_GOAL:
       return {
         ...state,
-        userGoals: state.userGoals.filter(goal => goal._id !== action.payload),
-        loading: false
+        goalsOfUser: state.goalsOfUser.filter(goal => goal._id !== action.payload),
+        goalsLoading: false
       }
     case UPDATE_GOAL:
     case UPDATE_GOAL_TRACKER:
       return {
         ...state,
-        userGoals: state.userGoals.map(goal => 
+        goalsOfUser: state.goalsOfUser.map(goal => 
           goal._id === action.payload._id ? action.payload : goal),
-        loading: false
+          goalsLoading: false
       }
     case SET_GOAL_LOADING:
       return {
         ...state,
-        loading: true
+        goalsLoading: true
       }
     case GOAL_ERROR:
       return {
         ...state,
-        error: action.payload,
-        loading: false
+        goalsError: action.payload,
+        goalsLoading: false
       }
     case CLEAR_GOAL_ERRORS:
       return {
         ...state,
-        error: null
+        goalsError: null
       }
     case SET_CURRENT_GOAL:
       return {
         ...state,
-        current: state.userGoals.find(goal => goal._id === action.payload)
+        goalCurrent: state.goalsOfUser.find(goal => goal._id === action.payload)
       }
     case CLEAR_CURRENT_GOAL:
       return {
         ...state,
-        current: {}
+        goalCurrent: {}
       }
     case CLEAR_GOALS:
       return { 
         ...state,
-        userGoals: [],
-        publicGoals: [],
-        friendGoals: [],
-        current: {},
-        error: null,
-        loading: true
+        goalsOfUser: [],
+        goalsOfPublic: [],
+        goalsOfFriends: [],
+        goalCurrent: {},
+        goalsError: null,
+        goalsLoading: true
       }
     default: 
       return state;

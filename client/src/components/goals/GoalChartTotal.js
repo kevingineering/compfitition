@@ -1,5 +1,6 @@
 import React from 'react';
 import Chart from 'react-google-charts';
+import PropTypes from 'prop-types';
 
 const GoalChartTotal = ({ units, record, time }) => {
   //format data array and configure tooltip
@@ -62,6 +63,12 @@ const GoalChartTotal = ({ units, record, time }) => {
     />
   </div>
   );
-}
+};
+
+GoalChartTotal.propTypes = {
+  units: PropTypes.string.isRequired,
+  record: PropTypes.array.isRequired,
+  time: PropTypes.number.isRequired
+};
   
 export default GoalChartTotal;

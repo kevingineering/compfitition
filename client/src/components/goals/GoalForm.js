@@ -5,10 +5,10 @@ import moment from 'moment';
 
 const GoalForm = props => {
   const goalContext = useContext(GoalContext);
-  const { addGoal, updateGoal, current, clearCurrent } = goalContext;
+  const { addGoal, updateGoal, goalCurrent, clearCurrentGoal } = goalContext;
 
   const alertContext = useContext(AlertContext);
-  const { setAlert, clearAlerts } = alertContext;
+  const { setAlert, clearAlert } = alertContext;
 
   const [goal, setGoal] = useState({
     name: '',
@@ -24,35 +24,41 @@ const GoalForm = props => {
 
   //control if current or not - TODO - fix startDate
   useEffect(() => {
-    if (Object.entries(current).length) {
-      setGoal({ ...current, startDate: moment(current.startDate).startOf('day')});
-      if (moment(current.startDate).startOf('day') < moment.now()) {
-        setGoal({...current, started: true })
-        setAlert('This goal has already begun, so some attributes cannot be changed.')
+    if (Object.entries(goalCurrent).length) {
+      setGoal({ 
+        ...goalCurrent, 
+        startDate: moment.utc(goalCurrent.startDate).startOf('day'),
+        initialValue: goalCurrent.tracker[0]
+      });
+      if (moment(goalCurrent.startDate).startOf('day') < moment.utc().startOf('day')) {
+        setGoal({
+          ...goalCurrent, 
+          started: true,
+          initialValue: goalCurrent.tracker[0] 
+        })
+        setAlert('This goal has already begun, so some attributes cannot be changed.', true)
       }
     }
     //eslint-disable-next-line
   }, [])
 
-  //clear alerts before redirect
+  //clear unacceptable alert
   useEffect(() => {
     return () => {
-      clearAlerts();
+      clearAlert();
     }
     //eslint-disable-next-line
   }, []);
 
-  const message = Object.entries(current).length ? 'Modify Goal' : 'Add Goal';
+  const message = Object.entries(goalCurrent).length ? 'Modify Goal' : 'Add Goal';
   
   const { name, duration, startDate, type, units, total, privacy, initialValue, started } = goal;
-  
+
+  let time = moment.utc().startOf('day').diff(startDate, 'days');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    clearAlerts();
     
-    //fix date issues
-    let time = moment().startOf('day').diff(startDate, 'days');
-
     //verify start date not in past
     if(time > 0 && !started) {
       setAlert('Start date cannot be in the past.');
@@ -77,18 +83,15 @@ const GoalForm = props => {
       //add/update goal and tell user
       if (message === 'Modify Goal') {
         await updateGoal(goal);
-        setAlert('Goal updated!');
-        clearCurrent();
+        setAlert('Goal updated!', true);
+        clearCurrentGoal();
       } else {
         await addGoal(goal);
-        setAlert('Goal added!');
+        setAlert('Goal added!', true);
       }
 
-      //redirect to homepage and clear alerts
+      //redirect to homepage
       props.history.push('/');
-      setTimeout(() => {
-        clearAlerts();
-      }, 2000);
     }
     else 
       setAlert('Please enter all fields.');
@@ -132,8 +135,8 @@ const GoalForm = props => {
             disabled={started}
             type='date' 
             name='startDate' 
-            onChange={started ? null : handleChange}
-            value={moment.utc(startDate).format('YYYY-MM-DD')}
+            onChange={handleChange}
+            value={started ? moment.utc(startDate).format('YYYY-MM-DD') : moment(startDate).format('YYYY-MM-DD')}
           />
         </div>
         {/* Duration */}
@@ -199,8 +202,9 @@ const GoalForm = props => {
           )}
           {type === 'difference' && (
             <React.Fragment>
-              <label>What is your current number?</label>
+              <label>What is your start number?</label>
               <input 
+                disabled={started}
                 type='number' 
                 name='initialValue' 
                 onChange={handleChange}

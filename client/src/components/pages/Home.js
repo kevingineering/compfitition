@@ -5,21 +5,17 @@ import GoalContext from '../../contexts/goals/goalContext';
 
 const Home = () => {
   const goalContext = useContext(GoalContext);
-  const { clearCurrent } = goalContext;
+  const { clearCurrentGoal } = goalContext;
 
   useEffect(() => {
-    clearCurrent();
+    clearCurrentGoal();
     //eslint-disable-next-line
   }, []);
   
   return (
     <div className='grid-2'>
-      <div>
-        <Goals/>
-      </div>
-      <div>
-        <Friends/>
-      </div>
+      <Goals/>
+      <Friends/>
     </div>
   )
 };

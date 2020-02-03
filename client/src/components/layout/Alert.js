@@ -2,14 +2,14 @@ import React, { useContext } from 'react';
 import AlertContext from '../../contexts/alerts/alertContext';
 
 const Alert = () => {
-  const { alerts } = useContext(AlertContext);
+  const { alert } = useContext(AlertContext);
   return (
     <div className='alert-placeholder'>
-      {(alerts.length !== 0) && alerts.map(alert =>
-        <div key={alert.id} className='alert alert-primary'>
+      {(Object.entries(alert).length === 0) ? null :
+        <div className='alert alert-primary'>
           <i className='fas fa-exclamation-circle'/> {alert.msg}
         </div>
-      )}
+      }
     </div>
   );
 };

@@ -4,27 +4,27 @@ import AlertContext from '../../contexts/alerts/alertContext';
 
 const Register = props => {
   const authContext = useContext(AuthContext);
-  const { registerUser, error, clearUserErrors, isAuthenticated } = authContext;
+  const { registerUser, userError, clearUserErrors, isAuthenticated } = authContext;
 
   const alertContext = useContext(AlertContext);
-  const { setAlert, clearAlerts } = alertContext;
+  const { setAlert, clearAlert } = alertContext;
 
   //redirect if authenticated, set alert if error
   useEffect(() => {
     if (isAuthenticated)
       props.history.push('/');
 
-    if (error) {
-      setAlert(error);
+    if (userError) {
+      setAlert(userError);
       clearUserErrors();
     }
     //eslint-disable-next-line
-  }, [error, isAuthenticated, props.history]);
+  }, [userError, isAuthenticated, props.history]);
 
-  //clear alerts before redirect
+  //clear alert before redirect
   useEffect(() => {
     return () => {
-      clearAlerts();
+      clearAlert();
     }
     //eslint-disable-next-line
   }, []);
@@ -43,7 +43,6 @@ const Register = props => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    clearAlerts();
     if (password !== password2)
       setAlert('Passwords do not match.');
     else await registerUser(user);
@@ -133,7 +132,9 @@ const Register = props => {
             />
             <span className='slider round'/>
           </label>
-          <span className='register-span'>Are other users allowed to search for your name, email, and alias? This is how friends will find you.</span>
+          <span className='register-span'>
+            Are other users allowed to search for your name and email? This is how friends will find you.
+          </span>
         </div>
         {/*Submit Button*/}
         <input 

@@ -20,12 +20,12 @@ import {
 
 const GoalState = props => {
   const initialState = {
-    userGoals: [],
-    publicGoals: [],
-    friendGoals: [],
-    current: {},
-    error: null,
-    loading: true
+    goalsOfUser: [],
+    goalsOfPublic: [],
+    goalsOfFriends: [],
+    goalCurrent: {},
+    goalsError: null,
+    goalsLoading: true
   };
 
   const [state, dispatch] = useReducer(GoalReducer, initialState);
@@ -112,12 +112,12 @@ const GoalState = props => {
   };
 
   //set current
-  const setCurrent = _id => {
+  const setCurrentGoal = _id => {
     dispatch({ type: SET_CURRENT_GOAL, payload: _id });
   };
 
   //clear current
-  const clearCurrent = () => {
+  const clearCurrentGoal = () => {
     dispatch({ type: CLEAR_CURRENT_GOAL });
   };
 
@@ -129,12 +129,12 @@ const GoalState = props => {
   return (
     <GoalContext.Provider
     value={{
-      userGoals: state.userGoals,
-      publicGoals: state.publicGoals,
-      friendGoals: state.friendGoals,
-      current: state.current,
-      error: state.error,
-      loading: state.loading,
+      goalsOfUser: state.goalsOfUser,
+      goalsOfPublic: state.goalsOfPublic,
+      goalsOfFriends: state.goalsOfFriends,
+      goalCurrent: state.goalCurrent,
+      goalsError: state.goalsError,
+      goalsLoading: state.goalsLoading,
       getUserGoals,
       getPublicGoals,
       getFriendGoals,
@@ -143,8 +143,8 @@ const GoalState = props => {
       updateGoal,
       updateGoalTracker,
       clearGoalErrors,
-      setCurrent,
-      clearCurrent,
+      setCurrentGoal,
+      clearCurrentGoal,
       clearGoals
     }}>
       {props.children}

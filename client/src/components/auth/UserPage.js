@@ -4,10 +4,10 @@ import AlertContext from '../../contexts/alerts/alertContext';
 
 const UserPage = props => {
   const authContext = useContext(AuthContext);
-  const { user, updateUser, changeUserPassword, deleteUser, error, clearUserErrors } = authContext;
+  const { user, updateUser, changeUserPassword, deleteUser, userError, clearUserErrors } = authContext;
   
   const alertContext = useContext(AlertContext);
-  const { setAlert, clearAlerts } = alertContext;
+  const { setAlert, clearAlert } = alertContext;
   
   const [current, setCurrent] = useState({
     firstName: '',
@@ -28,47 +28,39 @@ const UserPage = props => {
   //populate current with user values
   useEffect(() => {
     setCurrent({...current, ...user});
+    return () => {
+      clearAlert();
+    }
     //eslint-disable-next-line
   },[user]);
 
   //set alert if error
   useEffect(() => {
-    if(error === 'User updated!') {
+    if(userError === 'User updated!') {
       setEditToggle(false);
-      setTimeout(() => {
-        clearAlerts();
-      }, 2000);
     }
-    else if (error === 'Password changed!') {
+    else if (userError === 'Password changed!') {
       setPasswordToggle(false);
       setCurrent({...current, oldPassword: '', newPassword: '', newPassword2: ''});
-      setTimeout(() => {
-        clearAlerts();
-      }, 2000);
     }
-    else if (error === 'User deleted.') {
+    else if (userError === 'User deleted.') {
       setDeleteToggle(false);
-      setTimeout(() => {
-        clearAlerts();
-      }, 2000);
     }
-    if (error) {
-      setAlert(error);
-      clearUserErrors();
+    if (userError) {
+      setAlert(userError);
     }
     //eslint-disable-next-line
-  }, [error]);
+  }, [userError]);
 
-  //clear alerts before redirect
+  //clear errors before redirect
   useEffect(() => {
     return () => {
-      clearAlerts();
+      clearUserErrors();
     }
     //eslint-disable-next-line
   }, []);
 
   const handlePassword = async () => {
-    clearAlerts();
     if (newPassword !== newPassword2)
       setAlert('Passwords do not match.');
     else {
@@ -77,7 +69,6 @@ const UserPage = props => {
   };
 
   const handleEdit = async () => {
-    clearAlerts();
     if (firstName === '') 
       setAlert('Please enter a first name.');
     else if (lastName === '')
@@ -90,7 +81,6 @@ const UserPage = props => {
   };
 
   const handleDelete = async () => {
-    clearAlerts();
     if (oldPassword === '')
       setAlert('Please enter your password.');
     else {
@@ -164,7 +154,7 @@ const UserPage = props => {
             />
             <span className='slider round'/>
           </label>
-          <span className='register-span'>Are other users allowed to search for your name, email, and alias? This is how friends will find you.</span>
+          <span className='register-span'>Are other users allowed to search for your name and email? This is how friends will find you.</span>
         </div>
         {/*Save Button*/}
         <input 
@@ -268,7 +258,7 @@ const UserPage = props => {
           </p>
           <p>
             <strong>Privacy: &nbsp;</strong>
-            Other users {searchable ? 'can' : 'cannot'} search for me using my name, email, and alias.
+            Other users {searchable ? 'can' : 'cannot'} search for me using my name and email.
           </p>
           <input
             type='button'

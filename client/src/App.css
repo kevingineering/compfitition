@@ -6,6 +6,8 @@
   --secondary-color: white;
   --danger-color: red;
   --success-color: green;
+  --caution-color: yellow;
+  --blue-color: blue;
 }
 
 * {
@@ -75,16 +77,26 @@ hr {
   background-color: var(--primary-color);
 }
 
-p {
-  color: var(--secondary-color);
-  padding: 0.25rem;
+img {
+  width: 4rem;
+  height: 4rem;
+  margin: 0.5rem;
 }
+
+.inline {
+  display: inline;
+}
+
+.italics {
+  font-style: italic;
+}
+
 /*#endregion*/
 
 /*#region Project Specific Styles */
 .alert-placeholder {
   min-height: 40px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
 .alert {
@@ -129,12 +141,21 @@ p {
   border-left: 2px solid var(--primary-color);
   border-right: 2px solid var(--primary-color);
   margin: 0;
+  min-height: 0.5rem;
+}
+
+.margin-025 {
+  padding: 0.25rem;
 }
 
 .width-75 {
   width: 75px;
   display: inline-block;
   text-align: left;
+}
+
+.width-325 {
+  max-width: 325px;
 }
 
 /* Table */
@@ -211,7 +232,17 @@ p {
 
 .btn-danger {
   background: var(--danger-color);
+  color: var(--secondary-color);
+}
+
+.btn-caution {
+  background: var(--caution-color);
   color: var(--primary-color);
+}
+
+.btn-blue {
+  background: var(--blue-color);
+  color: var(--secondary-color);
 }
 
 .text-secondary {
@@ -286,17 +317,6 @@ p {
 }
 */
 
-.logo {
-  height: 50px;
-  width: 100%;
-  overflow: hidden;
-}
-
-.logo img {
-  max-width: 100%;
-  height: 50px;
-}
-
 /*#endregion*/
 
 /*#region Collection */
@@ -305,7 +325,27 @@ p {
   margin-bottom: 3rem;
 }
 
-.collection-header,
+.collection-header {
+  text-align: center;
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 0.3rem 0;
+}
+
+.collection-header h2 {
+  margin: 0 auto;
+}
+
+.header-with-btn {
+  padding-left: 3.5rem;
+  display: inline-flex;
+  width: 100%;
+}
+
+.collection-header button {
+  width: 3.5rem;
+}
+
 .collection-footer {
   text-align: center;
   background: var(--primary-color);
@@ -329,6 +369,50 @@ p {
 
 .collection-item-block {
   display: block;
+}
+
+.search-item {
+  border: 2px solid var(--primary-color);
+  border-top: 0;
+  width: 100%;
+  justify-content: start;
+}
+
+.search-container {
+  margin: auto 0;
+  width: 100%;
+  border-left: 2px solid var(--primary-color);
+}
+
+.friend-container {
+  margin: auto 0;
+  padding: 0.5rem 1rem;
+}
+
+.search-link {
+  display: inline-flex;
+  width: 100%;
+}
+
+.search-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+}
+
+.search-email {
+  padding: 0.5rem;
+}
+
+.search-btn {
+  padding: 0.3rem 0.6rem;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  margin: 0.3rem auto;
+  margin-right: 0.5rem;
+  width: 5rem;
+  line-height: 1.6rem;
 }
 
 /*#endregion*/

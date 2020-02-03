@@ -4,13 +4,15 @@ import AlertContext from '../../contexts/alerts/alertContext';
 import { round } from 'mathjs';
 import PropTypes from 'prop-types';
 
-const GoalPassFail = ({handleSave, current: { duration, startDate, total, compId, tracker }}) => {
+const GoalPassFail = ({handleSave, goalCurrent: { duration, startDate, total, compId, tracker }}) => {
   const alertContext = useContext(AlertContext);
-  const {setAlert, clearAlerts} = alertContext;
+  const {setAlert, clearAlert} = alertContext;
 
   const [record, setRecord] = useState(tracker);
 
   let time = moment().startOf('day').diff(startDate, 'days');
+  let timeHours = moment().startOf('day').diff(startDate, 'hours');
+  
   let isComplete = false;
   if (time > duration) {
     time = duration;
@@ -27,10 +29,10 @@ const GoalPassFail = ({handleSave, current: { duration, startDate, total, compId
     //eslint-disable-next-line
   }, []);
 
-  //clear alerts before redirect
+  //clear alert before redirect
   useEffect(() => {
     return () => {
-      clearAlerts();
+      clearAlert();
     }
     //eslint-disable-next-line
   }, []);
@@ -51,11 +53,8 @@ const GoalPassFail = ({handleSave, current: { duration, startDate, total, compId
       return null;
     }
     let clickLoc = parseInt(e.currentTarget.name);
-    if (time < clickLoc) {
+    if (timeHours < 0 || time < clickLoc) {
       setAlert("You can't record the future.");
-      setTimeout(() => {
-        clearAlerts();
-      }, 2000);
     }
     else if (time === clickLoc || time === clickLoc + 1) {
       setRecord(record.map((value, index) => {
@@ -70,9 +69,6 @@ const GoalPassFail = ({handleSave, current: { duration, startDate, total, compId
     }
     else {
       setAlert("You can only record data for today and yesterday.");
-      setTimeout(() => {
-        clearAlerts();
-      }, 2000);
     }
   };
 
@@ -123,19 +119,24 @@ const GoalPassFail = ({handleSave, current: { duration, startDate, total, compId
         <li className='table-info lr-border'>
           Start Date: {moment.utc(startDate).format('MMMM Do, YYYY')}
         </li>
-        {!isComplete && time >= 0 &&
+        {!isComplete && timeHours >= 0 &&
           <li className='table-info lr-border'>
             Success To Date: {success} / {time > duration ? record.length : time + 1} ({toDatePercentage}%)
           </li>
         }
-        <li className='table-info lr-border'>
-          Success Total: {success} / {record.length} ({totalPercentage}%)
-        </li>
+        {timeHours >= 0 &&
+          <li className='table-info lr-border'>
+            Success Total: {success} / {record.length} ({totalPercentage}%)
+          </li>
+        }
       </ul>
       {!isComplete &&
-        <button className='btn btn-primary btn-block' onClick={() => handleSave(record)}>
-          Save Goal
-        </button>
+        <React.Fragment>
+          <button className='btn btn-primary btn-block' onClick={() => handleSave(record)}>
+            Save Goal
+          </button>
+          <p className='lr-border'/>
+        </React.Fragment>
       }
     </React.Fragment>
   );
@@ -143,7 +144,7 @@ const GoalPassFail = ({handleSave, current: { duration, startDate, total, compId
 
 GoalPassFail.propTypes = {
   handleSave: PropTypes.func.isRequired,
-  current: PropTypes.object.isRequired
+  goalCurrent: PropTypes.object.isRequired
 }
 
 export default GoalPassFail;

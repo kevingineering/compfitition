@@ -4,27 +4,27 @@ import AlertContext from '../../contexts/alerts/alertContext';
 
 const Login = props => {
   const authContext = useContext(AuthContext);
-  const { loginUser, error, clearUserErrors, isAuthenticated } = authContext;
+  const { loginUser, userError, clearUserErrors, isAuthenticated } = authContext;
 
   const alertContext = useContext(AlertContext);
-  const { setAlert, clearAlerts } = alertContext;
+  const { setAlert, clearAlert } = alertContext;
 
   //redirect if authenticated, set alert if error
   useEffect(() => {
     if (isAuthenticated)
       props.history.push('/');
 
-    if (error) {
-      setAlert(error);
+    if (userError) {
+      setAlert(userError);
       clearUserErrors();
     }
     //eslint-disable-next-line
-  }, [isAuthenticated, error, props.history]);
+  }, [isAuthenticated, userError, props.history]);
 
-  //clear alerts before redirect
+  //clear alert before redirect
   useEffect(() => {
     return () => {
-      clearAlerts();
+      clearAlert();
     }
     //eslint-disable-next-line
   }, []);
@@ -38,7 +38,6 @@ const Login = props => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    clearAlerts();
     await loginUser(user);
   }
 
@@ -66,6 +65,7 @@ const Login = props => {
             value={password}
             name='password'
             onChange={handleChange}
+            autoComplete='currentPassword'
           />
         </div>
         <input 

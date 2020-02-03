@@ -22,31 +22,30 @@ export default (state, action) => {
     case FILTER_SEARCHABLE_USERS:
       return {
         ...state, 
-        filteredUsers: state.searchableUsers.filter(user => {
+        searchableUsersFiltered: state.searchableUsers.filter(user => {
           //Regular expression (regex) is used for searching text, 'gi' makes it not case sensitive
           const regex = new RegExp(`${action.payload}`, 'gi')
           return (
             user.firstName.match(regex) ||
             user.lastName.match(regex) ||
-            user.email.match(regex) ||
-            user.alias.match(regex)
+            user.email.match(regex)
           );
         })
       }
     case CLEAR_SEARCHABLE_USERS_FILTER:
       return {
         ...state, 
-        filteredUsers: []
+        searchableUsersFiltered: null
       }
     case SEARCHABLE_USERS_ERROR:
       return {
         ...state, 
-        error: action.payload
+        searchableUsersError: action.payload
       }
     case CLEAR_SEARCHABLE_USERS_ERRORS:
       return {
         ...state, 
-        error: null
+        searchableUsersError: null
       }
     default: 
       return state;

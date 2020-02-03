@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Request = require('../models/Requests');
+const User = require ('../models/Users');
 const auth = require('../middleware/auth');
 
 //get requests for user
@@ -12,29 +13,55 @@ router.get('/', auth, async(req, res) => {
       { requestee: req.user.id }, 
       { requester: req.user.id }
     ]}).sort({ startDate: 1 });
-    res.json(requests);
+    //sending back both request and req.user.id so requests can be sorted
+    res.json({requests, id: req.user.id});
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }
 });
 
 //create request
-//POST api/requests
+//POST api/requests/:id
 //Private route
-router.post('/', auth, async (req, res) => {
-  const { name, requester, requestee } = req.body;
-
-  //verify current user sent request
-  if(requester !== req.user.id)
-    return res.status(401).json({ msg: 'User is not authorized to perform this action.'});
-
+router.post('/:id', auth, async (req, res) => {
+  //verify not adding self
+  if (req.params.id === req.user.id)
+    return res.status(400).json({ msg: 'You cannot add yourself as a friend.'});
+    
   try {
+    //verify other user exists
+    const user = await User.findById(req.params.id);
+    if (!user)
+      return res.json({msg: 'User does not exist.'});
+
+    //verify not already friends
+    const idArray = await User.findById(req.user.id).select('friends -_id');
+    if (idArray.friends.includes(req.params.id))
+      return res.json({msg: 'You are already friends with this user!'})
+
+    //verify equivalent request does not exist
+    const requestArray = await Request.find({$or: [
+      { requester: req.user.id, requestee: req.params.id},
+      { requester: req.params.id, requestee: req.user.id}
+    ]});
+    if(requestArray.length !== 0)
+      return res.status(400).json({ msg: 'Friend request already exists.'});
+
+    //get user attributes
+    const userInfo = await User.findById(req.user.id);
+
+    //add request
     const request = new Request({ 
-      name,
-      requester, 
-      requestee
+      requester: req.user.id, 
+      requestee: req.params.id,
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      email: userInfo.email
     });
+
     await request.save();
+
+    //sending back both request
     res.json(request);
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
@@ -46,18 +73,17 @@ router.post('/', auth, async (req, res) => {
 //Private route
 router.delete('/:id', auth, async (req, res) => {
   try {
-    //verify request exists
-    let request = await Request.findById(req.params.id);
-    if(!request) 
-      return res.status(404).json({ msg: 'Request not found.'});
-
-    //ensure user owns request
-    if(request.requestee.toString() !== req.user.id && request.requester.toString() !== req.user.id) 
-      return res.status(401).json({ msg: 'User is not authorized to perform this action.'});
-
-    //delete request
-    await Request.findByIdAndRemove(req.params.id);
-    res.json({ msg: 'Request deleted.'});
+    //verify request exists and delete
+    const requestId = await Request.findOne({$or: [
+      { requester: req.user.id, requestee: req.params.id},
+      { requester: req.params.id, requestee: req.user.id}
+    ]}).select('_id');
+    if(!requestId)
+      return res.status(400).json({ msg: 'Request not found.'});
+    else {
+      await Request.findByIdAndDelete( requestId );
+      res.json(requestId);
+    }
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }

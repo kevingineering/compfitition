@@ -6,8 +6,9 @@ import GoalContext from '../../contexts/goals/goalContext';
 
 const GoalItem = ({goal: { _id, name, startDate, duration, tracker, type, units }}) => {
   const goalContext = useContext(GoalContext);
-  const { setCurrent } = goalContext;
+  const { setCurrentGoal } = goalContext;
 
+  //time of 0 means a goal starts tomorrow, time of 1 means a goal started today
   let time = moment().startOf('day').diff(startDate, 'days');
 
   //calc progress
@@ -32,7 +33,7 @@ const GoalItem = ({goal: { _id, name, startDate, duration, tracker, type, units 
   }
 
   const handleClick = () => {
-    setCurrent(_id);
+    setCurrentGoal(_id);
   };
 
   return (
@@ -44,7 +45,7 @@ const GoalItem = ({goal: { _id, name, startDate, duration, tracker, type, units 
       </div>
       {time < duration + 1 ? (
         <div className='hide-sm'>
-          {time >= 0 ? (
+          {time > 0 ? (
           <React.Fragment>
             <span className='right'>Day: {time + 1} / {duration}</span>
             <br/>

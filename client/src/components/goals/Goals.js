@@ -6,10 +6,12 @@ import moment from 'moment';
 
 const Goals = () => {
   const goalContext = useContext(GoalContext);
-  const { getUserGoals, userGoals, loading } = goalContext;
+  const { getUserGoals, goalsOfUser, goalsLoading } = goalContext;
   
   const [activeGoals, setActiveGoals] = useState([]);
   const [pastGoals, setPastGoals] = useState([]);
+  const [isCurrentOpen, setIsCurrentOpen] = useState(true);
+  const [isPastOpen, setIsPastOpen] = useState(true);
 
   useEffect(() => {
     getUserGoals();
@@ -18,33 +20,34 @@ const Goals = () => {
 
   //determine if there are active and/or past goals
   useEffect(() => {
-    let tempActive = userGoals.filter(goal => 
+    let tempActive = goalsOfUser.filter(goal => 
       (moment().startOf('day').diff(goal.startDate, 'days') + 1) <= goal.duration);
     
-    let tempPast = userGoals.filter(goal => 
+    let tempPast = goalsOfUser.filter(goal => 
       (moment().startOf('day').diff(goal.startDate, 'days') + 1) > goal.duration);
 
     setActiveGoals(tempActive);
     setPastGoals(tempPast);
-  }, [userGoals]);
+  }, [goalsOfUser]);
 
   //active goals
   let activeItems = null;
 
-  if (loading) {
+  if (goalsLoading) {
     activeItems = (
       <li className='collection-item'>
-        <h6>Loading...</h6>
+        Loading...
       </li>
     )
   }
   else if (activeGoals.length === 0) {
-    const message = 'You have no goals :(';
     activeItems = (
       <li className='collection-item center collection-item-block'>
-        {message}
-        <br/>
-        I'm sure that's not true, add your goals here!
+        <p className='width-250'>
+          You have no goals... 
+          <br/>
+          I'm not judging, but you should add a few to make us both feel better.
+        </p>
       </li>
     );
   }
@@ -68,28 +71,50 @@ const Goals = () => {
   }
 
   return (
-    <React.Fragment>
+    <div>
       <ul className='collection'>
-        <li className='collection-header'>
+        <li className='collection-header header-with-btn'>
           <h2>Current Goals</h2>
+          <button 
+            className='btn btn-primary right'
+            onClick={() => setIsCurrentOpen(!isCurrentOpen)}
+          >
+            <i className={isCurrentOpen ? 'fas fa-minus' : 'fas fa-plus'}/>
+          </button>
         </li>
-        {activeItems}
-        <li className='collection-footer'>
-          <Link to='/goalform' className='text-secondary'>
-            <p><i className='fas fa-plus'/> Add Goal</p>
-          </Link>
-        </li>
+        {isCurrentOpen &&
+          <React.Fragment>
+            {activeItems}
+            <li className='collection-footer'>
+              <Link to='/goalform' className='text-secondary'>
+                <p className='margin-025'><i className='fas fa-plus'/> Add Goal</p>
+              </Link>
+            </li>
+          </React.Fragment>
+        }
       </ul>
-      {pastGoals.length !== 0 && 
+      {pastGoals.length !== 0 && (
         <ul className='collection'>
-          <li className='collection-header'>
+          <li className='collection-header header-with-btn'>
             <h2>Past Goals</h2>
+            <button 
+              className='btn btn-primary right'
+              onClick={() => setIsPastOpen(!isPastOpen)}
+            >
+              <i className={isPastOpen ? 'fas fa-minus' : 'fas fa-plus'}/>
+            </button>
           </li>
-          {pastItems}
+          {isPastOpen &&
+            <React.Fragment>
+              {pastItems}
+            </React.Fragment>
+          }
         </ul>
-      }
-    </React.Fragment>
+      )}
+    </div>
   );
 };
+
+
 
 export default Goals;

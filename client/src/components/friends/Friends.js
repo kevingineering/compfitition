@@ -1,27 +1,45 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import FriendContext from '../../contexts/friends/friendContext';
-import FriendItem from './FriendItem';
+import FriendSearchbar from './FriendSearchbar';
+import FriendRequests from './FriendRequests';
+import FriendList from './FriendList';
 
 const Friends = () => {
-  const friends = [];
+  const friendContext = useContext(FriendContext);
+  const { getFriends } = friendContext;
+  
+  const [isFriendsOpen, setIsFriendsOpen] = useState(true);
+  useEffect(() => {
+    getFriends();
+    //eslint-disable-next-line
+  }, []);
+
   return (
-    <React.Fragment>
-      <ul className='collection'>
-        <li className='collection-header'>
-          <h2>Friends!</h2>
-        </li>
-        {friends === null ? <h4>Loading...</h4> : (
-            friends.map(friend => <FriendItem friend={friend} key={friend.id} />)
-        )}
-        <li className='collection-footer'>
-          <Link to='/search' className='text-sedondary'>
-            <p><i className='fas fa-plus'/> Add Friend</p>
-          </Link>
-        </li>
-      </ul>
-    </React.Fragment>
-  )
-}
+    <ul className='collection'>
+      <li className='collection-header header-with-btn'>
+        <h2>Friends!</h2>
+        <button 
+          className='btn btn-primary right'
+          onClick={() => setIsFriendsOpen(!isFriendsOpen)}
+        >
+          <i className={isFriendsOpen ? 'fas fa-minus' : 'fas fa-plus'}/>
+        </button>
+      </li>
+      {isFriendsOpen &&
+        <React.Fragment>
+          <FriendRequests />
+          <FriendSearchbar />
+          <FriendList />
+          <li className='collection-footer'>
+            <Link to='/search' className='text-secondary'>
+              <p className='margin-025'><i className='fas fa-plus'/> Add Friend</p>
+            </Link>
+          </li>
+        </React.Fragment>
+      }
+    </ul>
+  );
+};
 
 export default Friends;

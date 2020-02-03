@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 
 const RequestSchema = mongoose.Schema({
   //name is alias/name of individual sending request
-  name: {
-    type: String,
-    required: true
-  },
   requester: {
     type: mongoose.Schema.Types.ObjectId,
     ref:'users'
@@ -13,6 +9,18 @@ const RequestSchema = mongoose.Schema({
   requestee: {
     type: mongoose.Schema.Types.ObjectId,
     ref:'users'
+  },
+  firstName: {
+    type: String,
+    required: true
+  },
+  lastName: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
   },
   requestDate: {
     type: Date,

@@ -1,21 +1,31 @@
 import React from 'react';
 import Chart from 'react-google-charts';
+import PropTypes from 'prop-types';
 
-const GoalChart = ({ units, record, time }) => {
+const GoalChartDifference = ({ duration, units, record, time }) => {
   //format data array and configure tooltip
-  const dataPoints = [[
-    'x', 
-    'Daily', 
-    { role: 'tooltip', type: 'string', p: { html: true }},
-  ]];
+  const dataPoints = [
+    [
+      'x', 
+      'Daily', 
+      { role: 'tooltip', type: 'string', p: { html: true }},
+    ],
+    [
+      0,
+      record[0],
+      `Start \n ${record[0]} ${units}`
+    ]
+  ];
 
-  //populate data array
-  for (let i = 0; i <= time; i++) {
+  const chartMax = (time === duration) ? duration : time + 1;
+
+  //set dataPoints - time + 1 because we are storing start value in [0]
+  for (let i = 1; i <= time + 1; i++) {
     if (record[i] !== null) {
       dataPoints.push([
-        i + 1, 
+        i, 
         record[i], 
-        `Day ${i + 1} \n ${record[i]} ${units}`,
+        `Day ${i} \n ${record[i]} ${units}`,
       ]);
     }
   }
@@ -41,9 +51,9 @@ const GoalChart = ({ units, record, time }) => {
               color: 'transparent'
             },
             viewWindow: {
-              min: 1
+              min: 0
             },
-            maxValue: time + 1
+            maxValue: chartMax
           },
           legend: {
             position: 'none'
@@ -57,6 +67,12 @@ const GoalChart = ({ units, record, time }) => {
       />
     </div>
   );
-}
+};
+
+GoalChartDifference.propTypes = {
+  units: PropTypes.string.isRequired,
+  record: PropTypes.array.isRequired,
+  time: PropTypes.number.isRequired
+};
   
-export default GoalChart;
+export default GoalChartDifference;

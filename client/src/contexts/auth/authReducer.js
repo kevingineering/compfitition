@@ -23,7 +23,7 @@ export default (state, action) => {
         ...state,
         isAuthenticated: true,
         user: action.payload,
-        loading: false
+        userLoading: false
       }
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
@@ -32,15 +32,15 @@ export default (state, action) => {
         ...state,
         token: action.payload,
         isAuthenticated: true,
-        error: null,
-        loading: false
+        userError: null,
+        userLoading: false
       }
     case UPDATE_SUCCESS:
       return {
         ...state,
         user: action.payload.user,
-        loading: false,
-        error: action.payload.msg
+        userLoading: false,
+        userError: action.payload.msg
       }
     case LOGIN_FAIL:
     case REGISTER_FAIL:
@@ -52,8 +52,8 @@ export default (state, action) => {
         token: null,
         isAuthenticated: false,
         user: null,
-        error: action.payload,
-        loading: false
+        userError: action.payload,
+        userLoading: false
       }
     case LOGOUT:
       localStorage.removeItem('token');
@@ -62,8 +62,8 @@ export default (state, action) => {
         token: null,
         isAuthenticated: false,
         user: null,
-        error: null,
-        loading: false
+        userError: null,
+        userLoading: false
       }
     case PASSWORD_SUCCESS:
     case PASSWORD_FAIL:
@@ -71,18 +71,18 @@ export default (state, action) => {
     case USER_DELETED_FAIL:
       return {
         ...state,
-        error: action.payload,
-        loading: false
+        userError: action.payload,
+        userLoading: false
       }
     case SET_AUTH_LOADING: 
       return {
         ...state,
-        loading: true
+        userLoading: true
       }
     case CLEAR_AUTH_ERRORS:
       return {
         ...state,
-        error: null
+        userError: null
       }
     default: 
       return state

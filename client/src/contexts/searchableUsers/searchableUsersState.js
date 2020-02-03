@@ -14,8 +14,8 @@ import {
 const SearchableUsersState = props => {
   const initialState = {
     searchableUsers: [],
-    filteredUsers: [],
-    error: null
+    searchableUsersFiltered: null,
+    searchableUsersError: null
   };
 
   const [state, dispatch] = useReducer(SearchableUsersReducer, initialState);
@@ -54,8 +54,8 @@ const SearchableUsersState = props => {
     <SearchableUsersContext.Provider
       value={{
         searchableUsers: state.searchableUsers,
-        filteredUsers: state.filteredUsers,
-        error: state.error,
+        searchableUsersFiltered: state.searchableUsersFiltered,
+        searchableUsersError: state.searchableUsersError,
         getSearchableUsers,
         clearSearchableUsers,
         filterSearchableUsers,

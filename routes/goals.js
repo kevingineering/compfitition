@@ -43,11 +43,17 @@ router.post('/', auth, async (req, res) => {
     newDuration = duration - duration % 7 + 7;
   }
 
-  //create tracker array
+  //create tracker array - 
+    //length is number of days for 'total'
+    //length is number of days plus one (start value) for 'difference'
+    //length is number of weeks times number of days per week for 'pass/fail'
   let length = newDuration;
   if ( type === 'pass/fail') {
     length = newDuration / 7 * total;
-  } 
+  } else if ( type === 'difference') {
+    length += 1;
+  }
+
   let tracker = new Array(length);
   if ( type === 'total') {
     tracker = tracker.fill(0);
@@ -96,7 +102,9 @@ router.put('/:id', auth, async (req, res) => {
   let length = newDuration - tracker.length;
   if ( type === 'pass/fail') {
     length = newDuration / 7 * total - tracker.length;
-  } 
+  } else if (type === 'duration') {
+    length = newDuration + 1 - tracker.length;
+  }
 
   let newTracker = [];
 
@@ -165,7 +173,6 @@ router.put('/tracker/:id', auth, async (req, res) => {
 
     res.json(goal);
   } catch (err) {
-    console.log(err.message);
     res.status(500).json({ msg: 'Server error.' });
   }
 });
@@ -214,20 +221,5 @@ const validateRequest = body => {
       return ('Please enter the difference you would like to achieve.')
   }
 };
-
-/* NEEDS FINISHED
-
-//get friends' goals
-//GET api/goals/friends/:id
-//Private route
-router.get('/friends', auth, async(req, res) => {
-  try {
-    const goals = await Goal.find({ privacy: 'friends' || 'public' }).sort({ startDate: 1 });
-    res.json(goals);
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
-});
-*/
 
 module.exports = router;
