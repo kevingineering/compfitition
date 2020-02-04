@@ -78,6 +78,7 @@ const UserPage = props => {
     else {
       await updateUser(current);
     }
+    setEditToggle(!editToggle);
   };
 
   const handleDelete = async () => {
@@ -162,6 +163,12 @@ const UserPage = props => {
           value='Save User'
           className='btn btn-primary btn-block'
           onClick={handleEdit}
+        />
+        <input
+          type='button'
+          value='Cancel'
+          className='btn btn-primary btn-block'
+          onClick={() => setEditToggle(!editToggle)}
         />
       </form>
       )}

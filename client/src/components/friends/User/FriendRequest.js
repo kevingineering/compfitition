@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import RequestContext from '../../contexts/requests/requestContext';
-import FriendContext from '../../contexts/friends/friendContext';
-import userimg from '../../resources/userimg.png';
+import RequestContext from '../../../contexts/requests/requestContext';
+import FriendContext from '../../../contexts/friends/friendContext';
+import userimg from '../../../resources/userimg.png';
 
 const FriendRequest = ({ request: {requester, firstName, lastName, email }}) => {
   

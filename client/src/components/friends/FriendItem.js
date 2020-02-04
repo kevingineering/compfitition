@@ -2,14 +2,22 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FriendContext from '../../contexts/friends/friendContext';
+import AlertContext from '../../contexts/alerts/alertContext';
 import userimg from '../../resources/userimg.png';
 
 const FriendItem = ({friend: {firstName, lastName, alias, _id}}) => {
   const friendContext = useContext(FriendContext);
-  const { setCurrentFriend } = friendContext;
+  const { friendIds, clearCurrentFriend, setCurrentFriend } = friendContext;
+
+  const alertContext = useContext(AlertContext);
+  const { setAlert } = alertContext;
 
   const handleClick = () => {
-    setCurrentFriend(_id);
+    if (friendIds.includes(_id)) {
+      clearCurrentFriend();
+      setCurrentFriend(_id);
+    }
+    else setAlert('You are not friends with this user.')
   }
 
   const avatar = null;

@@ -4,7 +4,7 @@ import AlertContext from '../../contexts/alerts/alertContext';
 import { round } from 'mathjs';
 import PropTypes from 'prop-types';
 
-const GoalPassFail = ({handleSave, goalCurrent: { duration, startDate, total, compId, tracker }}) => {
+const GoalPassFail = ({handleSave, isOwner, goal: { duration, startDate, total, compId, tracker }}) => {
   const alertContext = useContext(AlertContext);
   const {setAlert, clearAlert} = alertContext;
 
@@ -49,7 +49,7 @@ const GoalPassFail = ({handleSave, goalCurrent: { duration, startDate, total, co
 
   //event.target will get the icon and fail, but event.currentTarget will get the button every time
   const handleClick = e => {
-    if (isComplete) {
+    if (isComplete || !isOwner) {
       return null;
     }
     let clickLoc = parseInt(e.currentTarget.name);
@@ -119,7 +119,7 @@ const GoalPassFail = ({handleSave, goalCurrent: { duration, startDate, total, co
         <li className='table-info lr-border'>
           Start Date: {moment.utc(startDate).format('MMMM Do, YYYY')}
         </li>
-        {!isComplete && timeHours >= 0 &&
+        {!isComplete && timeHours >= 0 && isOwner &&
           <li className='table-info lr-border'>
             Success To Date: {success} / {time > duration ? record.length : time + 1} ({toDatePercentage}%)
           </li>
@@ -130,7 +130,7 @@ const GoalPassFail = ({handleSave, goalCurrent: { duration, startDate, total, co
           </li>
         }
       </ul>
-      {!isComplete &&
+      {!isComplete && isOwner && 
         <React.Fragment>
           <button className='btn btn-primary btn-block' onClick={() => handleSave(record)}>
             Save Goal
@@ -143,8 +143,9 @@ const GoalPassFail = ({handleSave, goalCurrent: { duration, startDate, total, co
 };
 
 GoalPassFail.propTypes = {
-  handleSave: PropTypes.func.isRequired,
-  goalCurrent: PropTypes.object.isRequired
+  handleSave: PropTypes.func,
+  goal: PropTypes.object.isRequired,
+  isOwner: PropTypes.bool.isRequired
 }
 
 export default GoalPassFail;

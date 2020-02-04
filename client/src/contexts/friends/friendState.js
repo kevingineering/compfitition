@@ -7,8 +7,11 @@ import {
   ADD_FRIEND,
   DELETE_FRIEND,
   SET_CURRENT_FRIEND,
+  GET_CURRENT_FRIEND_GOALS,
+  GET_CURRENT_FRIEND_FRIENDS,
+  SET_CURRENT_FRIEND_GOAL,
   CLEAR_CURRENT_FRIEND,
-  SET_FRIEND_LOADING,
+  SET_FRIENDS_LOADING,
   FRIENDS_ERROR,
   CLEAR_FRIEND_ERRORS,
   CLEAR_FRIENDS,
@@ -23,9 +26,10 @@ const FriendState = props => {
     friendCurrent: {},
     friendsFiltered: null,
     friendError: null,
-    friendLoading: true,
+    friendsLoading: true,
     friendCurrentGoals: [],
-    friendCurrentFriends: []
+    friendCurrentFriends: [],
+    friendCurrentGoal: {}
   };
 
   const [state, dispatch] = useReducer(FriendReducer, initialState);
@@ -53,7 +57,7 @@ const FriendState = props => {
     }
   };
 
-  //delete friend AXIOS TODO
+  //delete friend
   const deleteFriend = async _id => {
     try {
       setLoading();
@@ -71,14 +75,31 @@ const FriendState = props => {
   };
 
   //get current friend goals
-  const getCurrentFriendGoals = _id => {
-
+  const getCurrentFriendGoals = async (_id) => {
+    try {
+      setLoading();
+      const res = await axios.get(`/api/friends/goals/${_id}`);
+      dispatch({ type: GET_CURRENT_FRIEND_GOALS, payload: res.data });
+    } catch (err) {
+      dispatch({ type: FRIENDS_ERROR, payload: err.response.data.msg });
+    }
   }
 
   //get current friend friends
-  const getCurrentFriendFriends = _id => {
-    
+  const getCurrentFriendFriends = async (_id) => {
+    try {
+      setLoading();
+      const res = await axios.get(`/api/friends/friends/${_id}`);
+      dispatch({ type: GET_CURRENT_FRIEND_FRIENDS, payload: res.data });
+    } catch (err) {
+      dispatch({ type: FRIENDS_ERROR, payload: err.response.data.msg });
+    }
   }
+
+  //set current friend goal
+  const setCurrentFriendGoal = (_id) => {
+    dispatch({ type: SET_CURRENT_FRIEND_GOAL, payload: _id });
+  };
 
   //clear current friend
   const clearCurrentFriend = () => {
@@ -92,7 +113,7 @@ const FriendState = props => {
 
   //set loading
   const setLoading = () => {
-    dispatch({ type: SET_FRIEND_LOADING });
+    dispatch({ type: SET_FRIENDS_LOADING });
   };
 
   //clear error
@@ -118,13 +139,17 @@ const FriendState = props => {
         friendCurrent: state.friendCurrent,
         friendsFiltered: state.friendsFiltered,
         friendError: state.friendError,
-        friendLoading: state.friendLoading,
+        friendsLoading: state.friendsLoading,
+        friendCurrentGoals: state.friendCurrentGoals,
+        friendCurrentFriends: state.friendCurrentFriends,
+        friendCurrentGoal: state.friendCurrentGoal,
         getFriends,
         addFriend,
         deleteFriend,
         setCurrentFriend,
         getCurrentFriendGoals,
         getCurrentFriendFriends,
+        setCurrentFriendGoal,
         clearCurrentFriend,
         filterFriends,
         clearFriendsFilter,

@@ -3,9 +3,7 @@ import axios from 'axios';
 import GoalContext from './goalContext';
 import GoalReducer from './goalReducer';
 import {
-  GET_USER_GOALS,
-  //GET_PUBLIC_GOALS,
-  //GET_FRIEND_GOALS,
+  GET_GOALS,
   ADD_GOAL,
   DELETE_GOAL,
   UPDATE_GOAL,
@@ -20,9 +18,7 @@ import {
 
 const GoalState = props => {
   const initialState = {
-    goalsOfUser: [],
-    goalsOfPublic: [],
-    goalsOfFriends: [],
+    goals: [],
     goalCurrent: {},
     goalsError: null,
     goalsLoading: true
@@ -38,24 +34,14 @@ const GoalState = props => {
   };
 
   //get user goals
-  const getUserGoals = async () => {
+  const getGoals = async () => {
     try {
       setLoading();
       const res = await axios.get('/api/goals');
-      dispatch({ type: GET_USER_GOALS, payload: res.data });
+      dispatch({ type: GET_GOALS, payload: res.data });
     } catch (err) {
       dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
     }
-  };
-
-  //TODO get public goals
-  const getPublicGoals = async () => {
-    
-  };
-
-  //TODO get friend goals
-  const getFriendGoals = async () => {
-
   };
 
   //add goal
@@ -129,15 +115,11 @@ const GoalState = props => {
   return (
     <GoalContext.Provider
     value={{
-      goalsOfUser: state.goalsOfUser,
-      goalsOfPublic: state.goalsOfPublic,
-      goalsOfFriends: state.goalsOfFriends,
+      goals: state.goals,
       goalCurrent: state.goalCurrent,
       goalsError: state.goalsError,
       goalsLoading: state.goalsLoading,
-      getUserGoals,
-      getPublicGoals,
-      getFriendGoals,
+      getGoals,
       addGoal,
       deleteGoal,
       updateGoal,

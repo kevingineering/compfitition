@@ -1,5 +1,5 @@
 import React, { useRef, useContext } from 'react';
-import FriendContext from '../../contexts/friends/friendContext';
+import FriendContext from '../../../contexts/friends/friendContext';
 
 const FriendSearchbar = () => {
 

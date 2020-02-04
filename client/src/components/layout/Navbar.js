@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../contexts/auth/authContext';
 import GoalContext from '../../contexts/goals/goalContext';
+import FriendContext from '../../contexts/friends/friendContext';
+import RequestContext from '../../contexts/requests/requestContext';
 
 const Navbar = () => {
   const authContext = useContext(AuthContext);
@@ -9,10 +11,18 @@ const Navbar = () => {
 
   const goalContext = useContext(GoalContext);
   const { clearGoals } = goalContext;
+  
+  const friendContext = useContext(FriendContext);
+  const { clearFriends } = friendContext;
+
+  const requestContext = useContext(RequestContext);
+  const { clearRequests } = requestContext;
 
   const handleLogout = () => {
     logoutUser();
     clearGoals();
+    clearFriends();
+    clearRequests();
   };
 
   let links = (

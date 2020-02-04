@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import FriendContext from '../../contexts/friends/friendContext';
+import FriendContext from '../../../contexts/friends/friendContext';
 import FriendSearchbar from './FriendSearchbar';
 import FriendRequests from './FriendRequests';
 import FriendList from './FriendList';

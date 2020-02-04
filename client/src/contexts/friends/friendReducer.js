@@ -3,8 +3,11 @@ import {
   ADD_FRIEND,
   DELETE_FRIEND,
   SET_CURRENT_FRIEND,
+  GET_CURRENT_FRIEND_GOALS,
+  GET_CURRENT_FRIEND_FRIENDS,
+  SET_CURRENT_FRIEND_GOAL,
   CLEAR_CURRENT_FRIEND,
-  SET_FRIEND_LOADING,
+  SET_FRIENDS_LOADING,
   FRIENDS_ERROR,
   CLEAR_FRIEND_ERRORS,
   CLEAR_FRIENDS,
@@ -40,12 +43,32 @@ export default (state, action) => {
         ...state,
         friendCurrent: state.friends.find(friend => friend._id === action.payload)
       }
+    case GET_CURRENT_FRIEND_GOALS:
+      return {
+        ...state,
+        friendCurrentGoals: action.payload,
+        friendsLoading: false
+      }
+    case GET_CURRENT_FRIEND_FRIENDS:
+      return {
+        ...state, 
+        friendCurrentFriends: action.payload,
+        friendsLoading: false
+      }
+    case SET_CURRENT_FRIEND_GOAL:
+      return {
+        ...state,
+        friendCurrentGoal: state.friendCurrentGoals.find(goal => goal._id === action.payload)
+      }
     case CLEAR_CURRENT_FRIEND:
       return {
         ...state,
-        friendCurrent: {}
+        friendCurrent: {},
+        friendCurrentGoals: [],
+        friendCurrentFriends: [],
+        friendCurrentGoal: {}
       }
-    case SET_FRIEND_LOADING:
+    case SET_FRIENDS_LOADING:
       return {
         ...state,
         friendsLoading: true
@@ -65,10 +88,14 @@ export default (state, action) => {
       return {
         ...state,
         friends: [],
-        friendsIds: [],
+        friendIds: [],
         friendCurrent: {},
         friendsError: null,
-        friendsLoading: true
+        friendsLoading: true,
+        friendsFiltered: null,
+        friendCurrentGoals: [],
+        friendCurrentFriends: [],
+        friendCurrentGoal: {}
       }
     case FILTER_FRIENDS:
       return {

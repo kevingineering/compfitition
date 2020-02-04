@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import RequestContext from '../../contexts/requests/requestContext';
+import RequestContext from '../../../contexts/requests/requestContext';
 import FriendRequest from './FriendRequest';
 
 const FriendRequests = () => {

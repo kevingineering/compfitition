@@ -4,7 +4,7 @@ import GoalChartTotal from './GoalChartTotal';
 import { round } from 'mathjs';
 import PropTypes from 'prop-types';
 
-const GoalTotal = ({handleSave, goalCurrent: { duration, startDate, units, total, compId, tracker }}) => {
+const GoalTotal = ({handleSave, isOwner, goal: { duration, startDate, units, total, compId, tracker }}) => {
   const [record, setRecord] = useState(tracker);
 
   //calc progress so far
@@ -56,7 +56,7 @@ const GoalTotal = ({handleSave, goalCurrent: { duration, startDate, units, total
         <React.Fragment>
           <ul>
             <GoalChartTotal units={units} record={record} time={time}/>
-            {time !== duration && (
+            {time !== duration && isOwner && (
               <React.Fragment>
                 <li className='table-info lr-border center'>
                   <strong>Record Your Progress</strong>
@@ -125,13 +125,17 @@ const GoalTotal = ({handleSave, goalCurrent: { duration, startDate, units, total
               </div>
             </li>
           </ul>
-          <button 
-            className='btn btn-primary btn-block' 
-            onClick={() => handleSave(record)}
-          >
-            Save Goal
-          </button>
-          <p className='lr-border'/>
+          { time !== duration && isOwner &&
+            <React.Fragment>
+              <button 
+                className='btn btn-primary btn-block' 
+                onClick={() => handleSave(record)}
+              >
+                Save Goal
+              </button>
+              <p className='lr-border'/>
+            </React.Fragment>
+          }
         </React.Fragment>
       ) : (
         <ul>
@@ -160,8 +164,9 @@ const GoalTotal = ({handleSave, goalCurrent: { duration, startDate, units, total
 }
 
 GoalTotal.propTypes = {
-  handleSave: PropTypes.func.isRequired,
-  goalCurrent: PropTypes.object.isRequired
+  handleSave: PropTypes.func,
+  goal: PropTypes.object.isRequired,
+  isOwner: PropTypes.bool.isRequired
 }
 
 export default GoalTotal;

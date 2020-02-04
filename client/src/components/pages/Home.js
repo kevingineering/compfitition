@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import Goals from '../goals/Goals';
-import Friends from '../friends/Friends';
+import Friends from '../friends/User/Friends';
 import GoalContext from '../../contexts/goals/goalContext';
 
 const Home = () => {

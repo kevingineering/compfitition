@@ -50,9 +50,12 @@ const GoalPage = props => {
     ) : (
       <React.Fragment>
         <h2 className='collection-header'>{name}</h2>
-        {type === 'pass/fail' && <GoalPassFail goalCurrent={goalCurrent} handleSave={handleSave}/>}
-        {type === 'total' && <GoalTotal goalCurrent={goalCurrent} handleSave={handleSave}/>}
-        {type === 'difference' && <GoalDifference goalCurrent={goalCurrent} handleSave={handleSave}/>}
+        {type === 'pass/fail' && 
+          <GoalPassFail goal={goalCurrent} handleSave={handleSave} isOwner={true}/>}
+        {type === 'total' && 
+          <GoalTotal goal={goalCurrent} handleSave={handleSave} isOwner={true}/>}
+        {type === 'difference' && 
+          <GoalDifference goal={goalCurrent} handleSave={handleSave} isOwner={true}/>}
         {time <= duration &&
           <React.Fragment>
             <Link 

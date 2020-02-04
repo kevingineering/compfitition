@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import GoalContext from '../../contexts/goals/goalContext';
+import FriendContext from '../../contexts/friends/friendContext';
 
-const GoalItem = ({goal: { _id, name, startDate, duration, tracker, type, units }}) => {
+const GoalItem = ({isOwner, goal: { _id, name, startDate, duration, tracker, type, units }}) => {
   const goalContext = useContext(GoalContext);
   const { setCurrentGoal } = goalContext;
+
+  const friendContext = useContext(FriendContext);
+  const { setCurrentFriendGoal } = friendContext;
 
   //time of 0 means a goal starts tomorrow, time of 1 means a goal started today
   let time = moment().startOf('day').diff(startDate, 'days');
@@ -33,14 +37,14 @@ const GoalItem = ({goal: { _id, name, startDate, duration, tracker, type, units 
   }
 
   const handleClick = () => {
-    setCurrentGoal(_id);
+    isOwner ? setCurrentGoal(_id) : setCurrentFriendGoal(_id);
   };
 
   return (
     <li className='collection-item'>
       <div className='flex'>
         <h3 className='vertical-center'>
-          <Link onClick={handleClick} to={`/goal/${_id}`}>{name}</Link>
+          <Link onClick={handleClick} to={isOwner ? `/goal/${_id}` : `/friend/goal/${_id}`}>{name}</Link>
         </h3>
       </div>
       {time < duration + 1 ? (
@@ -68,7 +72,8 @@ const GoalItem = ({goal: { _id, name, startDate, duration, tracker, type, units 
 };
 
 GoalItem.propTypes = {
-  goal: PropTypes.object.isRequired
+  goal: PropTypes.object.isRequired,
+  isOwner: PropTypes.bool.isRequired
 }
 
 export default GoalItem;

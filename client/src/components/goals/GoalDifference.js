@@ -4,7 +4,7 @@ import GoalChartDifference from './GoalChartDifference';
 import { round } from 'mathjs';
 import PropTypes from 'prop-types';
 
-const GoalDifference = ({handleSave, goalCurrent: { duration, startDate, units, total, compId, tracker }}) => {
+const GoalDifference = ({handleSave, isOwner, goal: { duration, startDate, units, total, compId, tracker }}) => {
   const [record, setRecord] = useState(tracker);
 
   //calc time since goal started
@@ -45,7 +45,7 @@ const GoalDifference = ({handleSave, goalCurrent: { duration, startDate, units, 
         <React.Fragment>
           <ul>
             <GoalChartDifference duration={duration} units={units} total={total} record={record} time={time}/>
-            { time !== duration && (
+            { time !== duration && isOwner && (
               <React.Fragment>
                 <li className='table-info lr-border center'>
                   <strong>Record Your Progress</strong>
@@ -94,7 +94,7 @@ const GoalDifference = ({handleSave, goalCurrent: { duration, startDate, units, 
               </div>
             </li>
           </ul>
-          { time !== duration && 
+          { time !== duration && isOwner &&
             <React.Fragment>
               <button className='btn btn-primary btn-block' onClick={() => handleSave(record)}>
                 Save Goal
@@ -132,8 +132,9 @@ const GoalDifference = ({handleSave, goalCurrent: { duration, startDate, units, 
 };
 
 GoalDifference.propTypes = {
-  handleSave: PropTypes.func.isRequired,
-  goalCurrent: PropTypes.object.isRequired
+  handleSave: PropTypes.func,
+  goal: PropTypes.object.isRequired,
+  isOwner: PropTypes.bool.isRequired
 };
 
 export default GoalDifference;

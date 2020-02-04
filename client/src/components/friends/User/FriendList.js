@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import FriendContext from '../../contexts/friends/friendContext';
-import FriendItem from './FriendItem';
+import FriendContext from '../../../contexts/friends/friendContext';
+import FriendItem from '../FriendItem';
 
 const FriendList = () => {
   const friendContext = useContext(FriendContext);

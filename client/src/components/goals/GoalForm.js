@@ -22,7 +22,7 @@ const GoalForm = props => {
     started: false
   });
 
-  //control if current or not - TODO - fix startDate
+  //control if current or not
   useEffect(() => {
     if (Object.entries(goalCurrent).length) {
       setGoal({ 

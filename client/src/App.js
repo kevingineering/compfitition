@@ -12,7 +12,8 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import UserPage from './components/auth/UserPage';
 import SearchPage from './components/searchableUsers/SearchPage';
-import FriendPage from './components/friends/FriendPage';
+import FriendPage from './components/friends/Friend/FriendPage';
+import FriendGoalPage from './components/friends/Friend/FriendGoalPage';
 
 import Test from './components/pages/Test';
 
@@ -58,6 +59,7 @@ const App = () => {
                         <PrivateRoute exact path='/goal/:id' component={GoalPage}/>
                         <PrivateRoute exact path='/search' component={SearchPage}/>
                         <PrivateRoute exact path='/friend/:id' component={FriendPage}/>
+                        <PrivateRoute exact path='/friend/goal/:id' component={FriendGoalPage}/>
                         <Route component={NotFound}/>
                       </Switch>
                     </div>
