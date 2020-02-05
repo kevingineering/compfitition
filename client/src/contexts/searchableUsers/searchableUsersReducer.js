@@ -3,8 +3,7 @@ import {
   FILTER_SEARCHABLE_USERS,
   CLEAR_SEARCHABLE_USERS_FILTER,
   SEARCHABLE_USERS_ERROR,
-  CLEAR_SEARCHABLE_USERS,
-  CLEAR_SEARCHABLE_USERS_ERRORS
+  CLEAR_SEARCHABLE_USERS
 } from '../types';
 
 export default (state, action) => {
@@ -17,7 +16,9 @@ export default (state, action) => {
     case CLEAR_SEARCHABLE_USERS:
       return {
         ...state, 
-        searchableUsers: []
+        searchableUsers: [],
+        searchableUsersFiltered: null,
+        searchableUsersError: null
       }
     case FILTER_SEARCHABLE_USERS:
       return {
@@ -41,11 +42,6 @@ export default (state, action) => {
       return {
         ...state, 
         searchableUsersError: action.payload
-      }
-    case CLEAR_SEARCHABLE_USERS_ERRORS:
-      return {
-        ...state, 
-        searchableUsersError: null
       }
     default: 
       return state;

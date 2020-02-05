@@ -1,14 +1,12 @@
-import React, { useContext } from 'react';
-import FriendContext from '../../../contexts/friends/friendContext';
-import FriendItem from '../FriendItem';
+import React from 'react';
+import FriendItem from './FriendItem';
+import PropTypes from 'prop-types';
 
-const FriendList = () => {
-  const friendContext = useContext(FriendContext);
-  const { friends, friendsFiltered, friendsLoading } = friendContext;
-
+const FriendList = ({friends, loading, filtered, isOwner}) => {
   //populate list
   let listItems = '';
-  if (friendsLoading) {
+
+  if (loading) {
     listItems = (
       <li className='collection-item center collection-item-block'>
         Loading...
@@ -18,17 +16,31 @@ const FriendList = () => {
   else if (friends.length === 0) {
     listItems = (
       <li className='collection-item center collection-item-block'>
-        You have no friends ... awkward :/
+        {isOwner ? 
+          'You have no friends ... awkward :/' :
+          'This user has no other friends, but they have you.'
+        }
         <br/>
-        It's okay, click below to find some!
+        {isOwner ? 
+          "It's okay, click below to find some!" :
+          null
+        }
       </li>
     );
   }
-  else if (friendsFiltered !== null) {
-    listItems = (
-      <React.Fragment>
-        {friendsFiltered.map(friend => <FriendItem friend={friend} key={friend._id} />)}
-      </React.Fragment>
+  else if (filtered !== null) {
+    filtered === [] ? (
+      listItems = (
+        <li className='collection-item center collection-item-block'>
+          None of your friends match this search criteria.
+        </li>
+      )
+    ) : (
+      listItems = (
+        <React.Fragment>
+          {filtered.map(friend => <FriendItem friend={friend} key={friend._id} />)}
+        </React.Fragment>
+      )
     )
   }
   else {
@@ -40,10 +52,17 @@ const FriendList = () => {
   }
 
   return (
-    <div>
+    <React.Fragment>
       {listItems}
-    </div>
+    </React.Fragment>
   )
+}
+
+FriendList.propTypes = {
+  friends: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
+  filtered: PropTypes.array,
+  isOwner: PropTypes.bool.isRequired
 }
 
 export default FriendList;

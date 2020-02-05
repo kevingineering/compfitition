@@ -13,7 +13,6 @@ import {
   CLEAR_CURRENT_FRIEND,
   SET_FRIENDS_LOADING,
   FRIENDS_ERROR,
-  CLEAR_FRIEND_ERRORS,
   CLEAR_FRIENDS,
   FILTER_FRIENDS,
   CLEAR_FRIENDS_FILTER
@@ -25,7 +24,7 @@ const FriendState = props => {
     friendIds: [],
     friendCurrent: {},
     friendsFiltered: null,
-    friendError: null,
+    friendsError: null,
     friendsLoading: true,
     friendCurrentGoals: [],
     friendCurrentFriends: [],
@@ -37,7 +36,7 @@ const FriendState = props => {
   //get friends
   const getFriends = async () => {
     try {
-      setLoading();
+      //setLoading();
       const res = await axios.get('/api/friends');
       dispatch({ type: GET_FRIENDS, payload: res.data });
     } catch (err) {
@@ -48,7 +47,7 @@ const FriendState = props => {
   //add friend
   const addFriend = async _id => {
     try {
-      setLoading();
+      //setLoading();
       const res = await axios.put(`/api/friends/add/${_id}`);
       dispatch({ type: ADD_FRIEND, payload: res.data });
       getFriends();
@@ -60,7 +59,7 @@ const FriendState = props => {
   //delete friend
   const deleteFriend = async _id => {
     try {
-      setLoading();
+      //setLoading();
       await axios.put(`/api/friends/remove/${_id}`);
       dispatch({ type: DELETE_FRIEND, payload: _id });
       getFriends();
@@ -116,11 +115,6 @@ const FriendState = props => {
     dispatch({ type: SET_FRIENDS_LOADING });
   };
 
-  //clear error
-  const clearFriendErrors = () => {
-    dispatch({ type: CLEAR_FRIEND_ERRORS });
-  };
-
   //filter friends
   const filterFriends = text => {
     dispatch({ type: FILTER_FRIENDS, payload: text});
@@ -138,7 +132,7 @@ const FriendState = props => {
         friendIds: state.friendIds,
         friendCurrent: state.friendCurrent,
         friendsFiltered: state.friendsFiltered,
-        friendError: state.friendError,
+        friendsError: state.friendsError,
         friendsLoading: state.friendsLoading,
         friendCurrentGoals: state.friendCurrentGoals,
         friendCurrentFriends: state.friendCurrentFriends,
@@ -153,8 +147,7 @@ const FriendState = props => {
         clearCurrentFriend,
         filterFriends,
         clearFriendsFilter,
-        clearFriends,
-        clearFriendErrors
+        clearFriends
     }}>
       {props.children}
     </FriendContext.Provider>

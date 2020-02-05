@@ -4,7 +4,7 @@ import GoalPassFail from '../../goals/GoalPassFail';
 import GoalTotal from '../../goals/GoalTotal';
 import GoalDifference from '../../goals/GoalDifference';
 
-const FriendGoalPage = props => {
+const FriendGoalPage = () => {
   const friendContext = useContext(FriendContext);
   const { friendCurrentGoal } = friendContext;
 

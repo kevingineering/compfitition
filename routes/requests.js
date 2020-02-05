@@ -21,7 +21,7 @@ router.get('/', auth, async(req, res) => {
 });
 
 //create request
-//POST api/requests/:id
+//POST api/requests/:id (user id)
 //Private route
 router.post('/:id', auth, async (req, res) => {
   //verify not adding self
@@ -69,7 +69,7 @@ router.post('/:id', auth, async (req, res) => {
 });
 
 //delete request
-//DELETE api/requests/:id (request id)
+//DELETE api/requests/:id (user id)
 //Private route
 router.delete('/:id', auth, async (req, res) => {
   try {

@@ -1,16 +1,15 @@
-import React, { useContext } from 'react';
-import GoalContext from '../../contexts/goals/goalContext';
+import React from 'react';
 import GoalItem from './GoalItem';
 import PropTypes from 'prop-types';
 
-const GoalList = ({goals, isOwner}) => {
-  const goalContext = useContext(GoalContext);
-  const { goalsLoading } = goalContext;
+const GoalList = ({goals, isOwner, isGoal, loading}) => {
   
   //create list
   let itemList = null;
 
-  if (goalsLoading) {
+  let type = isGoal ? 'goals' : 'competitions';
+
+  if (loading) {
     itemList = (
       <li className='collection-item'>
         Loading...
@@ -22,13 +21,13 @@ const GoalList = ({goals, isOwner}) => {
       <li className='collection-item center collection-item-block'>
         <p className='width-250'>
           {isOwner ? 
-            'You have no goals... ' :
-            'This user has no goals.'
+            `You have no ${type}... ` :
+            `This user has no ${type}.`
           }
           <br/>
           {isOwner ? 
-            "I'm not judging, but you should add a few to make us both feel better." :
-            'Invite them to join you in a competition!'
+            'You should fix that :)' :
+            null
           }
         </p>
       </li>
@@ -37,7 +36,8 @@ const GoalList = ({goals, isOwner}) => {
   else {
     itemList = (
       <React.Fragment>
-        {goals.map(goal => <GoalItem goal={goal} key={goal._id} isOwner={isOwner}/>)}
+        {goals.map(goal => 
+          <GoalItem goal={goal} key={goal._id} isOwner={isOwner}/>)}
       </React.Fragment>
     );
   }
@@ -51,7 +51,9 @@ const GoalList = ({goals, isOwner}) => {
 
 GoalList.propTypes = {
   goals: PropTypes.array.isRequired,
-  isOwner: PropTypes.bool.isRequired
+  isOwner: PropTypes.bool.isRequired,
+  isGoal: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired
 }
 
 export default GoalList;

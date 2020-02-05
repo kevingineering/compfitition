@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import FriendContext from '../../../contexts/friends/friendContext';
-import FriendFriendList from './FriendFriendList';
+import FriendList from '../User/FriendList';
 
 const FriendFriends = () => {
   const friendContext = useContext(FriendContext);
-  const { friendCurrent, getCurrentFriendFriends } = friendContext;
+  const { friendCurrent, getCurrentFriendFriends, friendCurrentFriends, friendsLoading } = friendContext;
   
   const [isFriendsOpen, setIsFriendsOpen] = useState(true);
 
@@ -26,7 +26,12 @@ const FriendFriends = () => {
       </li>
       {isFriendsOpen &&
         <React.Fragment>
-          <FriendFriendList />
+          <FriendList 
+            friends={friendCurrentFriends} 
+            loading={friendsLoading}
+            filtered={null}
+            isOwner={false}
+          />
         </React.Fragment>
       }
     </ul>

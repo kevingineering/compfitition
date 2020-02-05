@@ -7,8 +7,7 @@ import {
   FILTER_SEARCHABLE_USERS,
   CLEAR_SEARCHABLE_USERS_FILTER,
   SEARCHABLE_USERS_ERROR,
-  CLEAR_SEARCHABLE_USERS,
-  CLEAR_SEARCHABLE_USERS_ERRORS
+  CLEAR_SEARCHABLE_USERS
 } from '../types';
 
 const SearchableUsersState = props => {
@@ -45,11 +44,6 @@ const SearchableUsersState = props => {
     dispatch({ type: CLEAR_SEARCHABLE_USERS });
   };
 
-  //clear errors
-  const clearSearchableUsersErrors = async () => {
-    dispatch({ CLEAR_SEARCHABLE_USERS_ERRORS });
-  };
-
   return (
     <SearchableUsersContext.Provider
       value={{
@@ -59,8 +53,7 @@ const SearchableUsersState = props => {
         getSearchableUsers,
         clearSearchableUsers,
         filterSearchableUsers,
-        clearSearchableUsersFilter,
-        clearSearchableUsersErrors
+        clearSearchableUsersFilter
     }}>
       {props.children}
     </SearchableUsersContext.Provider>

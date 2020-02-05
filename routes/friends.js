@@ -20,9 +20,9 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-//add friend to user
-//PUT api/friends/add/:id
-//Private route
+// add friend to user
+// PUT api/friends/add/:id (user id)
+// Private route
 router.put('/add/:id', auth, async (req, res) => {
   //verify user not adding themselves
   if (req.params.id === req.user.id)
@@ -46,7 +46,7 @@ router.put('/add/:id', auth, async (req, res) => {
 });
 
 // delete user friend
-// PUT api/friends/remove/:id
+// PUT api/friends/remove/:id (user id)
 // Private route
 router.put('/remove/:id', auth, async (req, res) => {
   //verify user not adding themselves
@@ -70,7 +70,7 @@ router.put('/remove/:id', auth, async (req, res) => {
 });
 
 // get goals of friend with privacy set to 'friends' or 'public' 
-// GET api/friends/goals/:id
+// GET api/friends/goals/:id (user id)
 // Private route
 router.get('/goals/:id', auth, async (req, res) => {
   //verify user is friends with :id
@@ -89,7 +89,9 @@ router.get('/goals/:id', auth, async (req, res) => {
   }
 });
 
-//get friends of friend who are mutual or who are searchable
+// get friends of friend who are mutual or who are searchable
+// GET api/friends/friends/:id (user id)
+// Private route
 router.get('/friends/:id', auth, async (req, res) => {
   try {
     //verify user is friends with :id
@@ -104,7 +106,7 @@ router.get('/friends/:id', auth, async (req, res) => {
         {_id: { $ne: req.user.id }}
       ],
       $or: [
-        { searchable: true },
+        { isSearchable: true },
         { friends: { $in: req.user.id}}
       ]
     }).select('firstName lastName email alias _id ');

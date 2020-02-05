@@ -10,9 +10,8 @@ import {
   UPDATE_GOAL_TRACKER,
   SET_CURRENT_GOAL,
   CLEAR_CURRENT_GOAL,
-  SET_GOAL_LOADING,
+  //SET_GOAL_LOADING,
   GOAL_ERROR,
-  CLEAR_GOAL_ERRORS,
   CLEAR_GOALS
 } from '../types';
 
@@ -36,7 +35,7 @@ const GoalState = props => {
   //get user goals
   const getGoals = async () => {
     try {
-      setLoading();
+      //setLoading();
       const res = await axios.get('/api/goals');
       dispatch({ type: GET_GOALS, payload: res.data });
     } catch (err) {
@@ -47,7 +46,7 @@ const GoalState = props => {
   //add goal
   const addGoal = async goal => {
     try {
-      setLoading();
+      //setLoading();
       const res = await axios.post('/api/goals', goal, config);
       dispatch({ type: ADD_GOAL, payload: res.data});
     } catch (err) {
@@ -58,7 +57,7 @@ const GoalState = props => {
   //delete goal
   const deleteGoal = async _id => {
     try {
-      setLoading();
+      //setLoading();
       await axios.delete(`/api/goals/${_id}`);
       dispatch({ type: DELETE_GOAL, payload: _id });
     } catch (err) {
@@ -69,7 +68,7 @@ const GoalState = props => {
   //update goal
   const updateGoal = async goal => {
     try {
-      setLoading();
+      //setLoading();
       const res = await axios.put(`/api/goals/${goal._id}`, goal, config);
       dispatch({ type: UPDATE_GOAL, payload: res.data });
     } catch (err) {
@@ -80,22 +79,18 @@ const GoalState = props => {
   //update goal tracker
   const updateGoalTracker = async (tracker, _id) => {
     try {
-      setLoading();
+      //setLoading();
       const res = await axios.put(`/api/goals/tracker/${_id}`, {tracker}, config);
       dispatch({ type: UPDATE_GOAL_TRACKER, payload: res.data });
     } catch (err) {
       dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
     }
   }
-  //set loading
-  const setLoading = () => {
-    return { type: SET_GOAL_LOADING }
-  };
-
-  //clear errors
-  const clearGoalErrors = () => {
-    dispatch({ type: CLEAR_GOAL_ERRORS });
-  };
+  
+  // //set loading
+  // const setLoading = () => {
+  //   dispatch ({ type: SET_GOAL_LOADING })
+  // };
 
   //set current
   const setCurrentGoal = _id => {
@@ -124,7 +119,6 @@ const GoalState = props => {
       deleteGoal,
       updateGoal,
       updateGoalTracker,
-      clearGoalErrors,
       setCurrentGoal,
       clearCurrentGoal,
       clearGoals

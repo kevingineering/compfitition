@@ -8,7 +8,6 @@ import {
   CLEAR_CURRENT_GOAL,
   SET_GOAL_LOADING,
   GOAL_ERROR,
-  CLEAR_GOAL_ERRORS,
   CLEAR_GOALS
 } from '../types';
 
@@ -50,11 +49,6 @@ export default (state, action) => {
         ...state,
         goalsError: action.payload,
         goalsLoading: false
-      }
-    case CLEAR_GOAL_ERRORS:
-      return {
-        ...state,
-        goalsError: null
       }
     case SET_CURRENT_GOAL:
       return {

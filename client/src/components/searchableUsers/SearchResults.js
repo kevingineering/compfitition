@@ -26,7 +26,7 @@ const SearchResults = () => {
     friend          you are friends with this user
     stranger        you are not friends with this user
     received        they requested to be friends with you
-    sent            you requestedd to be friends with them  
+    sent            you requested to be friends with them  
   */
  
   useEffect(() => {

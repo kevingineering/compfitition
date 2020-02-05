@@ -67,7 +67,7 @@ router.post('/', [
 );
 
 // update user
-// PUT api/auth/:id
+// PUT api/auth/:id (user id)
 // Private route
 router.put('/:id', [ auth, [
   check('firstName', 'Please enter your first name.').not().isEmpty(),
@@ -78,14 +78,14 @@ router.put('/:id', [ auth, [
   if(!errors.isEmpty())
     return res.status(400).json({ msg: errors.array()[0].msg });
 
-  const { firstName, lastName, alias, email, searchable } = req.body;
+  const { firstName, lastName, alias, email, isSearchable } = req.body;
 
   const userFields = {};
   if(firstName) userFields.firstName = firstName;
   if(lastName) userFields.lastName = lastName;
   if(alias || alias === '') userFields.alias = alias;
   if(email) userFields.email = email;
-  userFields.searchable = searchable;
+  userFields.isSearchable = isSearchable;
 
   try {
     //verify current user sent request
@@ -117,7 +117,7 @@ router.put('/:id', [ auth, [
 });
 
 // change user password
-// PUT api/auth/password/:id
+// PUT api/auth/password/:id (user id)
 // Private route
 router.put('/password/:id', [ auth, [
   check('oldPassword', 'Password is incorrect.').isLength({ min: 8 }),
@@ -187,6 +187,12 @@ router.delete('/:id', auth, async (req, res) => {
       { requestee: req.params.id } 
     ]});
 
+    //TODO delete user from friends arrays
+
+    //TODO delete user from competitions 
+
+    //TODO delete user invites
+
     //delete user
     await User.findByIdAndRemove(req.params.id);
     res.json({msg: 'User deleted.'});
@@ -202,7 +208,7 @@ router.get('/users', auth, async (req, res) => {
   try {
     //finds user but does not return password
     const users = await User.find(
-      { searchable: true, _id: { $ne: req.user.id }}
+      { isSearchable: true, _id: { $ne: req.user.id }}
     ).select('_id firstName lastName email');
     res.json(users);
   } catch (err) {

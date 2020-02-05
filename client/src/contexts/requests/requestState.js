@@ -7,7 +7,6 @@ import {
   ADD_REQUEST,
   DELETE_REQUEST,
   REQUEST_ERROR,
-  CLEAR_REQUESTS_ERROR,
   CLEAR_REQUESTS,
   SET_REQUESTS_LOADING
 } from '../types';
@@ -61,11 +60,6 @@ const RequestState = props => {
     return { type: SET_REQUESTS_LOADING }
   };
 
-  //clear errors
-  const clearRequestsError = () => {
-    dispatch({ type: CLEAR_REQUESTS_ERROR });
-  };
-
   //clear requests
   const clearRequests = () => {
     dispatch({ type: CLEAR_REQUESTS });
@@ -82,7 +76,6 @@ const RequestState = props => {
       getRequests,
       addRequest,
       deleteRequest,
-      clearRequestsError,
       clearRequests
     }}>
       {props.children}

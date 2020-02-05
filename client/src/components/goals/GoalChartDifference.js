@@ -70,6 +70,7 @@ const GoalChartDifference = ({ duration, units, record, time }) => {
 };
 
 GoalChartDifference.propTypes = {
+  duration: PropTypes.number.isRequired,
   units: PropTypes.string.isRequired,
   record: PropTypes.array.isRequired,
   time: PropTypes.number.isRequired

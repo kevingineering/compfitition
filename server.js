@@ -17,7 +17,8 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/requests', require('./routes/requests'));
 app.use('/api/friends', require('./routes/friends'));
-//competitions
+app.use('/api/competitions', require('./routes/competitions'));
+//invites
 
 //environmental port (if deployed) or local port 5004
 const port = process.env.PORT || 5004;

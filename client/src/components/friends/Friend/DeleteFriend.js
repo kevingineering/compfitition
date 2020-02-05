@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import FriendContext from '../../../contexts/friends/friendContext';
+import PropTypes from 'prop-types';
 
 const DeleteFriend = ({_id})=> {
   const friendContext = useContext(FriendContext);
@@ -46,6 +47,10 @@ const DeleteFriend = ({_id})=> {
       </form>
     </div>
   )
+}
+
+DeleteFriend.propTypes = {
+  _id: PropTypes.string.isRequired
 }
 
 export default DeleteFriend;

@@ -3,7 +3,6 @@ import {
   ADD_REQUEST,
   DELETE_REQUEST,
   REQUEST_ERROR,
-  CLEAR_REQUESTS_ERROR,
   CLEAR_REQUESTS,
   SET_REQUESTS_LOADING
 } from '../types';
@@ -38,11 +37,6 @@ export default (state, action) => {
         ...state,
         requestsError: action.payload,
         requestsLoading: false
-      }
-    case CLEAR_REQUESTS_ERROR:
-      return { 
-        ...state,
-        requestsError: null
       }
     case CLEAR_REQUESTS:
       return {

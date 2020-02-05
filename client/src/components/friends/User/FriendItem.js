@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import FriendContext from '../../contexts/friends/friendContext';
-import AlertContext from '../../contexts/alerts/alertContext';
-import userimg from '../../resources/userimg.png';
+import FriendContext from '../../../contexts/friends/friendContext';
+import AlertContext from '../../../contexts/alerts/alertContext';
+import userimg from '../../../resources/userimg.png';
 
 const FriendItem = ({friend: {firstName, lastName, alias, _id}}) => {
   const friendContext = useContext(FriendContext);

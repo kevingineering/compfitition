@@ -1,15 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import GoalContext from '../../contexts/goals/goalContext';
-import GoalList from './GoalList';
+import GoalTable from './GoalTable';
 import moment from 'moment';
 
 const Goals = () => {
   const goalContext = useContext(GoalContext);
-  const { getGoals, goals } = goalContext;
-  
-  const [isCurrentOpen, setIsCurrentOpen] = useState(true);
-  const [isPastOpen, setIsPastOpen] = useState(true);
+  const { getGoals, goals, goalsLoading } = goalContext;
 
   useEffect(() => {
     getGoals();
@@ -18,60 +14,55 @@ const Goals = () => {
 
   const [activeGoals, setActiveGoals] = useState([]);
   const [pastGoals, setPastGoals] = useState([]);
+  const [activeCompetitions, setActiveCompetitions] = useState([]);
+  const [pastCompetitions, setPastCompetitions] = useState([]);
 
-    //determine if there are active and/or past goals
-    useEffect(() => {
-      let tempActive = goals.filter(goal => 
-        (moment().startOf('day').diff(goal.startDate, 'days') + 1) <= goal.duration);
-      
-      let tempPast = goals.filter(goal => 
-        (moment().startOf('day').diff(goal.startDate, 'days') + 1) > goal.duration);
-  
-      setActiveGoals(tempActive);
-      setPastGoals(tempPast);
-    }, [goals]);
+  //create arrays for past and active goals and competitions
+  useEffect(() => {
+    let active = goals.filter(goal => 
+      (moment().startOf('day').diff(goal.startDate, 'days') + 1) <= goal.duration);
+    
+    setActiveGoals(active.filter(goal => goal.compId === null));
+    setActiveCompetitions(active.filter(goal => goal.compId !== null));
+
+    let past = goals.filter(goal => 
+      (moment().startOf('day').diff(goal.startDate, 'days') + 1) > goal.duration);
+
+    setPastGoals(past.filter(goal => goal.compId === null));
+    setPastCompetitions(past.filter(goal => goal.compId !== null));
+
+  }, [goals]);
 
   return (
     <div>
-      <ul className='collection'>
-        <li className='collection-header header-with-btn'>
-          <h2>Current Goals</h2>
-          <button 
-            className='btn btn-primary right'
-            onClick={() => setIsCurrentOpen(!isCurrentOpen)}
-          >
-            <i className={isCurrentOpen ? 'fas fa-minus' : 'fas fa-plus'}/>
-          </button>
-        </li>
-        {isCurrentOpen &&
-          <React.Fragment>
-            <GoalList goals={activeGoals} isOwner={true}/>
-            <li className='collection-footer'>
-              <Link to='/goalform' className='text-secondary'>
-                <p className='margin-025'><i className='fas fa-plus'/> Add Goal</p>
-              </Link>
-            </li>
-          </React.Fragment>
-        }
-      </ul>
-      {pastGoals.length !== 0 && (
-        <ul className='collection'>
-          <li className='collection-header header-with-btn'>
-            <h2>Past Goals</h2>
-            <button 
-              className='btn btn-primary right'
-              onClick={() => setIsPastOpen(!isPastOpen)}
-            >
-              <i className={isPastOpen ? 'fas fa-minus' : 'fas fa-plus'}/>
-            </button>
-          </li>
-          {isPastOpen &&
-            <React.Fragment>
-              <GoalList goals={pastGoals} isOwner={true}/>
-            </React.Fragment>
-          }
-        </ul>
-      )}
+      <GoalTable
+        goals={activeGoals} 
+        isPast={false} 
+        isGoal={true}
+        isOwner={true}
+        loading={goalsLoading}
+      />
+      <GoalTable
+        goals={activeCompetitions}
+        isPast={false} 
+        isGoal={false}
+        isOwner={true}
+        loading={goalsLoading}
+      />
+      <GoalTable
+        goals={pastGoals}
+        isPast={true} 
+        isGoal={true}
+        isOwner={true}
+        loading={goalsLoading}
+      />
+      <GoalTable
+        goals={pastCompetitions}
+        isPast={true} 
+        isGoal={false}
+        isOwner={true}
+        loading={goalsLoading}
+      />
     </div>
   );
 };

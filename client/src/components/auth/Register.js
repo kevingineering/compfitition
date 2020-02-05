@@ -33,13 +33,13 @@ const Register = props => {
     firstName: '',
     lastName: '',
     alias: '',
-    searchable: true,
+    isSearchable: true,
     email: '',
     password: '',
     password2: ''
   });
 
-  const { firstName, lastName, alias, searchable, email, password, password2 } = user;
+  const { firstName, lastName, alias, isSearchable, email, password, password2 } = user;
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -53,7 +53,7 @@ const Register = props => {
   }
 
   const handleClick = e => {
-    setUser({ ...user, searchable: !searchable });
+    setUser({ ...user, isSearchable: !isSearchable });
   };
 
   return (
@@ -126,14 +126,17 @@ const Register = props => {
           <label className='switch'>
             <input
               type='checkbox'
-              checked={searchable}
-              name='searchable'
+              checked={isSearchable}
+              name='isSearchable'
               onChange={handleClick}
             />
             <span className='slider round'/>
           </label>
           <span className='register-span'>
-            Are other users allowed to search for your name and email? This is how friends will find you.
+            {isSearchable ? 
+              'Other users are allowed to search for my name and email so they can add me as a friend.' : 
+              'Other users are not allowed to search for my name and email.'
+            }
           </span>
         </div>
         {/*Submit Button*/}

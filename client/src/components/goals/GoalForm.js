@@ -10,6 +10,8 @@ const GoalForm = props => {
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlert } = alertContext;
 
+  const [isComp, setIsComp] = useState(props.location.state.isComp);
+
   const [goal, setGoal] = useState({
     name: '',
     duration: 28,
@@ -18,6 +20,7 @@ const GoalForm = props => {
     units: '',
     total: 7,
     privacy: 'only me',
+    compId: null,
     initialValue: 0,
     started: false
   });
@@ -70,13 +73,6 @@ const GoalForm = props => {
       setAlert('Finish date cannot be in the past.');
       return null;
     }
-
-    //THIS DOES NOT WORK HERE BECAUSE setState IS ASYNC - INSTEAD HANDLING ON BACKEND
-    // //readjust duration if using 'pass/fail'
-    // if (type === 'pass/fail' && duration % 7 !== 0 ) {
-    //   let newDuration = (duration - (duration % 7) + 7);
-    //   setGoal({ ...goal, duration: newDuration });
-    // }
 
     //try to submit goal
     if(name && duration && startDate && type && total && (units || type === 'pass/fail')) {
@@ -222,19 +218,6 @@ const GoalForm = props => {
             </React.Fragment>
           )}
         </div>
-        {/* Privacy */}
-        <div className="form-group">
-          <label>Who can see your goal?
-            <select
-              name='privacy'
-              value={privacy}
-              onChange={handleChange}>
-              <option value='only me'>Only Me</option>
-              <option value='friends'>My Friends</option>
-              <option value='public'>Everyone</option>
-            </select>  
-          </label>
-        </div>
         {/* Units */}
         {type !== 'pass/fail' && (
           <div className="form-group">
@@ -248,6 +231,34 @@ const GoalForm = props => {
             />
           </div> 
         )}
+        {/* Privacy */}
+        <div className="form-group">
+          <label>Who can see your goal?
+            <select
+              name='privacy'
+              value={privacy}
+              onChange={handleChange}>
+              <option value='only me'>Only Me</option>
+              <option value='friends'>My Friends</option>
+              <option value='public'>Everyone</option>
+            </select>  
+          </label>
+        </div>
+        {/* Competition */}
+        <div className="form-group">
+          <label className='block'>Competition</label>
+          <label className='switch'>
+            <input
+              type='checkbox'
+              checked={isComp}
+              onChange={() => setIsComp(!isComp)}
+            />
+            <span className='slider round'/>
+          </label>
+          <span className='register-span'>
+            {isComp ? 'This goal is for a competition.' : 'This goal is only for me.' }
+          </span>
+        </div>
         {/* Submit */}
         <input 
           type='submit' 

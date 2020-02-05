@@ -13,7 +13,7 @@ const UserPage = props => {
     firstName: '',
     lastName: '',
     alias: '',
-    searchable: true,
+    isSearchable: true,
     email: '',
     oldPassword: '',
     newPassword: '',
@@ -23,7 +23,7 @@ const UserPage = props => {
   const [editToggle, setEditToggle] = useState(false);
   const [deleteToggle, setDeleteToggle] = useState(false);
   
-  const { firstName, lastName, alias, searchable, email, oldPassword, newPassword, newPassword2} = current;
+  const { firstName, lastName, alias, isSearchable, email, oldPassword, newPassword, newPassword2} = current;
 
   //populate current with user values
   useEffect(() => {
@@ -94,7 +94,7 @@ const UserPage = props => {
   };
   
   const handleClick = () => {
-    setCurrent({ ...current, searchable: !searchable });
+    setCurrent({ ...current, isSearchable: !isSearchable });
   };
 
   return (
@@ -149,8 +149,8 @@ const UserPage = props => {
           <label className='switch'>
             <input
               type='checkbox'
-              checked={searchable}
-              name='searchable'
+              checked={isSearchable}
+              name='isSearchable'
               onChange={handleClick}
             />
             <span className='slider round'/>
@@ -265,7 +265,7 @@ const UserPage = props => {
           </p>
           <p>
             <strong>Privacy: &nbsp;</strong>
-            Other users {searchable ? 'can' : 'cannot'} search for me using my name and email.
+            Other users {isSearchable ? 'can' : 'cannot'} search for me using my name and email.
           </p>
           <input
             type='button'

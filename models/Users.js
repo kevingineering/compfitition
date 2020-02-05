@@ -26,8 +26,8 @@ const UserSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  //searchable determines whether or not others can find them to add them as friends
-  searchable: {
+  //isSearchable determines whether or not others can find them to add them as friends
+  isSearchable: {
     type: Boolean,
     default: true
   },

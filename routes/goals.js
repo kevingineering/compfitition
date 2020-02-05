@@ -15,17 +15,17 @@ router.get('/', auth, async(req, res) => {
   }
 });
 
-//get public goals
-//GET api/goals/public
-//Public route
-router.get('/public', async(req, res) => {
-  try {
-    const goals = await Goal.find({ privacy: 'public' }).sort({ startDate: 1 });
-    res.json(goals);
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
-});
+// //get public goals
+// //GET api/goals/public
+// //Public route
+// router.get('/public', async(req, res) => {
+//   try {
+//     const goals = await Goal.find({ privacy: 'public' }).sort({ startDate: 1 });
+//     res.json(goals);
+//   } catch (err) {
+//     res.status(500).json({ msg: 'Server error.' });
+//   }
+// });
 
 //add goal
 //POST api/goals

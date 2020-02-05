@@ -9,7 +9,6 @@ import {
   CLEAR_CURRENT_FRIEND,
   SET_FRIENDS_LOADING,
   FRIENDS_ERROR,
-  CLEAR_FRIEND_ERRORS,
   CLEAR_FRIENDS,
   FILTER_FRIENDS,
   CLEAR_FRIENDS_FILTER
@@ -78,11 +77,6 @@ export default (state, action) => {
         ...state,
         friendsError: action.payload,
         friendsLoading: false
-      }
-    case CLEAR_FRIEND_ERRORS:
-      return {
-        ...state,
-        friendsError: null
       }
     case CLEAR_FRIENDS:
       return {

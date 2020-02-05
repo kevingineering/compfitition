@@ -14,6 +14,7 @@ const GoalItem = ({isOwner, goal: { _id, name, startDate, duration, tracker, typ
 
   //time of 0 means a goal starts tomorrow, time of 1 means a goal started today
   let time = moment().startOf('day').diff(startDate, 'days');
+  let timeHours = moment().startOf('day').diff(startDate, 'hours');
 
   //calc progress
   let progress = '';
@@ -44,12 +45,15 @@ const GoalItem = ({isOwner, goal: { _id, name, startDate, duration, tracker, typ
     <li className='collection-item'>
       <div className='flex'>
         <h3 className='vertical-center'>
-          <Link onClick={handleClick} to={isOwner ? `/goal/${_id}` : `/friend/goal/${_id}`}>{name}</Link>
+          <Link 
+            onClick={handleClick} 
+            to={isOwner ? `/goal/${_id}` : `/friend/goal/${_id}`}>{name}
+          </Link>
         </h3>
       </div>
       {time < duration + 1 ? (
         <div className='hide-sm'>
-          {time > 0 ? (
+          {timeHours > 0 ? (
           <React.Fragment>
             <span className='right'>Day: {time + 1} / {duration}</span>
             <br/>

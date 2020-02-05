@@ -7,7 +7,7 @@ import FriendList from './FriendList';
 
 const Friends = () => {
   const friendContext = useContext(FriendContext);
-  const { getFriends } = friendContext;
+  const { getFriends, friends, friendsFiltered, friendsLoading } = friendContext;
   
   const [isFriendsOpen, setIsFriendsOpen] = useState(true);
   useEffect(() => {
@@ -30,7 +30,12 @@ const Friends = () => {
         <React.Fragment>
           <FriendRequests />
           <FriendSearchbar />
-          <FriendList />
+          <FriendList 
+            friends={friends} 
+            filtered={friendsFiltered}
+            loading={friendsLoading}
+            isOwner={true}
+          />
           <li className='collection-footer'>
             <Link to='/search' className='text-secondary'>
               <p className='margin-025'><i className='fas fa-plus'/> Add Friend</p>
