@@ -16,6 +16,7 @@ const AlertState = props => {
   //set alert - will timeout after 3 seconds
   //if type is true, clear alert will not clear it
   const setAlert = (msg, persist = false) => {
+    //console.log('''setAlert');
     const id = uuid.v4();
     dispatch({ type: SET_ALERT, payload: {msg, id, persist}});
 
@@ -24,6 +25,7 @@ const AlertState = props => {
 
   //clear alert
   const clearAlert = () => {
+    //console.log('''clearAlert');
     dispatch({ type: CLEAR_ALERT });
   };
 

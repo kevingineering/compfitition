@@ -144,12 +144,6 @@ img {
   min-height: 0.5rem;
 }
 
-.lrb-border {
-  border-left: 2px solid var(--primary-color);
-  border-right: 2px solid var(--primary-color);
-  border-bottom: 2px solid var(--primary-color);
-}
-
 .margin-025 {
   padding: 0.25rem;
 }
@@ -167,19 +161,17 @@ img {
 /* Table */
 .table-row {
   display: flex;
+  justify-content: space-between;
   border: 2px solid var(--primary-color);
   border-top: 0;
-  justify-content: space-between;
 }
 
 .table-label {
   margin-left: 0.5rem;
   height: 1.6rem;
-  font-size: 1rem;
   display: inline-block;
   vertical-align: middle;
   white-space: nowrap;
-  font-weight: normal;
 }
 
 .table-btn {
@@ -199,9 +191,30 @@ img {
 }
 
 .table-info {
+  padding: 0.1rem 0.5rem;
+}
+
+/* Competition Page */
+
+.competition-container {
+  max-width: 850px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.competition-table-container {
+  max-width: 500px;
+  margin: auto;
+}
+
+.competition-lists-container {
+  max-width: 250px;
+  margin: auto;
+}
+
+.participant-row {
   padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.1rem;
+  line-height: 1.8rem;
 }
 
 /*#endregion*/
@@ -211,7 +224,7 @@ img {
   max-width: 1100px;
   margin: auto;
   overflow: hidden;
-  padding: 0 2rem;
+  padding: 0 2rem 4rem 2rem;
 }
 
 /*#endregion*/
@@ -268,6 +281,12 @@ img {
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  column-gap: 2rem;
+}
+
+.grid-1-2 {
+  display: grid;
+  grid-template-columns: 200px 1fr;
   column-gap: 2rem;
 }
 
@@ -456,7 +475,7 @@ button {
 
 .form-container {
   max-width: 500px;
-  margin: 1rem auto;
+  margin: 0 auto;
   overflow: hidden;
   padding: 0 2rem;
 }
@@ -566,15 +585,17 @@ input:checked + .slider:before {
   }
 
   .register-span {
-    max-width: 50%
+    max-width: 72%
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
   .grid-2,
+  .grid-1-2,
   .grid-3,
   .grid-4 {
     grid-template-columns: 1fr;
+    margin: auto;
   }
 }
 
@@ -597,11 +618,18 @@ input:checked + .slider:before {
 
 .btn-split {
   width: 50%;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .btn-h2 {
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+.btn-participants {
+  width: 2rem;
+  border: none;
 }
 
 /*#endregion*/

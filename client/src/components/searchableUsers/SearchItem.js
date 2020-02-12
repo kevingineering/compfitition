@@ -37,7 +37,7 @@ const SearchItem = ({status, user: {firstName, lastName, email, _id}}) => {
       addRequest(_id);
     } else if (status === 'friend') {
       setCurrentFriend(_id);
-      history.push(`/friend/${_id}`)
+      history.push('/friend')
     } else if (status === 'received' && e.target.name === 'btn1') {
       addFriend(_id);
       deleteRequest(_id);

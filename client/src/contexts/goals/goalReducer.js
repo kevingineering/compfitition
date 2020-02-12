@@ -23,6 +23,7 @@ export default (state, action) => {
       return {
         ...state,
         goals: [...state.goals, action.payload],
+        goalCurrent: action.payload,
         goalsLoading: false
       }
     case DELETE_GOAL:
@@ -37,7 +38,8 @@ export default (state, action) => {
         ...state,
         goals: state.goals.map(goal => 
           goal._id === action.payload._id ? action.payload : goal),
-          goalsLoading: false
+          goalsLoading: false,
+        goalCurrent: action.payload
       }
     case SET_GOAL_LOADING:
       return {

@@ -2,16 +2,16 @@ import React, { useState, useContext, useEffect } from 'react';
 import GoalContext from '../../contexts/goals/goalContext';
 import AlertContext from '../../contexts/alerts/alertContext';
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
 
-const GoalForm = props => {
+const GoalForm = () => {
   const goalContext = useContext(GoalContext);
-  const { addGoal, updateGoal, goalCurrent, clearCurrentGoal } = goalContext;
+  const { addGoal, updateGoal, goalCurrent } = goalContext;
 
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlert } = alertContext;
 
-  const [isComp, setIsComp] = useState(props.location.state.isComp);
-
+  //started determines if goal has begun, initialValue is used with difference goals 
   const [goal, setGoal] = useState({
     name: '',
     duration: 28,
@@ -19,13 +19,16 @@ const GoalForm = props => {
     type: 'pass/fail',
     units: '',
     total: 7,
-    privacy: 'only me',
+    isPrivate: false,
     compId: null,
     initialValue: 0,
     started: false
   });
 
-  //control if current or not
+  //tells when to redirect to new goal page
+  const [isRedirect, setIsRedirect] = useState(false);
+
+  //on start, control if adding or updating goal
   useEffect(() => {
     if (Object.entries(goalCurrent).length) {
       setGoal({ 
@@ -39,35 +42,41 @@ const GoalForm = props => {
           started: true,
           initialValue: goalCurrent.tracker[0] 
         })
-        setAlert('This goal has already begun, so some attributes cannot be changed.', true)
+        setAlert('This goal has already begun, so some attributes cannot be changed.');
       }
     }
     //eslint-disable-next-line
   }, [])
 
-  //clear unacceptable alert
+  //redirect
+  let history = useHistory();
+  useEffect(() => {
+    if (isRedirect)
+      history.push('/goal');
+    //eslint-disable-next-line
+  }, [isRedirect])
+
+  //on unmount, clear nonpersistant alert
   useEffect(() => {
     return () => {
       clearAlert();
     }
     //eslint-disable-next-line
-  }, []);
-
-  const message = Object.entries(goalCurrent).length ? 'Modify Goal' : 'Add Goal';
+  }, [])
   
-  const { name, duration, startDate, type, units, total, privacy, initialValue, started } = goal;
-
-  let time = moment.utc().startOf('day').diff(startDate, 'days');
-
+  const { name, duration, startDate, type, units, total, isPrivate, initialValue, started } = goal;
+  
+  //add or update goal
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+  
+    //verify dates
+    let time = moment.utc().startOf('day').diff(startDate, 'days');
     //verify start date not in past
     if(time > 0 && !started) {
       setAlert('Start date cannot be in the past.');
       return null;
     }
-
     //verify finish date is not in past (for goals that have started)
     if(duration - time < 0){
       setAlert('Finish date cannot be in the past.');
@@ -80,19 +89,18 @@ const GoalForm = props => {
       if (message === 'Modify Goal') {
         await updateGoal(goal);
         setAlert('Goal updated!', true);
-        clearCurrentGoal();
+        setIsRedirect(true);
       } else {
         await addGoal(goal);
         setAlert('Goal added!', true);
+        setIsRedirect(true);
       }
-
-      //redirect to homepage
-      props.history.push('/');
     }
     else 
       setAlert('Please enter all fields.');
   };
 
+  //update state with inputs
   const handleChange = e => {
     if (e.target.name === 'duration' || e.target.name === 'total' || e.target.name === 'initialValue') {
       if (e.target.value === '') 
@@ -108,6 +116,13 @@ const GoalForm = props => {
         [e.target.name]: e.target.value
       });
   };
+
+  //update isPrivate state with input
+  const handleClick = e => {
+    setGoal({ ...goal, isPrivate: !isPrivate });
+  };
+
+  const message = Object.entries(goalCurrent).length ? 'Modify Goal' : 'Add Goal';
 
   return (
     <div className='form-container'>
@@ -225,38 +240,26 @@ const GoalForm = props => {
             <input 
               type='text' 
               name='units' 
-              placeholder='Units (Example: miles)' 
               onChange={handleChange}
               value={units}
             />
           </div> 
         )}
-        {/* Privacy */}
+        {/* isPrivate */}
         <div className="form-group">
-          <label>Who can see your goal?
-            <select
-              name='privacy'
-              value={privacy}
-              onChange={handleChange}>
-              <option value='only me'>Only Me</option>
-              <option value='friends'>My Friends</option>
-              <option value='public'>Everyone</option>
-            </select>  
+          <label className='block'>
+            Who can see this goal?
           </label>
-        </div>
-        {/* Competition */}
-        <div className="form-group">
-          <label className='block'>Competition</label>
           <label className='switch'>
             <input
               type='checkbox'
-              checked={isComp}
-              onChange={() => setIsComp(!isComp)}
+              checked={!isPrivate}
+              onChange={handleClick}
             />
             <span className='slider round'/>
           </label>
           <span className='register-span'>
-            {isComp ? 'This goal is for a competition.' : 'This goal is only for me.' }
+            {isPrivate ? 'Only I can see this goal.' : 'My friends can see this goal.'}
           </span>
         </div>
         {/* Submit */}

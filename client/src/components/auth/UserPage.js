@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import AuthContext from '../../contexts/auth/authContext';
 import AlertContext from '../../contexts/alerts/alertContext';
 
-const UserPage = props => {
+const UserPage = () => {
   const authContext = useContext(AuthContext);
   const { user, updateUser, changeUserPassword, deleteUser, userError, clearUserErrors } = authContext;
   
@@ -23,7 +23,7 @@ const UserPage = props => {
   const [editToggle, setEditToggle] = useState(false);
   const [deleteToggle, setDeleteToggle] = useState(false);
   
-  const { firstName, lastName, alias, isSearchable, email, oldPassword, newPassword, newPassword2} = current;
+  const { _id, firstName, lastName, alias, isSearchable, email, oldPassword, newPassword, newPassword2} = current;
 
   //populate current with user values
   useEffect(() => {
@@ -64,7 +64,7 @@ const UserPage = props => {
     if (newPassword !== newPassword2)
       setAlert('Passwords do not match.');
     else {
-      await changeUserPassword({oldPassword, newPassword, newPassword2}, props.match.params.id);
+      await changeUserPassword({oldPassword, newPassword, newPassword2}, _id);
     }
   };
 

@@ -34,6 +34,7 @@ const GoalState = props => {
 
   //get user goals
   const getGoals = async () => {
+    //console.log(''getGoals')
     try {
       //setLoading();
       const res = await axios.get('/api/goals');
@@ -45,10 +46,12 @@ const GoalState = props => {
 
   //add goal
   const addGoal = async goal => {
+    //console.log(''addGoal')
     try {
       //setLoading();
       const res = await axios.post('/api/goals', goal, config);
       dispatch({ type: ADD_GOAL, payload: res.data});
+      setCurrentGoal(res.data._id);
     } catch (err) {
       dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
     }
@@ -56,6 +59,7 @@ const GoalState = props => {
 
   //delete goal
   const deleteGoal = async _id => {
+    //console.log(''deleteGoal')
     try {
       //setLoading();
       await axios.delete(`/api/goals/${_id}`);
@@ -67,6 +71,7 @@ const GoalState = props => {
 
   //update goal
   const updateGoal = async goal => {
+    //console.log(''updateGoal')
     try {
       //setLoading();
       const res = await axios.put(`/api/goals/${goal._id}`, goal, config);
@@ -78,6 +83,7 @@ const GoalState = props => {
 
   //update goal tracker
   const updateGoalTracker = async (tracker, _id) => {
+    //console.log(''updateGoalTracker')
     try {
       //setLoading();
       const res = await axios.put(`/api/goals/tracker/${_id}`, {tracker}, config);
@@ -94,16 +100,19 @@ const GoalState = props => {
 
   //set current
   const setCurrentGoal = _id => {
+    //console.log(''setCurrentGoal')
     dispatch({ type: SET_CURRENT_GOAL, payload: _id });
   };
 
   //clear current
   const clearCurrentGoal = () => {
+    //console.log(''clearCurrentGoal')
     dispatch({ type: CLEAR_CURRENT_GOAL });
   };
 
   //clear goals
   const clearGoals = () => {
+    //console.log(''clearGoals')
     dispatch({ type: CLEAR_GOALS });
   };
 
