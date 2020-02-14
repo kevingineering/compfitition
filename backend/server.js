@@ -21,6 +21,23 @@ app.use('/api/friends', require('./routes/friends'));
 app.use('/api/competitions', require('./routes/competitions'));
 app.use('/api/invites', require('./routes/invites'));
 
+//error handler for unsupported routes
+app.use((req, res, next) => {
+  return res.status(404).json({msg: 'This route could not be found.'})
+})
+
+//error handler response
+app.use((error, req, res, next) => {
+  //check whether or not a response has already been sent
+  if (res.headerSent) {
+    return next(error);
+  }
+  //take status code set by middleware or 500 as default
+  res.status(error.code || 500);
+  //return message that client can use to show user
+  res.json({msg: error.message || 'An unknown error occured.'});
+});
+
 //environmental port (if deployed) or local port 5004
 const port = process.env.PORT || 5004;
 

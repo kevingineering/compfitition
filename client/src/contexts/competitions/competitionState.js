@@ -30,7 +30,7 @@ const CompetitionState = props => {
 
   const [state, dispatch] = useReducer(CompetitionReducer, initialState);
 
-  //set headers for addGoal, updateGoal, and updateGoalTracker
+  //set headers for requests with bodies
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ const CompetitionState = props => {
 
   //get competition
   const getCompetition = async (_id) => {
-    //console.log(''getCompetition')
+    //console.log('getCompetition')
     try {
       setLoading();
       const res = await axios.get(`/api/competitions/${_id}`);
@@ -51,7 +51,7 @@ const CompetitionState = props => {
 
   //get competition goals for all participants
   const getCompetitionGoals = async (_id) => {
-    //console.log(''getCompetitionGoals')
+    //console.log('getCompetitionGoals')
     try {
       setLoading();
       const res = await axios.get(`/api/competitions/goals/${_id}`);
@@ -62,7 +62,7 @@ const CompetitionState = props => {
   };
 
   const getCompetitionParticipants = async (_id) => {
-    //console.log(''getCompetitionParticipants')
+    //console.log('getCompetitionParticipants')
     try {
       setLoading();
       const res = await axios.get(`/api/competitions/participants/${_id}`);
@@ -73,11 +73,11 @@ const CompetitionState = props => {
   }
 
   //add competition
-  const addCompetition = async (_id, isMax) => {
+  const addCompetition = async (_id) => {
     try {
-      //console.log(''addCompetition')
+      //console.log('addCompetition')
       setLoading();
-      const res = await axios.post(`/api/competitions/${_id}`, {isMax}, config);
+      const res = await axios.post(`/api/competitions/${_id}`);
       dispatch({ type: ADD_COMPETITION, payload: res.data});
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
@@ -86,7 +86,7 @@ const CompetitionState = props => {
 
   //delete competition
   const deleteCompetition = async (_id) => {
-    //console.log(''deleteCompetition')
+    //console.log('deleteCompetition')
     try {
       setLoading();
       await axios.delete(`/api/competitions/${_id}`);
@@ -98,10 +98,10 @@ const CompetitionState = props => {
 
   //update competition
   const updateCompetition = async (comp) => {
-    //console.log(''updateCompetition')
+    //console.log('updateCompetition')
     try{
       setLoading();
-      const res = await axios.put(`/api/competitions/${comp._id}`, comp, config);
+      const res = await axios.patch(`/api/competitions/${comp._id}`, comp, config);
       dispatch({ type: UPDATE_COMPETITION, payload: res.data });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
@@ -109,10 +109,10 @@ const CompetitionState = props => {
   };
 
   const addUserToCompetition = async (_id) => {
-    //console.log(''addUserToCompetition')
+    //console.log('addUserToCompetition')
     try{
       setLoading();
-      const res = await axios.put(`/api/competitions/adduser/${_id}`);
+      const res = await axios.patch(`/api/competitions/adduser/${_id}`);
       dispatch({ type: ADD_USER_TO_COMPETITION, payload: res.data });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
@@ -120,10 +120,10 @@ const CompetitionState = props => {
   };
 
   const removeUserFromCompetition = async (_id) => {
-    //console.log(''removeUserFromCompetition')
+    //console.log('removeUserFromCompetition')
     try{
       setLoading();
-      await axios.put(`/api/competitions/removeuser/${_id}`);
+      await axios.patch(`/api/competitions/removeuser/${_id}`);
       dispatch({ type: REMOVE_USER_FROM_COMPETITION });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
@@ -131,10 +131,10 @@ const CompetitionState = props => {
   };
 
   const kickUserFromCompetition = async (_id, kickeeId) => {
-    //console.log(''kickFromCompetition')
+    //console.log('kickFromCompetition')
     try{
       setLoading();
-      const res = await axios.put(`/api/competitions/kickuser/${_id}`, {kickeeId}, config);
+      const res = await axios.patch(`/api/competitions/kickuser/${_id}`, {kickeeId}, config);
       dispatch({ type: KICK_USER_FROM_COMPETITION, payload: res.data });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
@@ -142,10 +142,10 @@ const CompetitionState = props => {
   };
 
   const addAdminToCompetition = async (_id, newAdminId) => {
-    //console.log(''addAdminToCompetition')
+    //console.log('addAdminToCompetition')
     try{
       setLoading();
-      const res = await axios.put(`/api/competitions/addadmin/${_id}`, newAdminId, config);
+      const res = await axios.patch(`/api/competitions/addadmin/${_id}`, newAdminId, config);
       dispatch({ type: ADD_ADMIN_TO_COMPETITION, payload: res.data });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
@@ -153,10 +153,10 @@ const CompetitionState = props => {
   };
 
   const removeAdminFromCompetition = async (_id) => {
-    //console.log(''removeAdminFromCompetition')
+    //console.log('removeAdminFromCompetition')
     try{
       setLoading();
-      const res = await axios.put(`/api/competitions/removeadmin/${_id}`);
+      const res = await axios.patch(`/api/competitions/removeadmin/${_id}`);
       dispatch({ type: REMOVE_ADMIN_FROM_COMPETITION, payload: res.data });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
@@ -165,13 +165,13 @@ const CompetitionState = props => {
 
   //set loading
   const setLoading = () => {
-    //console.log(''setLoading')
+    //console.log('setLoading')
     return { type: SET_COMPETITION_LOADING }
   };
 
   //clear requests
   const clearCompetition = () => {
-    //console.log(''clearCompetition')
+    //console.log('clearCompetition')
     dispatch({ type: CLEAR_COMPETITION });
   };
 

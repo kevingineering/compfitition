@@ -35,7 +35,7 @@ const FriendState = props => {
 
   //get friends
   const getFriends = async () => {
-    //console.log(''getFriends')
+    //console.log('getFriends')
     try {
       //setLoading();
       const res = await axios.get('/api/friends');
@@ -47,10 +47,10 @@ const FriendState = props => {
 
   //add friend
   const addFriend = async _id => {
-    //console.log(''addFriend')
+    //console.log('addFriend')
     try {
       //setLoading();
-      const res = await axios.put(`/api/friends/add/${_id}`);
+      const res = await axios.patch(`/api/friends/add/${_id}`);
       dispatch({ type: ADD_FRIEND, payload: res.data });
       getFriends();
     } catch (err) {
@@ -60,10 +60,10 @@ const FriendState = props => {
 
   //delete friend
   const deleteFriend = async _id => {
-    //console.log(''deleteFriend')
+    //console.log('deleteFriend')
     try {
       //setLoading();
-      await axios.put(`/api/friends/remove/${_id}`);
+      await axios.patch(`/api/friends/remove/${_id}`);
       dispatch({ type: DELETE_FRIEND, payload: _id });
       getFriends();
     } catch (err) {
@@ -73,13 +73,13 @@ const FriendState = props => {
 
   //set current friend
   const setCurrentFriend = _id => {
-    //console.log(''setCurrentFriend')
+    //console.log('setCurrentFriend')
     dispatch({ type: SET_CURRENT_FRIEND, payload: _id });
   };
 
   //get current friend goals
   const getCurrentFriendGoals = async (_id) => {
-    //console.log(''getCurrentFriendGoals')
+    //console.log('getCurrentFriendGoals')
     try {
       setLoading();
       const res = await axios.get(`/api/friends/goals/${_id}`);
@@ -91,7 +91,7 @@ const FriendState = props => {
 
   //get current friend friends
   const getCurrentFriendFriends = async (_id) => {
-    //console.log(''getCurrentFriendFriends')
+    //console.log('getCurrentFriendFriends')
     try {
       setLoading();
       const res = await axios.get(`/api/friends/friends/${_id}`);
@@ -103,37 +103,37 @@ const FriendState = props => {
 
   //set current friend goal
   const setCurrentFriendGoal = (_id) => {
-    //console.log(''setCurrentFriendGoal')
+    //console.log('setCurrentFriendGoal')
     dispatch({ type: SET_CURRENT_FRIEND_GOAL, payload: _id });
   };
 
   //clear current friend
   const clearCurrentFriend = () => {
-    //console.log(''clearCurrentFriend')
+    //console.log('clearCurrentFriend')
     dispatch({ type: CLEAR_CURRENT_FRIEND });
   };
 
   //clear friends
   const clearFriends = () => {
-    //console.log(''clearFriends')
+    //console.log('clearFriends')
     dispatch({ type: CLEAR_FRIENDS });
   };
 
   //set loading
   const setLoading = () => {
-    //console.log(''setLoading')
+    //console.log('setLoading')
     dispatch({ type: SET_FRIENDS_LOADING });
   };
 
   //filter friends
   const filterFriends = text => {
-    //console.log(''filterFriends')
+    //console.log('filterFriends')
     dispatch({ type: FILTER_FRIENDS, payload: text});
   };
 
   //clear filter
   const clearFriendsFilter = () => {
-    //console.log(''clearFriendsFilter')
+    //console.log('clearFriendsFilter')
     dispatch({ type: CLEAR_FRIENDS_FILTER });
   }
 

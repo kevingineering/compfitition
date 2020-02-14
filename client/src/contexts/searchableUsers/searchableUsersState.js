@@ -21,7 +21,7 @@ const SearchableUsersState = props => {
 
   //get searchable users
   const getSearchableUsers = async () => {
-    //console.log(''getSearchableUsers')
+    //console.log('getSearchableUsers')
     try {
       const res = await axios.get('/api/auth/users');
       dispatch ({ type: GET_SEARCHABLE_USERS, payload: res.data });
@@ -32,19 +32,19 @@ const SearchableUsersState = props => {
 
   //filter searchable users
   const filterSearchableUsers = async text => {
-    //console.log(''filterSearchableUsers')
+    //console.log('filterSearchableUsers')
     dispatch({ type: FILTER_SEARCHABLE_USERS, payload: text });
   };
 
   //clear searchable users filter
   const clearSearchableUsersFilter = async () => {
-    //console.log(''clearSearchableUsersFilter')
+    //console.log('clearSearchableUsersFilter')
     dispatch({ type: CLEAR_SEARCHABLE_USERS_FILTER });
   };
 
   //clear searchable users
   const clearSearchableUsers = async () => {
-    //console.log(''clearSearchableUsers')
+    //console.log('clearSearchableUsers')
     dispatch({ type: CLEAR_SEARCHABLE_USERS });
   };
 

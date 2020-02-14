@@ -54,6 +54,13 @@ const CompInfo = ({goal, time, record, value, isStarted}) => {
           </div>
         </li>
       }
+      {type === 'difference' && record[0] === 0 && 
+        <li className='table-info lr-border'>
+          <span>
+            Make sure to enter your starting value!
+          </span>
+        </li>
+      }
     </React.Fragment>
   )
 }

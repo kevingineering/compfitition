@@ -24,7 +24,7 @@ const RequestState = props => {
 
   //get user requests
   const getRequests = async () => {
-    //console.log(''getRequests')
+    //console.log('getRequests')
     try {
       setLoading();
       const res = await axios.get('/api/requests');
@@ -36,7 +36,7 @@ const RequestState = props => {
 
   //add request
   const addRequest = async _id => {
-    //console.log(''addRequest')
+    //console.log('addRequest')
     try {
       setLoading();
       const res = await axios.post(`/api/requests/${_id}`);
@@ -48,7 +48,7 @@ const RequestState = props => {
   
   //delete request - takes place after delete request you sent, accept request other sent, or reject request other sent 
   const deleteRequest = async _id => {
-    //console.log(''deleteRequest')
+    //console.log('deleteRequest')
     try {
       setLoading();
       const res = await axios.delete(`/api/requests/${_id}`);
@@ -60,13 +60,13 @@ const RequestState = props => {
 
   //set loading
   const setLoading = () => {
-    //console.log(''setLoading')
+    //console.log('setLoading')
     return { type: SET_REQUESTS_LOADING }
   };
 
   //clear requests
   const clearRequests = () => {
-    //console.log(''clearRequests')
+    //console.log('clearRequests')
     dispatch({ type: CLEAR_REQUESTS });
   };
 

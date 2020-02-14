@@ -28,9 +28,6 @@ const CompetitionForm = () => {
     initialValue: 0,
     started: false
   });
-
-  //only attribute from competition model that can be set by the user
-  const [isMax, setIsMax] = useState(true);  
   
   //runs necessary functions before redirect
   const [isSubmit, setIsSubmit] = useState(false);
@@ -56,8 +53,6 @@ const CompetitionForm = () => {
         setAlert('This competition has already begun, so some attributes cannot be changed.')
       }
     }
-    if (Object.entries(competition).length !== 0)
-      setIsMax(competition.isMax)
     //eslint-disable-next-line
   }, [])
 
@@ -67,7 +62,7 @@ const CompetitionForm = () => {
   useEffect(() => {
     if (isSubmit && !isUpdate) {
       let temp = async () => {
-        await addCompetition(goalCurrent._id, isMax);
+        await addCompetition(goalCurrent._id);
         clearAlert();
         history.push('/competition');
       }
@@ -89,7 +84,7 @@ const CompetitionForm = () => {
   const { name, duration, startDate, type, units, total, isPrivate, initialValue, started } = goal;
   
   //add or update competition
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     
     //verify dates
@@ -109,7 +104,7 @@ const CompetitionForm = () => {
     if(name && duration && startDate && type && total && (units || type === 'pass/fail')) {
       //add/update competition and tell user
       if (message === 'Modify Competition') {
-        await updateCompetition({goal, _id: competition._id, isMax});
+        await updateCompetition({goal, _id: competition._id});
         setAlert('Competition updated!', true);
       } else {
         await addGoal(goal);
@@ -142,6 +137,13 @@ const CompetitionForm = () => {
   const handleClick = e => {
     setGoal({ ...goal, isPrivate: !isPrivate });
   };
+
+  const handleSlider = () => {
+    if (total === -1)
+      setGoal({ ...goal, total: 7})
+    else
+      setGoal({ ...goal, total: -1})
+  }
   
   const message = Object.entries(goalCurrent).length ? 'Modify Competition' : 'Add Competition';
 
@@ -265,29 +267,29 @@ const CompetitionForm = () => {
             {isPrivate ? 'Only participants can see this competition.' : 'Friends of participants can see this competition.'}
           </span>
         </div>
-        {/* isMax */}
-        <div className="form-group">
-          <label className='block'>
-            How is this competition decided?
-          </label>
-          <label className='switch'>
-            <input
-              type='checkbox'
-              checked={isMax}
-              onChange={() => setIsMax(!isMax)}
-            />
-            <span className='slider round'/>
-          </label>
-          <span className='register-span'>
-            This competition is won by the user with the
-            {type === 'pass/fail' && 
-              ((isMax ? ' highest ' : 'lowest ') + 'number of checked days.')} 
-            {type === 'total' && 
-              ((isMax ? ' highest ' : 'lowest ') + `total ${units}.`)} 
-            {type === 'difference' && 
-              (' biggest ' + (isMax ? 'positive ' : 'negative ') + 'change.')}
-          </span>
-        </div>
+        {/* Total */}
+        {type !== 'pass/fail' && 
+          <div className="form-group">
+            <label className='block'>
+              How is this competition decided?
+            </label>
+            <label className='switch'>
+              <input
+                type='checkbox'
+                checked={total === -1}
+                onChange={handleSlider}
+              />
+              <span className='slider round'/>
+            </label>
+            <span className='register-span'>
+              This competition is won by the user with the
+              {type === 'total' && 
+                ((total !== -1 ? ' highest ' : ' lowest ') + `total ${units}.`)} 
+              {type === 'difference' && 
+                (' biggest ' + (total !== -1 ? 'positive ' : 'negative ') + 'change.')}
+            </span>
+          </div>
+        }
         {/* Submit */}
         <input 
           type='submit' 

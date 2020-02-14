@@ -44,13 +44,14 @@ const CompetitionPage = () => {
   //create competitionArray
   useEffect(() => {
     if(competitionParticipants.length !== 0 && competitionGoals.length !== 0) {
+      let isMax = (goalCurrent.total !== -1)
       let array = CreateArray(
         competitionParticipants, 
         competitionGoals, 
         type, 
         time, 
         duration, 
-        competition.isMax
+        isMax
       );
       setCompetitionArray(array);
     }

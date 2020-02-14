@@ -23,7 +23,7 @@ const InviteState = props => {
 
   //get user invites
   const getInvites = async () => {
-    //console.log(''getInvites')
+    //console.log('getInvites')
     try {
       setLoading();
       // const res = await axios.get('/api/invites');
@@ -35,7 +35,7 @@ const InviteState = props => {
 
   //add invite
   const addInvite = async invite => {
-    //console.log(''addInvite')
+    //console.log('addInvite')
     try {
       setLoading();
       // const res = await axios.post('/api/invites');
@@ -47,7 +47,7 @@ const InviteState = props => {
   
   //delete invite
   const deleteInvite = async _id => {
-    //console.log(''deleteInvite')
+    //console.log('deleteInvite')
     try {
       setLoading();
       // const res = await axios.delete(`/api/invites/${_id}`);
@@ -59,7 +59,7 @@ const InviteState = props => {
 
   //delete all invites associated with a competition
   const deleteInvites = async _id => {
-    //console.log(''deleteInvites')
+    //console.log('deleteInvites')
     try {
       setLoading();
       // const res = await axios.delete(`/api/invites/${_id}`);
@@ -71,13 +71,13 @@ const InviteState = props => {
 
   //set loading
   const setLoading = () => {
-    //console.log(''setLoading')
+    //console.log('setLoading')
     return { type: SET_INVITES_LOADING }
   };
 
   //clear invites
   const clearInvites = () => {
-    //console.log(''clearInvites')
+    //console.log('clearInvites')
     dispatch({ type: CLEAR_INVITES });
   };
 

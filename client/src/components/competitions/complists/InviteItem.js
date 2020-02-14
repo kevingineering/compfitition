@@ -18,7 +18,7 @@ const InviteItem = ({friend: {firstName, lastName}, isPending}) => {
           className='btn-participants btn-primary'
           onClick={() => setInviteToggle(!inviteToggle)}
         >
-          <i className={isPending ? 'fas fa-times' : 'fas fa-plus'}/>
+          <i className={inviteToggle ? 'fas fa-minus' : 'fas fa-plus'}/>
         </button>
       </div>
       {inviteToggle &&

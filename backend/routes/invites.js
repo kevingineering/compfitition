@@ -1,51 +1,32 @@
 const express = require('express');
-const router = express.Router();
-const Invite = require('../models/Invites');
-const User = require ('../models/Users');
 const auth = require('../middleware/auth');
+const inviteController = require('../controllers/inviteController');
 
-//get invites for user
-//GET api/invites
-//Private route
-router.get('/', auth, async(req, res) => {
-  try {
-    const invites = await Invite.find({ userId: req.user.id });
-    res.json(invites);
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
-});
+const router = express.Router();
 
-//create invite
-//POST api/invites/:id (user id)
-//Private route
-router.post('/:id', auth, async (req, res) => {
-  try {
-    const {compId, message, userId, startDate, type} = req.body
+router.get('/', 
+  auth, 
+  inviteController.addInvite  
+);
 
-    //add invite
-    const invite = new Invite({ 
-      compId, 
-      message,
-      userId, 
-      type,
-      expireAt: startDate
-    });
+router.post('/', 
+  auth, 
+  inviteController.addInvite
+);
 
-    await invite.save();
+router.delete('/:inviteid',
+  auth,
+  inviteController.deleteInvite
+)
 
-    //sending back both request
-    res.json({ msg: 'Message sent' });
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
-});
+router.delete('/:compid',
+  auth,
+  inviteController.deleteAllCompetitionInvites
+)
 
-//delete invite
-
-//delele all invites associated with competition
-
-//update expireat on all invites
-
+router.patch('/:compid',
+  auth,
+  inviteController.updateInviteExpirationDate
+)
 
 module.exports = router;

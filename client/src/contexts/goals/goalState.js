@@ -25,7 +25,7 @@ const GoalState = props => {
 
   const [state, dispatch] = useReducer(GoalReducer, initialState);
 
-  //set headers for addGoal, updateGoal, and updateGoalTracker
+  //set headers for requests with body
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ const GoalState = props => {
 
   //get user goals
   const getGoals = async () => {
-    //console.log(''getGoals')
+    //console.log('getGoals')
     try {
       //setLoading();
       const res = await axios.get('/api/goals');
@@ -46,7 +46,7 @@ const GoalState = props => {
 
   //add goal
   const addGoal = async goal => {
-    //console.log(''addGoal')
+    //console.log('addGoal')
     try {
       //setLoading();
       const res = await axios.post('/api/goals', goal, config);
@@ -59,7 +59,7 @@ const GoalState = props => {
 
   //delete goal
   const deleteGoal = async _id => {
-    //console.log(''deleteGoal')
+    //console.log('deleteGoal')
     try {
       //setLoading();
       await axios.delete(`/api/goals/${_id}`);
@@ -71,10 +71,10 @@ const GoalState = props => {
 
   //update goal
   const updateGoal = async goal => {
-    //console.log(''updateGoal')
+    //console.log('updateGoal')
     try {
       //setLoading();
-      const res = await axios.put(`/api/goals/${goal._id}`, goal, config);
+      const res = await axios.patch(`/api/goals/${goal._id}`, goal, config);
       dispatch({ type: UPDATE_GOAL, payload: res.data });
     } catch (err) {
       dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
@@ -83,12 +83,13 @@ const GoalState = props => {
 
   //update goal tracker
   const updateGoalTracker = async (tracker, _id) => {
-    //console.log(''updateGoalTracker')
+    //console.log('updateGoalTracker')
     try {
       //setLoading();
-      const res = await axios.put(`/api/goals/tracker/${_id}`, {tracker}, config);
+      const res = await axios.patch(`/api/goals/tracker/${_id}`, {tracker}, config);
       dispatch({ type: UPDATE_GOAL_TRACKER, payload: res.data });
     } catch (err) {
+      console.log(err)
       dispatch({ type: GOAL_ERROR, payload: err.response.data.msg });
     }
   }
@@ -100,19 +101,19 @@ const GoalState = props => {
 
   //set current
   const setCurrentGoal = _id => {
-    //console.log(''setCurrentGoal')
+    //console.log('setCurrentGoal')
     dispatch({ type: SET_CURRENT_GOAL, payload: _id });
   };
 
   //clear current
   const clearCurrentGoal = () => {
-    //console.log(''clearCurrentGoal')
+    //console.log('clearCurrentGoal')
     dispatch({ type: CLEAR_CURRENT_GOAL });
   };
 
   //clear goals
   const clearGoals = () => {
-    //console.log(''clearGoals')
+    //console.log('clearGoals')
     dispatch({ type: CLEAR_GOALS });
   };
 

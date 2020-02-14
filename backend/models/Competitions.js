@@ -16,11 +16,6 @@ const CompetitionSchema = mongoose.Schema({
   adminIds: {
     type: Array,
     required: true
-  },
-  //determines if highest or lowest number wins
-  isMax: {
-    type: Boolean,
-    required: true
   }
 });
 

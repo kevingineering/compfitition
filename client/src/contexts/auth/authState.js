@@ -41,7 +41,7 @@ const AuthState = props => {
 
   //get user data
   const getUser = async () => {
-    //console.log('''getUser')
+    //console.log('getUser')
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
@@ -56,7 +56,7 @@ const AuthState = props => {
 
   //log in user
   const loginUser = async formData => {
-    //console.log('''loginUser')
+    //console.log('loginUser')
     try {
       setLoading();
       const res = await axios.post('/api/auth', formData, config);
@@ -69,7 +69,7 @@ const AuthState = props => {
 
   //register new user
   const registerUser = async formData => {
-    //console.log(''registerUser')
+    //console.log('registerUser')
     try {
       setLoading();
       const res = await axios.post('/api/users', formData, config);
@@ -82,10 +82,10 @@ const AuthState = props => {
   
   //update user
   const updateUser = async user => {
-    //console.log(''updateUser')
+    //console.log('updateUser')
     try {
       setLoading();
-      const res = await axios.put(`/api/auth/${user._id}`, user, config);
+      const res = await axios.patch(`/api/auth/${user._id}`, user, config);
       dispatch({ type: UPDATE_SUCCESS, payload: { user: res.data.user, msg: res.data.msg }});
     } catch (err) {
       dispatch({ type: UPDATE_FAIL, payload: err.response.data.msg });
@@ -94,10 +94,10 @@ const AuthState = props => {
 
   //change user password
   const changeUserPassword = async (formData, _id) => {
-    //console.log(''changeUserPassword')
+    //console.log('changeUserPassword')
     try { 
       setLoading();
-      const res = await axios.put(`/api/auth/password/${_id}`, formData, config);
+      const res = await axios.patch(`/api/auth/password/${_id}`, formData, config);
       dispatch({ type: PASSWORD_SUCCESS, payload: res.data.msg });
     } catch (err) {
       dispatch({ type: PASSWORD_FAIL, payload: err.response.data.msg });
@@ -106,7 +106,7 @@ const AuthState = props => {
 
   //delete user
   const deleteUser = async (password, _id) => {
-    //console.log(''deleteUser')
+    //console.log('deleteUser')
     try {
       setLoading();
       const res = await axios.delete(`/api/auth/${_id}`, {
@@ -123,19 +123,19 @@ const AuthState = props => {
 
   //logout
   const logoutUser = () => {
-    //console.log(''logoutUser')
+    //console.log('logoutUser')
     dispatch({ type: LOGOUT });
   };
 
   //set loading
   const setLoading = () => {
-    //console.log(''setLoading')
+    //console.log('setLoading')
     dispatch({ type: SET_AUTH_LOADING });
   };
 
   //clear errors
   const clearUserErrors = () => {
-    //console.log(''clearUserErrors')
+    //console.log('clearUserErrors')
     dispatch({ type: CLEAR_AUTH_ERRORS });
   };
 
