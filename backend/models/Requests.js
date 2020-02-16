@@ -4,11 +4,11 @@ const RequestSchema = mongoose.Schema({
   //name is alias/name of individual sending request
   requester: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:'users'
+    ref:'Users'
   },
   requestee: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:'users'
+    ref:'Users'
   },
   firstName: {
     type: String,

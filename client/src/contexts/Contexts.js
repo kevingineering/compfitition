@@ -1,13 +1,13 @@
 import React from 'react';
 
-import GoalState from './contexts/goals/goalState';
-import AlertState from './contexts/alerts/alertState';
-import AuthState from './contexts/auth/authState';
-import SearchableUsersState from './contexts/searchableUsers/searchableUsersState';
-import RequestState from './contexts/requests/requestState';
-import FriendState from './contexts/friends/friendState';
-import CompetitionState from './contexts/competitions/competitionState';
-import InviteState from './contexts/invites/inviteState';
+import GoalState from './goals/goalState';
+import AlertState from './alerts/alertState';
+import AuthState from './auth/authState';
+import SearchableUsersState from './searchableUsers/searchableUsersState';
+import RequestState from './requests/requestState';
+import FriendState from './friends/friendState';
+import CompetitionState from './competitions/competitionState';
+import InviteState from './invites/inviteState';
 
 const Contexts = props => {
   return (

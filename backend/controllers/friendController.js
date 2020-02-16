@@ -26,21 +26,20 @@ const addFriend = async (req, res) => {
       const friend = await User.findByIdAndUpdate(
         req.params.userid,
         { $addToSet: { 'friends': req.user.id }},
-        { new: true },
-        { session: ses1 }
+        { new: true, session: ses1 }
       ).select('firstName lastName email alias _id ');
 
       await User.findByIdAndUpdate(
         req.user.id,
         { $addToSet: { 'friends': req.params.userid }},
-        { new: true }, 
-        { session: ses1 }
+        { new: true, session: ses1 }
     );
 
     await ses1.commitTransaction();
 
     res.json(friend);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ msg: 'Server error.' });
   }
 }
@@ -51,9 +50,9 @@ const deleteFriend = async (req, res) => {
     return res.json({msg: 'You cannot delete yourself as a friend!'})
   
   try {
-
     const ses1 = await mongoose.startSession();
       ses1.startTransaction();
+
       await User.findByIdAndUpdate(
         req.params.userid,
         { $pull: { 'friends': req.user.id }},

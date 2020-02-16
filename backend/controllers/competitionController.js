@@ -45,7 +45,7 @@ const getCompetitionParticipants = async(req, res) => {
   }
 }
 
-const createCompetitionByGoalId = async(req, res) => {
+const createCompetitionByGoalId = async (req, res) => {
   try {
     //verify goal exists
     let goal = await Goal.findById(req.params.goalid).select('-_id');
@@ -70,8 +70,7 @@ const createCompetitionByGoalId = async(req, res) => {
       goal = await Goal.findByIdAndUpdate(
         req.params.goalid, 
         { $set: {user: competition._id} },
-        { new: true },
-        { session: ses1 }
+        { new: true, session: ses1 },
       );
 
       //if type is difference, change start value to 0 
@@ -98,6 +97,7 @@ const createCompetitionByGoalId = async(req, res) => {
 
     res.json(competition);
   } catch (err) {
+    console.log(err)
     res.status(500).json({ msg: 'Server error.' });
   }
 }
@@ -119,7 +119,10 @@ const deleteCompetition = async(req, res) => {
       ses1.startTransaction();
 
       //delete competition
-      await Competition.findByIdAndDelete(req.params.compid, { session: ses1 });
+      await Competition.findByIdAndDelete(
+        req.params.compid, 
+        { session: ses1 }
+      );
     
       //delete template goal
       await Goal.findOneAndDelete(
@@ -268,8 +271,7 @@ const updateCompetition = async(req, res) => {
           await Goal.findOneAndUpdate(
             { user: req.params.compid },
             { $set: goalFields, $push: { tracker: { $each: [ ], $slice: newDuration }}}, 
-            { new: true }, 
-            { session: ses1 }
+            { new: true, session: ses1 }
           );
           //update user goals
           await Goal.updateMany(
@@ -330,8 +332,7 @@ const addUserToCompetition = async(req, res) => {
       competition = await Competition.findByIdAndUpdate(
         req.params.compid,
         { $addToSet: { 'userIds': req.user.id }},
-        { new: true },
-        { session: ses1 }
+        { new: true, session: ses1 }
       );
 
     await ses1.commitTransaction();
@@ -418,8 +419,7 @@ const kickUserFromCompetition = async(req, res) => {
       competition = await Competition.findByIdAndUpdate(
         req.params.compid,
         { $pull: { 'userIds': kickeeId }},
-        { new: true }, 
-        { session: ses1 }
+        { new: true, session: ses1 }
       );
     await ses1.commitTransaction();
 

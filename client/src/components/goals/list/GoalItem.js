@@ -55,7 +55,7 @@ const GoalItem = ({isOwner, isGoal, goal: { _id, name, startDate, duration, trac
             to={isGoal ? (
                 isOwner ? '/goal' : '/friend/goal'
               ) : (
-                isOwner ? '/competition' : '/friend/competition'
+                isOwner ? '/competition/true' : '/competition/false'
             )}>
             {name}
           </Link>

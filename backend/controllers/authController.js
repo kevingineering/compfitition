@@ -160,7 +160,10 @@ const deleteUser = async (req, res) => {
       ses1.startTransaction();
 
       //delete user goals
-      await Goal.deleteMany({ user: req.params.userid }, { session: ses1});
+      await Goal.deleteMany(
+        { user: req.params.userid }, 
+        { session: ses1}
+      );
 
       //delete user requests
       await Request.deleteMany(
@@ -178,7 +181,10 @@ const deleteUser = async (req, res) => {
       //TODO delete user invites
 
       //delete user
-      await User.findByIdAndDelete(req.params.userid, { session: ses1 });
+      await User.findByIdAndDelete(
+        req.params.userid, 
+        { session: ses1 }
+      );
 
     await ses1.commitTransaction();
 

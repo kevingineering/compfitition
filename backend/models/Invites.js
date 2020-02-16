@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const InviteSchema = mongoose.Schema({
-  //goal is ID of goal prototype
+  //goal is ID of template goal
   compId: { 
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'goals',
+    ref: 'Goal',
     required: true
   },
   //message will be displayed to invitee
@@ -15,7 +15,7 @@ const InviteSchema = mongoose.Schema({
   //id of user who has been invited
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users',
+    ref: 'User',
     required: true
   },
   //deltes the invite after a certain date

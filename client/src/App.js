@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import Contexts from './Contexts';
+import Contexts from './contexts/Contexts';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
 
@@ -46,7 +46,7 @@ const App = () => {
             <PrivateRoute exact path='/friend' component={FriendPage}/>
             <PrivateRoute exact path='/friend/goal' component={FriendGoalPage}/>
             <PrivateRoute exact path='/competitionform' component={CompetitionForm}/>
-            <PrivateRoute exact path='/competition' component={CompetitionPage}/>
+            <PrivateRoute path='/competition/:participant' component={CompetitionPage}/>
             <Route component={NotFound}/>
           </Switch>
         </div>

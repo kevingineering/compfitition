@@ -1,10 +1,26 @@
 const mongoose = require('mongoose');
 
+//note that there are three kinds of goals:
+  //solo goal
+      //created when a user adds a goal
+      //has userId as user
+      //compId is null
+  //user competition goal
+      //created from template goal when a user joins a competition (including the user who created the competition)
+      //if competition is deleted, becomes a solo goal
+      //has userId as user
+      //compId is id of competition
+  //competition template goal
+      //created when user adds a competition
+      //user competition goals are created by copying this goal
+      //has compId as user
+      //compId is null
+        //otherwise competition would find it when getting user goals which is not desired
 const GoalSchema = mongoose.Schema({
-  // user is ID of user
+  // user is ID of user or ID of competition (for template goal)
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:'users'
+    ref:'User'
   },
   // name is name of goal
   name: {
@@ -34,9 +50,9 @@ const GoalSchema = mongoose.Schema({
     type: String
   },
   // total is either: 
-    // for type 'pass/fail' - number of times per week (7 is daily, minimum 1)
-    // for 'total' and 'difference' goals - number of units a user wishes to achieve or gain/lose for 'total' and 'difference'
-    // for 'difference' competitions - 1 means highest score wins, -1 means lowest score wins
+    // for type 'pass/fail': number of times per week (7 is daily, minimum 1)
+    // for 'total' and 'difference' solo goals: number of units a user wishes to achieve or gain/lose for 'total' and 'difference'
+    // for 'total' and 'difference' competitions: -1 means lowest score wins, any other number means highest score wins
   total: {
     type: Number,
     required: true
@@ -50,7 +66,7 @@ const GoalSchema = mongoose.Schema({
   compId: {
     type: mongoose.Schema.Types.ObjectId,
     default: null,
-    ref: 'competitions'
+    ref: 'Competition'
   },
   // tracker is an array that keeps track of pass/fail, total units, or starting/intermediate/finishing numbers (think weight loss)
   // tracker array is created by backend

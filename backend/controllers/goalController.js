@@ -136,7 +136,8 @@ const updateGoalTracker = async (req, res) => {
 const deleteGoal = async (req, res) => {
   try {
     //verify goal exists
-    let goal = await Goal.findById(req.params.goalid);
+    let goal = await Goal.findById
+    (req.params.goalid);
     if(!goal) 
       return res.status(404).json({ msg: 'Goal not found.'});
 

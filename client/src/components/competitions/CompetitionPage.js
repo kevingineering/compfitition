@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import GoalContext from '../../contexts/goals/goalContext';
+import FriendContext from '../../contexts/friends/friendContext';
 import CompetitionContext from '../../contexts/competitions/competitionContext';
 import AlertContext from '../../contexts/alerts/alertContext';
 import AuthContext from '../../contexts/auth/authContext';
@@ -10,14 +11,20 @@ import moment from 'moment';
 import CompetitionTable from './comptable/CompetitionTable';
 import CreateArray from './comptable/CreateArray';
 
-const CompetitionPage = () => {
+const CompetitionPage = (props) => {
   const { goalCurrent, setCurrentGoal } = useContext(GoalContext);
 
-  const {startDate, duration, type} = goalCurrent;
-  
-  const { setAlert, clearAlert } = useContext(AlertContext);
+  const { friendCurrentGoal } = useContext(FriendContext);
 
+  const { setAlert, clearAlert } = useContext(AlertContext);
+  
   const [competitionArray, setCompetitionArray] = useState([]);
+  
+  let goalUsed;
+  
+  goalUsed = (props.match.params.participant === 'true') ? goalCurrent : friendCurrentGoal;
+  
+  const {startDate, duration, type, total} = goalUsed;
 
   const { 
     getCompetitionGoals, 
@@ -44,7 +51,7 @@ const CompetitionPage = () => {
   //create competitionArray
   useEffect(() => {
     if(competitionParticipants.length !== 0 && competitionGoals.length !== 0) {
-      let isMax = (goalCurrent.total !== -1)
+      let isMax = (total !== -1)
       let array = CreateArray(
         competitionParticipants, 
         competitionGoals, 

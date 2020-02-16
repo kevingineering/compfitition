@@ -33,7 +33,7 @@ const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
   return (
     <React.Fragment>
       {/* SaveButton */}
-      { isStarted && isOwner &&
+      { isStarted && isOwner && isActive &&
         <React.Fragment>
           <button 
             className='btn btn-primary btn-block' 
