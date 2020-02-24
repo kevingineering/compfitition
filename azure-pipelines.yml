@@ -7,11 +7,10 @@
 trigger:
 - master
 
-#pool is collection of resources, here we pull from the ubuntu pool
+#pool is collection of virtual machines waiting for builds to process, here we pull from the ubuntu pool
 pool:
   vmImage: 'ubuntu-latest'
 
-#steps - run sequencially
 steps:
 #tasks are prepackaged scripts - there is a task built for using node, so we don't have to write a script to install it
 - task: NodeTool@0
@@ -19,7 +18,6 @@ steps:
     versionSpec: '12.x'
   displayName: 'Install Node.js'
 
-  # originally npm install and npm run build, added prefixes
 - script: npm install --prefix client
   displayName: 'Install client dependencies'
 
@@ -30,14 +28,20 @@ steps:
     npm run build
   displayName: 'Build app'
 
+#bundles up code to a zip file
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(System.DefaultWorkingDirector)'
     includeRootFolder: false
 
-- task: AzureWebApp@1
-  inputs: 
-    azureSubscription: c305819f-2f31-461b-9853-0a122e2cc497
-    appName: Compfitition
-    package: '$(System.DefaultWorkingDirectory)'
-    customWebConfig: '-Handler iisnode -NodeStartFile backend/server.js -appType node'
+#publish build as artifact
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts'
+
+# #deploy azure web app
+# - task: AzureWebApp@1
+#   inputs: 
+#     azureSubscription: Compfitition Subscription
+#     appName: Compfitition
+#     package: '$(System.ArtifactsDirectory)/**/*.zip'
+#     customWebConfig: '-Handler iisnode -NodeStartFile backend/server.js -appType node'
