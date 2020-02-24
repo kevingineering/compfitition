@@ -27,7 +27,7 @@ steps:
   displayName: 'Install backend dependencies'
 
 - script: npm run server 
-displayName: 'Start server'
+  displayName: 'Start server'
 
 - script: npm run build 
   displayName: 'Build app'
