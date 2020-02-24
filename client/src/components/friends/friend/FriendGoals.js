@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
-import FriendContext from '../../../contexts/friends/friendContext';
 import moment from 'moment';
+import FriendContext from '../../../contexts/friends/friendContext';
 import GoalTable from '../../goals/list/GoalTable';
 
 const FriendGoals = () => {

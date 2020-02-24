@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ParticipantItem from './ParticipantItem';
 
 const Participants = ({participants, isAdminView, compId}) => {
@@ -39,6 +40,12 @@ const Participants = ({participants, isAdminView, compId}) => {
       </ul>
     </div>
   )
+}
+
+Participants.propTypes = {
+  participants: PropTypes.array.isRequired,
+  isAdminView: PropTypes.bool.isRequired,
+  compId: PropTypes.string.isRequired
 }
 
 export default Participants;

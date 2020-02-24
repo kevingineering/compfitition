@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import CompetitionContext from '../../../contexts/competitions/competitionContext';
 
 const ParticipantItem = ({participant: {_id, firstName, lastName}, isAdminView, compId}) => {
@@ -34,7 +35,7 @@ const ParticipantItem = ({participant: {_id, firstName, lastName}, isAdminView, 
         <React.Fragment>
           <button 
             className='btn btn-split btn-primary' 
-            onClick={console.log('send admin invite')}
+            onClick={console.log('send admin letter')}
           >
             Make Admin
           </button>
@@ -67,6 +68,10 @@ const ParticipantItem = ({participant: {_id, firstName, lastName}, isAdminView, 
       }
     </React.Fragment>
   )
+}
+
+ParticipantItem.propTypes = {
+  participant: PropTypes.object.isRequired
 }
 
 export default ParticipantItem;

@@ -17,14 +17,13 @@ app.use(express.json({ extended: false }));
 //note also that .use functions are not called when the server starts, but are stored as callback functions that run when requests get sent
 app.use('/api/goals', require('./routes/goals'));
 app.use('/api/users', require('./routes/users'));
-app.use('/api/auth', require('./routes/auth'));
 app.use('/api/requests', require('./routes/requests'));
 app.use('/api/friends', require('./routes/friends'));
 app.use('/api/competitions', require('./routes/competitions'));
-app.use('/api/invites', require('./routes/invites'));
+app.use('/api/letters', require('./routes/letters'));
 
 //error handler for unsupported routes
-app.use((req, res, next) => {
+app.use((req, res) => {
   return res.status(404).json({msg: 'This route could not be found.'})
 })
 

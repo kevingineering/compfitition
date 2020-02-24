@@ -9,22 +9,22 @@ router.get('/',
   friendController.getUserFriends
 );
 
-router.patch('/add/:userid', 
+router.patch('/add/:userId', 
   auth, 
   friendController.addFriend
 );
 
-router.patch('/remove/:userid', 
+router.patch('/remove/:userId', 
   auth, 
   friendController.deleteFriend
 );
 
-router.get('/goals/:userid', 
+router.get('/goals/:userId', 
   auth, 
   friendController.getFriendGoals
 );
 
-router.get('/friends/:userid', 
+router.get('/friends/:userId', 
   auth, 
   friendController.getFriendFriends
 );

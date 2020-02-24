@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import GoalContext from '../../../contexts/goals/goalContext';
 import CompetitionContext from '../../../contexts/competitions/competitionContext';
 import GoalProgress from '../../goals/page/GoalProgress';
@@ -110,6 +111,15 @@ const CompetitionTable = ({isAdminView, isStarted, isActive, isComplete, time, c
       )}
     </div>
   )
+}
+
+CompetitionTable.propTypes = {
+  isAdminView: PropTypes.bool.isRequired,
+  isStarted: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  isComplete: PropTypes.bool.isRequired,
+  time: PropTypes.number.isRequired,
+  competitionArray: PropTypes.array.isRequired
 }
 
 export default CompetitionTable;

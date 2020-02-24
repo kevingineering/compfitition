@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import FriendContext from '../../../contexts/friends/friendContext';
-import PropTypes from 'prop-types';
 
 const DeleteFriend = ({_id})=> {
   const friendContext = useContext(FriendContext);
@@ -22,7 +22,7 @@ const DeleteFriend = ({_id})=> {
         <input
           type='button'
           value='Delete Friend?'
-          className='btn btn-primary btn-block btn-h2'
+          className='btn btn-block btn-primary btn-h2'
           onClick={() => setDeleteToggle(true)}
         />
         {deleteToggle && (
@@ -33,7 +33,7 @@ const DeleteFriend = ({_id})=> {
             <input
               type='button'
               value='No'
-              className='btn btn-primary btn-block'
+              className='btn btn-block btn-primary'
               onClick={() => setDeleteToggle(false)}
             />
             <input

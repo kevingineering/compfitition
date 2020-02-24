@@ -1,23 +1,23 @@
-const Goal = require('../models/Goals');
 const { validateGoalRequest } = require('../controllers/validation');
 const { createTracker, updateTracker } = require('./goalFunctions');
+const goalService = require('../services/goal');
 
-const getGoals = async(req, res) => {
+exports.getGoals = async(req, res) => {
   try {
-    const goals = await Goal.find({ user: req.user.id }).sort({ startDate: 1 });
+    const goals = await goalService.getGoalsByUserId(req.user.id);
     res.json(goals);
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }
 }
 
-const addGoal = async (req, res) => {
+exports.addGoal = async (req, res) => {
   //check request for errors
   const msg = validateGoalRequest(req.body);
   if (msg) 
     return res.status(422).json({ msg: msg });
 
-  const { name, duration, startDate, type, units, total,  isPrivate, initialValue } = req.body;
+  const { name, duration, startDate, type, units, total, isPrivate, initialValue } = req.body;
   
   //fix duration if pass/fail
   let newDuration = duration;
@@ -29,7 +29,7 @@ const addGoal = async (req, res) => {
   let tracker = createTracker(newDuration, total, type);
 
   try {
-    const goal = new Goal({ 
+    const goalFields = { 
       user: req.user.id, 
       name, 
       duration: newDuration, 
@@ -39,20 +39,21 @@ const addGoal = async (req, res) => {
       total,
       isPrivate, 
       tracker
-    });
-    await goal.save();
+    };
+
+    const goal = await goalService.addNewGoal(goalFields);
     res.json(goal);
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }
 }
 
-const updateGoal = async (req, res) => {
+exports.updateGoal = async (req, res) => {
   try {
     const { name, duration, startDate, type, units, total, isPrivate, tracker, initialValue } = req.body;
     
     //verify goal exists
-    let goal = await Goal.findById(req.params.goalid);
+    let goal = await goalService.getGoalById(req.params.goalId);
     if(!goal) 
       return res.status(404).json({ msg: 'Goal not found.'});
 
@@ -96,23 +97,19 @@ const updateGoal = async (req, res) => {
     goalFields.tracker = newTracker;
 
     //update goal
-    goal = await Goal.findByIdAndUpdate(
-      req.params.goalid,
-      { $set: goalFields },
-      { new: true}
-    );
-
-    res.json(goal);
+    const newGoal = await goalService.updateGoalById(req.params.goalId, goalFields)
+    res.json(newGoal);
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }
 }
 
-const updateGoalTracker = async (req, res) => {
+exports.updateGoalTracker = async (req, res) => {
   const tracker = req.body;
   try {
     //verify goal exists
-    let goal = await Goal.findById(req.params.goalid);
+    let goal = await goalService.getGoalById(req.params.goalId);
+
     if(!goal) 
       return res.status(404).json({ msg: 'Goal not found.'});
 
@@ -122,22 +119,17 @@ const updateGoalTracker = async (req, res) => {
 
     //update goal - new option returns the new goal (default is false and returns old goal)
     //tracker is passed in as object, so it works with $set
-    goal = await Goal.findByIdAndUpdate(
-      req.params.goalid,
-      { $set: tracker },
-      { new: true }
-    );
-    res.json(goal);
+    const newGoal = await goalService.updateGoalById(req.params.goalId, tracker)
+    res.json(newGoal);
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }
 }
 
-const deleteGoal = async (req, res) => {
+exports.deleteGoal = async (req, res) => {
   try {
     //verify goal exists
-    let goal = await Goal.findById
-    (req.params.goalid);
+    let goal = await goalService.getGoalById(req.params.goalId);
     if(!goal) 
       return res.status(404).json({ msg: 'Goal not found.'});
 
@@ -146,15 +138,9 @@ const deleteGoal = async (req, res) => {
       return res.status(401).json({ msg: 'User is not authorized to perform this action.'});
 
     //delete goal
-    await Goal.findByIdAndDelete(req.params.goalid);
+    await goalService.deleteGoalById(req.params.goalId);
     res.json({ msg: 'Goal deleted.'});
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }
 }
-
-exports.getGoals = getGoals;
-exports.addGoal = addGoal;
-exports.updateGoal = updateGoal;
-exports.updateGoalTracker = updateGoalTracker;
-exports.deleteGoal = deleteGoal;

@@ -87,6 +87,7 @@ const GoalItem = ({isOwner, isGoal, goal: { _id, name, startDate, duration, trac
 
 GoalItem.propTypes = {
   goal: PropTypes.object.isRequired,
+  isGoal: PropTypes.bool.isRequired,
   isOwner: PropTypes.bool.isRequired
 }
 

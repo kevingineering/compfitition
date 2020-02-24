@@ -1,5 +1,6 @@
 import React from 'react';
 import Chart from 'react-google-charts';
+import PropTypes from 'prop-types';
 
 const CompChartDifference = ({competitionArray, units, time, duration}) => {
 
@@ -89,6 +90,13 @@ const CompChartDifference = ({competitionArray, units, time, duration}) => {
       />
     </div>
   )
+}
+
+CompChartDifference.propTypes = {
+  competitionArray: PropTypes.array.isRequired,
+  units: PropTypes.string.isRequired,
+  time: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired
 }
 
 export default CompChartDifference;

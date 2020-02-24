@@ -1,6 +1,7 @@
 import React from 'react';
 import { round } from 'mathjs';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 const GoalInfo = ({goal, time, record, value, isStarted}) => {
 
@@ -94,4 +95,11 @@ const GoalInfo = ({goal, time, record, value, isStarted}) => {
   )
 }
 
+GoalInfo.propTypes = {
+  goal: PropTypes.object.isRequired,
+  time: PropTypes.number.isRequired,
+  record: PropTypes.array.isRequired,
+  value: PropTypes.number.isRequired,
+  isStarted: PropTypes.bool.isRequired
+}
 export default GoalInfo;

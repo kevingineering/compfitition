@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import GoalInfo from '../../goals/page/GoalInfo';
 import FriendContext from '../../../contexts/friends/friendContext';
 import GoalChart from '../../goals/page/GoalChart';
-import { useHistory } from 'react-router-dom';
 
 const FriendGoalPage = () => {
 

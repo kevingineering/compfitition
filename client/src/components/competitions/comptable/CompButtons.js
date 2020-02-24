@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import CompetitionContext from '../../../contexts/competitions/competitionContext';
 import GoalContext from '../../../contexts/goals/goalContext';
 import AlertContext from '../../../contexts/alerts/alertContext';
-import { Link, useHistory } from 'react-router-dom';
 
 const CompButtons = ({isAdminView, isOwner, isStarted, isActive, handleSave, record}) => {
 
@@ -41,7 +42,7 @@ const CompButtons = ({isAdminView, isOwner, isStarted, isActive, handleSave, rec
       { isStarted && isOwner &&
         <React.Fragment>
           <button 
-            className='btn btn-primary btn-block' 
+            className='btn btn-block btn-primary' 
             onClick={() => handleSave(record)}
           >
             Save Progress
@@ -54,7 +55,7 @@ const CompButtons = ({isAdminView, isOwner, isStarted, isActive, handleSave, rec
           <p className='lr-border' />
           <Link 
             to='/competitionform' 
-            className='btn btn-primary btn-block center' 
+            className='btn btn-block btn-primary center' 
             onClick={clearAlert}
           >
             Modify Competition
@@ -66,7 +67,7 @@ const CompButtons = ({isAdminView, isOwner, isStarted, isActive, handleSave, rec
         <React.Fragment>
           <p className='lr-border'/>
           <button 
-            className='btn btn-primary btn-block' 
+            className='btn btn-block btn-primary' 
             onClick={() => setDeleteToggle(true)}
           >
             Delete Competition
@@ -93,6 +94,15 @@ const CompButtons = ({isAdminView, isOwner, isStarted, isActive, handleSave, rec
       {(!isStarted || !isActive) && !isAdminView && <hr/>}
     </React.Fragment>
   )
+}
+
+CompButtons.propTypes = {
+  isAdminView: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  isStarted: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  handleSave: PropTypes.func.isRequired,
+  record: PropTypes.array.isRequired,
 }
 
 export default CompButtons;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const GoalProgress = ({type, time, record, setRecord, units}) => {
 
@@ -71,6 +72,7 @@ const GoalProgress = ({type, time, record, setRecord, units}) => {
             name='today' 
             onChange={handleChange}
             min='0'
+            max='1000000'
           />
           {units}
         </span>
@@ -90,6 +92,7 @@ const GoalProgress = ({type, time, record, setRecord, units}) => {
                 name='yesterday' 
                 onChange={handleChange}
                 min='0'
+                max='1000000'
               />
               {units}
             </span>
@@ -99,6 +102,14 @@ const GoalProgress = ({type, time, record, setRecord, units}) => {
       <hr/>
     </React.Fragment>
   )
+}
+
+GoalProgress.propTypes = {
+  type: PropTypes.string.isRequired,
+  time: PropTypes.number.isRequired,
+  record: PropTypes.array.isRequired,
+  setRecord: PropTypes.func.isRequired,
+  units: PropTypes.number.isRequired
 }
 
 export default GoalProgress;

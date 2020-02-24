@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
+import moment from 'moment';
 import GoalContext from '../../../contexts/goals/goalContext';
 import GoalTable from './GoalTable';
-import moment from 'moment';
 
 const Goals = () => {
   const goalContext = useContext(GoalContext);

@@ -13,44 +13,44 @@ export default (state, action) => {
     case GET_INVITES:
       return {
         ...state,
-        invites: action.payload,
-        invitesLoading: false
+        letters: action.payload,
+        lettersLoading: false
       }
     case ADD_INVITE:
       return {
         ...state,
-        invites: [...state.invites, action.payload],
-        invitesLoading: false
+        letters: [...state.letters, action.payload],
+        lettersLoading: false
       }
     case DELETE_INVITE:
       return {
         ...state,
-        invites: state.invites.filter(invite => invite._id !== action.payload),
-        invitesLoading: false
+        letters: state.letters.filter(letter => letter._id !== action.payload),
+        lettersLoading: false
       }
     // case DELETE_INVITES:
     //   return {
     //     ...state,
-    //     invites: state.invites.filter(invite => invite._id !== action.payload._id),
-    //     invitesLoading: false
+    //     letters: state.letters.filter(letter => letter._id !== action.payload._id),
+    //     lettersLoading: false
     //   }
     case INVITE_ERROR:
       return {
         ...state,
-        invitesError: action.payload,
-        invitesLoading: false
+        lettersError: action.payload,
+        lettersLoading: false
       }
     case CLEAR_INVITES:
       return {
         ...state, 
-        invites: [],
-        invitesError: null,
-        invitesLoading: true
+        letters: [],
+        lettersError: null,
+        lettersLoading: true
       }
     case SET_INVITES_LOADING:
       return {
         ...state,
-        invitesLoading: true
+        lettersLoading: true
       }
     default: 
       return state;

@@ -4,17 +4,17 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon sever.js"
+    "server": "nodemon server.js"
   },
   "author": "kch",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
-    "config": "^3.2.4",
+    "config": "^3.2.5",
     "express": "^4.17.1",
-    "express-validator": "^6.3.1",
+    "express-validator": "^6.4.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.8.7",
-    "uuid": "^3.3.3"
+    "mongoose": "^5.9.1",
+    "uuid": "^3.4.0"
   }
 }

@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import GoalContext from '../../../contexts/goals/goalContext';
 import AlertContext from '../../../contexts/alerts/alertContext';
-import { Link, useHistory } from 'react-router-dom';
 
 const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
 
@@ -36,7 +37,7 @@ const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
       { isStarted && isOwner && isActive &&
         <React.Fragment>
           <button 
-            className='btn btn-primary btn-block' 
+            className='btn btn-block btn-primary' 
             onClick={() => handleSave(record)}
           >
             Save Goal
@@ -49,7 +50,7 @@ const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
         <React.Fragment>
           <Link 
             to='/goalform' 
-            className='btn btn-primary btn-block center' 
+            className='btn btn-block btn-primary center' 
             onClick={clearAlert}
           >
             Modify Goal
@@ -61,7 +62,7 @@ const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
         <React.Fragment>
           <p className='lr-border'/>
           <button 
-            className='btn btn-primary btn-block' 
+            className='btn btn-block btn-primary' 
             onClick={() => setDeleteToggle(true)}
           >
             Delete Goal
@@ -87,6 +88,14 @@ const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
       )}
     </React.Fragment>
   )
+}
+
+GoalButtons.propTypes = {
+  isStarted: PropTypes.bool.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  handleSave: PropTypes.func.isRequired,
+  record: PropTypes.array.isRequired
 }
 
 export default GoalButtons;

@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 import GoalContext from '../../contexts/goals/goalContext';
 import CompetitionContext from '../../contexts/competitions/competitionContext';
 import AlertContext from '../../contexts/alerts/alertContext';
-import moment from 'moment';
-import { useHistory } from 'react-router-dom';
 
 const CompetitionForm = () => {
   const goalContext = useContext(GoalContext);
@@ -181,6 +181,8 @@ const CompetitionForm = () => {
             name='duration' 
             onChange={handleChange}
             value={duration}
+            min='0'
+            max='3654'
           />
           {type === 'pass/fail' && !(Number.isInteger(duration / 7)) && (duration !== '') &&
             <span className='block small-text'>*Competition duration will be adjusted to {duration - (duration % 7) + 7} days to use full weeks.</span>
@@ -234,6 +236,7 @@ const CompetitionForm = () => {
                 onChange={handleChange}
                 value={initialValue}
                 min='0'
+                max='1000000'
               />
             </React.Fragment>
           )}
@@ -294,7 +297,6 @@ const CompetitionForm = () => {
         <input 
           type='submit' 
           value={message} 
-          className='btn btn-block btn-primary'
         />
       </form>
     </div>

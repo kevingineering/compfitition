@@ -1,6 +1,6 @@
 import React from 'react';
-import GoalItem from './GoalItem';
 import PropTypes from 'prop-types';
+import GoalItem from './GoalItem';
 
 const GoalList = ({goals, isOwner, isGoal, loading}) => {
   

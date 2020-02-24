@@ -460,9 +460,15 @@ textarea {
   background: var(--secondary-color);
 }
 
-input[type='submit'],
-button {
+input[type='submit'] {
   font: inherit;
+  display: block;
+  width: 100%;
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 0.4rem 1.3rem;
+  border: none;
+  cursor: pointer;
 }
 
 .form-group {
@@ -607,6 +613,17 @@ input:checked + .slider:before {
   display: inline-block;
   padding: 0.4rem 1.3rem;
   font-size: 1rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-standard {
+  font: inherit;
+  display: block;
+  width: 100%;
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  padding: 0.4rem 1.3rem;
   border: none;
   cursor: pointer;
 }

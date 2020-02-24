@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CompChartDifference from './CompChartDifference';
 import CompChartTotal from './CompChartTotal';
 
@@ -24,6 +25,12 @@ const CompChart = ({competitionArray, goal, time}) => {
       }
     </div>
   )
+}
+
+CompChart.propTypes = {
+  competitionArray: PropTypes.array.isRequired,
+  goal: PropTypes.object.isRequired,
+  time: PropTypes.number.isRequired
 }
 
 export default CompChart;

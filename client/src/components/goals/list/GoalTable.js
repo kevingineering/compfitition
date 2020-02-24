@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import GoalList from './GoalList';
 import PropTypes from 'prop-types';
+import GoalList from './GoalList';
 
 const GoalTable = ({goals, isPast, isGoal, isOwner, name, loading}) => {
   const [isOpen, setIsOpen] = useState(true);

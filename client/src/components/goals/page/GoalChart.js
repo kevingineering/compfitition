@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import GoalChartDifference from './GoalChartDifference';
 import GoalChartTotal from './GoalChartTotal';
 import GoalChartPassFail from './GoalChartPassFail';
@@ -40,6 +41,16 @@ const GoalChart = ({goal, record, setRecord, time, isComplete, isOwner, isStarte
       }
     </div>
   )
+}
+
+GoalChart.propTypes = {
+  goal: PropTypes.object.isRequired,
+  record: PropTypes.array.isRequired,
+  setRecord: PropTypes.func.isRequired,
+  time: PropTypes.number.isRequired,
+  isComplete: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  isStarted: PropTypes.bool.isRequired
 }
 
 export default GoalChart;

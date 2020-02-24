@@ -66,7 +66,7 @@ const SearchResults = () => {
   }
   return (
     <React.Fragment>
-      <p className='lr-border'/>
+      {searchableUsersFiltered.length !== 0 && <p className='lr-border'/>}
       {searchList}
     </React.Fragment>
   );

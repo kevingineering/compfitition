@@ -1,5 +1,6 @@
 import React from 'react';
 import Chart from 'react-google-charts';
+import PropTypes from 'prop-types';
 
 const CompChartTotal = ({competitionArray, units, type }) => {
 
@@ -86,4 +87,10 @@ const CompChartTotal = ({competitionArray, units, type }) => {
   )
 }
 
-export default CompChartTotal
+CompChartTotal.propTypes = {
+  competitionArray: PropTypes.array.isRequired,
+  units: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
+}
+
+export default CompChartTotal;

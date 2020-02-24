@@ -2,7 +2,7 @@
   //'total' - number of days
   //'difference' - number of days plus one (start value)
   //'pass/fail' - number of weeks times number of days per week
-const createTracker = (newDuration, total, type, initialValue) => {
+exports.createTracker = (newDuration, total, type, initialValue) => {
   let length = newDuration;
   if (type === 'pass/fail') {
     length = newDuration / 7 * total;
@@ -22,7 +22,7 @@ const createTracker = (newDuration, total, type, initialValue) => {
 }
 
 //update tracker
-const updateTracker = (newDuration, total, type, tracker) => {
+exports.updateTracker = (newDuration, total, type, tracker) => {
   let length = newDuration - tracker.length;
   if (type === 'pass/fail') {
     length = newDuration / 7 * total - tracker.length;
@@ -39,6 +39,3 @@ const updateTracker = (newDuration, total, type, tracker) => {
 
   return newTracker;
 }
-
-exports.createTracker = createTracker;
-exports.updateTracker = updateTracker;

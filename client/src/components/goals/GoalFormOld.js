@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 import GoalContext from '../../contexts/goals/goalContext';
 import AlertContext from '../../contexts/alerts/alertContext';
-import moment from 'moment';
-import { useHistory } from 'react-router-dom';
+import Input from '../formComponents/Input';
+import Switch from '../formComponents/Switch';
 
 const GoalForm = () => {
   const goalContext = useContext(GoalContext);
@@ -28,7 +30,7 @@ const GoalForm = () => {
   //tells when to redirect to new goal page
   const [isRedirect, setIsRedirect] = useState(false);
 
-  //on start, control if adding or updating goal
+  //on start, populate current if updating goal
   useEffect(() => {
     if (Object.entries(goalCurrent).length) {
       setGoal({ 
@@ -129,40 +131,45 @@ const GoalForm = () => {
       <h1>{message}</h1>
       <form onSubmit={handleSubmit} autoComplete='off'>
         {/* Name */}
-        <div className="form-group">
-          <label>Goal Name</label>
-          <input 
-            type='text' 
-            name='name' 
-            onChange={handleChange}
-            value={name}
-            autoFocus={true}
-          />
-        </div>
+        <Input
+          label='Goal Name'
+          type='text'
+          value={name}
+          name='name'
+          handleChange={handleChange}
+          autoFocus={true}
+        />
         {/* Start Date */}
-        <div className="form-group">
-          <label>Start Date</label>
-          <input 
-            disabled={started}
-            type='date' 
-            name='startDate' 
-            onChange={handleChange}
-            value={started ? moment.utc(startDate).format('YYYY-MM-DD') : moment(startDate).format('YYYY-MM-DD')}
-          />
-        </div>
+        <Input
+          label='Start Date'
+          type='date'
+          value={started ? 
+            moment.utc(startDate).format('YYYY-MM-DD') : 
+            moment(startDate).format('YYYY-MM-DD')}
+          name='startDate'
+          handleChange={handleChange}
+          disabled={started}
+        />
         {/* Duration */}
-        <div className="form-group">
-          <label>Goal Duration (days)</label>
-          <input 
-            type='number' 
-            name='duration' 
-            onChange={handleChange}
-            value={duration}
-          />
-          {type === 'pass/fail' && !(Number.isInteger(duration / 7)) && (duration !== '') &&
-            <span className='block small-text'>*Goal duration will be adjusted to {duration - (duration % 7) + 7} days to use full weeks.</span>
+        <Input
+          label='Goal Duration (days)'
+          type='number'
+          value={duration}
+          name='duration'
+          handleChange={handleChange}
+          min='0'
+          max='3654'
+          warning={(
+              type === 'pass/fail' && 
+              !(Number.isInteger(duration / 7)) && 
+              (duration !== '')
+            ) ? (
+            <span className='block small-text'>
+              *Goal duration will be adjusted to {duration - (duration % 7) + 7} days to use full weeks.
+            </span>
+            ) : null
           }
-        </div>
+        />          
         {/* Type */}
         <div className="form-group">
           <label>What type of goal would you like?
@@ -172,9 +179,9 @@ const GoalForm = () => {
               value={type}
               onChange={handleChange}
             >
-              <option value='pass/fail'>Pass/Fail  (e.g. Stretch every day)</option>
-              <option value='total'>Total  (e.g. Run 100 miles)</option>
-              <option value='difference'>Difference  (e.g. Gain 10 lbs)</option>
+              <option value='pass/fail'>Pass/Fail (e.g. Stretch every day)</option>
+              <option value='total'>Total (e.g. Run 100 miles)</option>
+              <option value='difference'>Difference (e.g. Gain 10 lbs)</option>
             </select>  
           </label>
         </div>
@@ -199,74 +206,63 @@ const GoalForm = () => {
               </select>  
             </React.Fragment>
           )}
-          {type === 'total' && (
-            <React.Fragment>
-              <label>What total number do you want to hit?</label>
-              <input 
-                type='number' 
-                name='total' 
-                onChange={handleChange}
-                value={total}
-                min='0'
-              />
-            </React.Fragment>
-          )}
+          {type === 'total' && 
+            <Input
+              label='What total number do you want to hit?'
+              type='number'
+              value={total}
+              name='total'
+              handleChange={handleChange}
+              min='0'
+              max='1000000'
+            />
+          }
           {type === 'difference' && (
             <React.Fragment>
-              <label>What is your start number?</label>
-              <input 
-                disabled={started}
-                type='number' 
-                name='initialValue' 
-                onChange={handleChange}
+              <Input
+                label='What is your start number?'
+                type='number'
                 value={initialValue}
+                name='initialValue'
+                handleChange={handleChange}
                 min='0'
+                max='1000000'
               />
-              <label>What number do you want to achieve?</label>
-              <input 
-                type='number' 
-                name='total' 
-                onChange={handleChange}
+              <Input
+                label='What number do you want to achieve?'
+                type='number'
                 value={total}
+                name='total'
+                handleChange={handleChange}
                 min='0'
+                max='1000000'
               />
             </React.Fragment>
           )}
         </div>
         {/* Units */}
         {type !== 'pass/fail' && (
-          <div className="form-group">
-            <label>Units (e.g lbs or miles)</label>
-            <input 
-              type='text' 
-              name='units' 
-              onChange={handleChange}
-              value={units}
-            />
-          </div> 
+          <Input
+            label='Units (e.g lbs or miles)'
+            type='text'
+            value={units}
+            name='units'
+            handleChange={handleChange}
+          />
         )}
         {/* isPrivate */}
-        <div className="form-group">
-          <label className='block'>
-            Who can see this goal?
-          </label>
-          <label className='switch'>
-            <input
-              type='checkbox'
-              checked={!isPrivate}
-              onChange={handleClick}
-            />
-            <span className='slider round'/>
-          </label>
-          <span className='register-span'>
-            {isPrivate ? 'Only I can see this goal.' : 'My friends can see this goal.'}
-          </span>
-        </div>
+        <Switch 
+          label='Who can see this goal?'
+          isChecked={!isPrivate}
+          name='isPrivate'
+          handleClick={handleClick}
+          msgChecked='Only I can see this goal.'
+          msgBlank='My friends can see this goal.'
+        />
         {/* Submit */}
         <input 
           type='submit' 
           value={message} 
-          className='btn btn-block btn-primary'
         />
       </form>
     </div>

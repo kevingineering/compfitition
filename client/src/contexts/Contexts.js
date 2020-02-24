@@ -7,7 +7,7 @@ import SearchableUsersState from './searchableUsers/searchableUsersState';
 import RequestState from './requests/requestState';
 import FriendState from './friends/friendState';
 import CompetitionState from './competitions/competitionState';
-import InviteState from './invites/inviteState';
+import LetterState from './letters/letterState';
 
 const Contexts = props => {
   return (
@@ -18,9 +18,9 @@ const Contexts = props => {
             <SearchableUsersState>
               <RequestState>
                 <CompetitionState>
-                  <InviteState>
+                  <LetterState>
                     {props.children}
-                  </InviteState>
+                  </LetterState>
                 </CompetitionState>
               </RequestState>
             </SearchableUsersState>

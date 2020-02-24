@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import userimg from '../../resources/userimg.png';
 import PropTypes from 'prop-types';
+import userimg from '../../resources/userimg.png';
 import RequestContext from '../../contexts/requests/requestContext';
 import FriendContext from '../../contexts/friends/friendContext';
 
@@ -15,21 +15,16 @@ const SearchItem = ({status, user: {firstName, lastName, email, _id}}) => {
   const friendContext = useContext(FriendContext);
   const { addFriend, setCurrentFriend } = friendContext;
 
-  //originally had each button a different color, changed them to all black/white
-  
   //configure button(s) based on status
   let buttonMsg = 'Add';
   let buttonClass = 'btn-primary';
   
   if (status === 'friend') {
     buttonMsg = 'Friend!';
-    //buttonClass = 'btn-blue';
   } else if (status === 'received') {
     buttonMsg = 'Accept';
-    //buttonClass = 'btn-success';
   } else if (status === 'sent') {
     buttonMsg = 'Delete';
-    //buttonClass = 'btn-danger';
   }
 
   const handleClick = e => {

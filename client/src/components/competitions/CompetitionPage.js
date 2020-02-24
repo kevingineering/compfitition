@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import moment from 'moment';
 import GoalContext from '../../contexts/goals/goalContext';
 import FriendContext from '../../contexts/friends/friendContext';
 import CompetitionContext from '../../contexts/competitions/competitionContext';
@@ -6,8 +7,7 @@ import AlertContext from '../../contexts/alerts/alertContext';
 import AuthContext from '../../contexts/auth/authContext';
 import Leaderboard from './complists/Leaderboard';
 import Participants from './complists/Participants';
-import InviteTable from './complists/InviteTable';
-import moment from 'moment';
+import LetterTable from './complists/LetterTable';
 import CompetitionTable from './comptable/CompetitionTable';
 import CreateArray from './comptable/CreateArray';
 
@@ -22,6 +22,7 @@ const CompetitionPage = (props) => {
   
   let goalUsed;
   
+  //use useParams().participant? useParams can be loaded from react-router-dom
   goalUsed = (props.match.params.participant === 'true') ? goalCurrent : friendCurrentGoal;
   
   const {startDate, duration, type, total} = goalUsed;
@@ -98,7 +99,7 @@ const CompetitionPage = (props) => {
         <div>
           {isAdmin && 
             <div className='collection competition-lists-container'>
-              <button className='btn btn-primary btn-block' onClick={() => setIsAdminView(!isAdminView)}>
+              <button className='btn btn-block btn-primary' onClick={() => setIsAdminView(!isAdminView)}>
                 <h3>{isAdminView ? 'View as User' : 'View as Admin'}</h3>
               </button>
             </div>
@@ -117,7 +118,7 @@ const CompetitionPage = (props) => {
             />
           }
           {(isAdminView && !isStarted) &&
-            <InviteTable 
+            <LetterTable 
               participants={competitionParticipants}
             />
           }

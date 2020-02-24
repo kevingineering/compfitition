@@ -4,57 +4,57 @@ const competitionController = require('../controllers/competitionController');
 
 const router = express.Router();
 
-router.get('/:compid', 
+router.get('/:compId', 
   auth, 
   competitionController.getCompetition
   );
 
-router.get('/goals/:compid', 
+router.get('/goals/:compId', 
   auth, 
-  competitionController.getCompetitionGoalsByCompId
+  competitionController.getCompetitionGoals
 );
 
-router.get('/participants/:compid', 
+router.get('/participants/:compId', 
   auth, 
   competitionController.getCompetitionParticipants
 );
 
-router.post('/:goalid', 
+router.post('/:goalId', 
   auth, 
   competitionController.createCompetitionByGoalId
 );
 
-router.delete('/:compid', 
+router.delete('/:compId', 
   auth, 
   competitionController.deleteCompetition
 );
 
-router.patch('/:compid', 
+router.patch('/:compId', 
   auth, 
   competitionController.updateCompetition
   );
 
-router.patch('/adduser/:compid', 
+router.patch('/adduser/:compId', 
   auth, 
   competitionController.addUserToCompetition
 );
 
-router.patch('/removeuser/:compid', 
+router.patch('/removeuser/:compId', 
   auth, 
   competitionController.removeUserFromCompetition
 );
 
-router.patch('/kickuser/:compid', 
+router.patch('/kickuser/:compId', 
   auth, 
   competitionController.kickUserFromCompetition
   );
 
-router.patch('/addadmin/:compid', 
+router.patch('/addadmin/:compId', 
   auth, 
   competitionController.addAdminToCompetition
   );
 
-router.patch('/removeadmin/:compid', 
+router.patch('/removeadmin/:compId', 
   auth, 
   competitionController.removeAdminFromCompetition
 );

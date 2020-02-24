@@ -23,7 +23,7 @@ const SearchableUsersState = props => {
   const getSearchableUsers = async () => {
     //console.log('getSearchableUsers')
     try {
-      const res = await axios.get('/api/auth/users');
+      const res = await axios.get('/api/users/users');
       dispatch ({ type: GET_SEARCHABLE_USERS, payload: res.data });
     } catch (err) {
       dispatch({ type: SEARCHABLE_USERS_ERROR, payload: err.response.data.msg });

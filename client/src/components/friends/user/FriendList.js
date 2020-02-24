@@ -1,6 +1,6 @@
 import React from 'react';
-import FriendItem from './FriendItem';
 import PropTypes from 'prop-types';
+import FriendItem from './FriendItem';
 
 const FriendList = ({friends, loading, filtered, isOwner}) => {
   //populate list

@@ -8,12 +8,12 @@ router.get('/',
   requestController.getRequests
 );
 
-router.post('/:userid', 
+router.post('/:userId', 
   auth, 
   requestController.addRequest
 );
 
-router.delete('/:userid', 
+router.delete('/:userId', 
   auth, 
   requestController.deleteRequests
 );

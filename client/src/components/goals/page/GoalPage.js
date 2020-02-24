@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import GoalProgress from './GoalProgress';
 import GoalInfo from './GoalInfo';
@@ -7,7 +8,7 @@ import AlertContext from '../../../contexts/alerts/alertContext';
 import GoalContext from '../../../contexts/goals/goalContext';
 import GoalChart from './GoalChart';
 
-const GoalPage = (props) => {
+const GoalPage = () => {
   const { goalCurrent, goalsError, updateGoalTracker } = useContext(GoalContext);
   const { setAlert, clearAlert } = useContext(AlertContext);
 
@@ -15,7 +16,9 @@ const GoalPage = (props) => {
  
   const [record, setRecord] = useState(tracker);
 
-  !Object.entries(goalCurrent).length && props.history.push('/');
+  let history = useHistory();
+
+  !Object.entries(goalCurrent).length && history.push('/');
 
   //clear alert before redirect
   useEffect(() => {

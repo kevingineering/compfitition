@@ -47,7 +47,7 @@ const AuthState = props => {
     }
     try {
       setLoading();
-      const res = await axios.get('/api/auth');
+      const res = await axios.get('/api/users');
       dispatch({ type: USER_LOADED, payload: res.data })
     } catch (err) {
       dispatch({ type: AUTH_ERROR, payload: err.response.data.msg });
@@ -59,7 +59,7 @@ const AuthState = props => {
     //console.log('loginUser')
     try {
       setLoading();
-      const res = await axios.post('/api/auth', formData, config);
+      const res = await axios.post('/api/users/login', formData, config);
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
       getUser();
     } catch (err) {
@@ -72,7 +72,7 @@ const AuthState = props => {
     //console.log('registerUser')
     try {
       setLoading();
-      const res = await axios.post('/api/users', formData, config);
+      const res = await axios.post('/api/users/register', formData, config);
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
       getUser();
     } catch (err) {
@@ -85,7 +85,7 @@ const AuthState = props => {
     //console.log('updateUser')
     try {
       setLoading();
-      const res = await axios.patch(`/api/auth/${user._id}`, user, config);
+      const res = await axios.patch(`/api/users/${user._id}`, user, config);
       dispatch({ type: UPDATE_SUCCESS, payload: { user: res.data.user, msg: res.data.msg }});
     } catch (err) {
       dispatch({ type: UPDATE_FAIL, payload: err.response.data.msg });
@@ -97,7 +97,7 @@ const AuthState = props => {
     //console.log('changeUserPassword')
     try { 
       setLoading();
-      const res = await axios.patch(`/api/auth/password/${_id}`, formData, config);
+      const res = await axios.patch(`/api/users/password/${_id}`, formData, config);
       dispatch({ type: PASSWORD_SUCCESS, payload: res.data.msg });
     } catch (err) {
       dispatch({ type: PASSWORD_FAIL, payload: err.response.data.msg });
@@ -109,7 +109,7 @@ const AuthState = props => {
     //console.log('deleteUser')
     try {
       setLoading();
-      const res = await axios.delete(`/api/auth/${_id}`, {
+      const res = await axios.delete(`/api/users/${_id}`, {
         config,
         data: {
           password

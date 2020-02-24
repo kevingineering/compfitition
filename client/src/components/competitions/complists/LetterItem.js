@@ -1,43 +1,44 @@
 import React, { useState, useContext } from 'react';
-import InviteContext from '../../../contexts/invites/inviteContext';
+import PropTypes from 'prop-types';
+import letterContext from '../../../contexts/letters/letterContext';
 
-const InviteItem = ({friend: {firstName, lastName}, isPending}) => {
+const LetterItem = ({friend: {firstName, lastName}, isPending}) => {
 
-  const [inviteToggle, setInviteToggle] = useState(false)
+  const [letterToggle, setLetterToggle] = useState(false)
 
-  const { addInvite, deleteInvite } = useContext(InviteContext);
+  const { addLetter, deleteLetter } = useContext(letterContext);
 
   //compId, message (adminname, compname), userId, startDate
 
   return (
     <React.Fragment>
-      {inviteToggle && <hr/>}
+      {letterToggle && <hr/>}
       <div className='participant-row space-between lr-border'>
         <span className='block'>{firstName} {lastName}</span>
         <button 
           className='btn-participants btn-primary'
-          onClick={() => setInviteToggle(!inviteToggle)}
+          onClick={() => setLetterToggle(!letterToggle)}
         >
-          <i className={inviteToggle ? 'fas fa-minus' : 'fas fa-plus'}/>
+          <i className={letterToggle ? 'fas fa-minus' : 'fas fa-plus'}/>
         </button>
       </div>
-      {inviteToggle &&
+      {letterToggle &&
         <div className="lr-border">
           <span className='participant-row block'>
-            {isPending ? 'Delete this user\'s invite?' : 'Invite this user to join competition?'}
+            {isPending ? 'Delete this user\'s letter?' : 'Letter this user to join competition?'}
           </span>
           <input
             type='button'
             value='No'
             className='btn btn-primary btn-split'
-            onClick={() => setInviteToggle(false)}
+            onClick={() => setLetterToggle(false)}
             style={{margin: 0}}
           />
           <input
             type='button'
             value='Yes'
             className='btn btn-primary btn-split'
-            onClick={() => {isPending ? deleteInvite() : addInvite()}}
+            onClick={() => {isPending ? deleteLetter() : addLetter()}}
             style={{margin: 0}}
           />
         </div>
@@ -46,4 +47,9 @@ const InviteItem = ({friend: {firstName, lastName}, isPending}) => {
   )
 }
 
-export default InviteItem;
+LetterItem.propType = {
+  friend: PropTypes.object.isRequired,
+  isPending: PropTypes.bool.isRequired
+}
+
+export default LetterItem;

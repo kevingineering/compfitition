@@ -1,5 +1,6 @@
-import React from 'react'
-import LeaderboardItem from './LeaderboardItem'
+import React from 'react';
+import PropTypes from 'prop-types';
+import LeaderboardItem from './LeaderboardItem';
 
 const Leaderboard = ({competitionArray, type}) => {
 
@@ -29,5 +30,10 @@ const Leaderboard = ({competitionArray, type}) => {
     </div>
   );
 };
+
+Leaderboard.propTypes = {
+  competitionArray: PropTypes.array.isRequired,
+  type: PropTypes.string.isRequired
+}
 
 export default Leaderboard;

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import AlertContext from '../../../contexts/alerts/alertContext';
 
@@ -78,4 +79,15 @@ const GoalChartPassFail = ({isComplete, isOwner, isStarted, time, record, setRec
   )
 }
 
+GoalChartPassFail.propTypes = {
+  isComplete: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  isStarted: PropTypes.bool.isRequired,
+  time: PropTypes.number.isRequired,
+  record: PropTypes.array.isRequired,
+  setRecord: PropTypes.func.isRequired,
+  duration: PropTypes.number.isRequired,
+  startDate: PropTypes.string.isRequired,
+  total: PropTypes.number.isRequired
+}
 export default GoalChartPassFail;

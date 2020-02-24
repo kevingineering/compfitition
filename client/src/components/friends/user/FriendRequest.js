@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import RequestContext from '../../../contexts/requests/requestContext';
 import FriendContext from '../../../contexts/friends/friendContext';
 import userimg from '../../../resources/userimg.png';
-import PropTypes from 'prop-types';
 
 const FriendRequest = ({ request: {requester, firstName, lastName, email }}) => {
   

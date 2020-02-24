@@ -1,25 +1,30 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import AuthContext from '../../contexts/auth/authContext';
 import AlertContext from '../../contexts/alerts/alertContext';
+import Input from '../formComponents/Input';
+import Switch from '../formComponents/Switch';
 
-const Register = props => {
+const Register = () => {
   const authContext = useContext(AuthContext);
   const { registerUser, userError, clearUserErrors, isAuthenticated } = authContext;
 
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlert } = alertContext;
 
+  let history = useHistory();
+
   //redirect if authenticated, set alert if error
   useEffect(() => {
     if (isAuthenticated)
-      props.history.push('/');
+      history.push('/');
 
     if (userError) {
       setAlert(userError);
       clearUserErrors();
     }
     //eslint-disable-next-line
-  }, [userError, isAuthenticated, props.history]);
+  }, [userError, isAuthenticated]);
 
   //clear alert before redirect
   useEffect(() => {
@@ -61,89 +66,66 @@ const Register = props => {
       <h1>Account Register</h1>
       <form onSubmit={handleSubmit}>
         {/*First Name*/}
-        <div className="form-group">
-          <label htmlFor='firstName'>First Name</label>
-          <input
-            type='text'
-            value={firstName}
-            name='firstName'
-            onChange={handleChange}
-          />
-        </div>
+        <Input
+          type='text'
+          value={firstName}
+          name='firstName'
+          label='First Name'
+          handleChange={handleChange}
+        />
         {/*Last Name*/}
-        <div className="form-group">
-          <label htmlFor='lastName'>Last Name</label>
-          <input
-            type='text'
-            value={lastName}
-            name='lastName'
-            onChange={handleChange}
-          />
-        </div>
+        <Input
+          type='text'
+          value={lastName}
+          name='lastName'
+          label='Last Name'
+          handleChange={handleChange}
+        />
         {/*Alias*/}
-        <div className="form-group">
-          <label htmlFor='alias'>Alias (optional - the name your friends will see)</label>
-          <input
-            type='text'
-            value={alias}
-            name='alias'
-            onChange={handleChange}
-          />
-        </div>
+        <Input
+          type='text'
+          value={alias}
+          name='alias'
+          label='Alias (optional - the name your friends will see)'
+          handleChange={handleChange}
+        />
         {/*Email Address*/}
-        <div className="form-group">
-          <label htmlFor='email'>Email Address</label>
-          <input
-            type='email'
-            value={email}
-            name='email'
-            onChange={handleChange}
-          />
-        </div>
+        <Input
+          type='email'
+          value={email}
+          name='email'
+          label='Email Address'
+          handleChange={handleChange}
+        />
         {/*Password*/}
-        <div className="form-group">
-          <label htmlFor='password'>Password</label>
-          <input
-            type='password'
-            value={password}
-            name='password'
-            onChange={handleChange}
-          />
-        </div>
+        <Input
+          type='password'
+          value={password}
+          name='password'
+          label='Password'
+          handleChange={handleChange}
+        />
         {/*Confirm Password*/}
-        <div className="form-group">
-          <label htmlFor='password2'>Confirm Password</label>
-          <input
-            type='password'
-            value={password2}
-            name='password2'
-            onChange={handleChange}
-          />
-        </div>
+        <Input
+          type='password'
+          value={password2}
+          name='password2'
+          label='Confirm Password'
+          handleChange={handleChange}
+        />
         {/*Privacy*/}
-        <div className="form-group">
-          <label className='block'>Privacy</label>
-          <label className='switch'>
-            <input
-              type='checkbox'
-              checked={isSearchable}
-              name='isSearchable'
-              onChange={handleClick}
-            />
-            <span className='slider round'/>
-          </label>
-          <span className='register-span'>
-            {isSearchable ? 
-              'Other users are allowed to search for my name and email so they can add me as a friend.' : 
-              'Other users are not allowed to search for my name and email.'
-            }
-          </span>
-        </div>
+        <Switch 
+          label='Privacy'
+          isChecked={isSearchable}
+          name='isSearchable'
+          handleClick={handleClick}
+          msgChecked='Other users are allowed to search for my name and email so they can add me as a friend.'
+          msgBlank='Other users are not allowed to search for my name and email.'
+        />
         {/*Submit Button*/}
         <input 
           type='submit'
           value='Register'
-          className='btn btn-primary btn-block'
         />
       </form>
     </div>

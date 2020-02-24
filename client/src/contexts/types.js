@@ -82,7 +82,7 @@ export const SET_COMPETITION_LOADING = 'SET_COMPETITION_LOADING';
 export const CLEAR_COMPETITION = 'CLEAR_COMPETITION';
 export const COMPETITION_ERROR = 'COMPETITION_ERROR';
 
-//invite types
+//letter types
 export const GET_INVITES = 'GET_INVITES';
 export const ADD_INVITE = 'ADD_INVITE';
 export const DELETE_INVITE = 'DELETE_INVITE';

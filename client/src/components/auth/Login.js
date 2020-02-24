@@ -1,25 +1,29 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import AuthContext from '../../contexts/auth/authContext';
 import AlertContext from '../../contexts/alerts/alertContext';
+import Input from '../formComponents/Input';
 
-const Login = props => {
+const Login = () => {
   const authContext = useContext(AuthContext);
   const { loginUser, userError, clearUserErrors, isAuthenticated } = authContext;
 
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlert } = alertContext;
 
+  let history = useHistory();
+
   //redirect if authenticated, set alert if error
   useEffect(() => {
     if (isAuthenticated)
-      props.history.push('/');
+      history.push('/');
 
     if (userError) {
       setAlert(userError);
       clearUserErrors();
     }
     //eslint-disable-next-line
-  }, [isAuthenticated, userError, props.history]);
+  }, [isAuthenticated, userError]);
 
   //clear alert before redirect
   useEffect(() => {
@@ -49,29 +53,25 @@ const Login = props => {
     <div className='form-container'>
       <h1>Account Login</h1>
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor='email'>Email Address</label>
-          <input
-            type='email'
-            value={email}
-            name='email'
-            onChange={handleChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor='password'>Password</label>
-          <input
-            type='password'
-            value={password}
-            name='password'
-            onChange={handleChange}
-            autoComplete='currentPassword'
-          />
-        </div>
+        {/*Email*/}
+        <Input
+          label='Email Address'
+          type='email'
+          value={email}
+          name='email'
+          handleChange={handleChange}
+        />
+        {/*Password*/}
+        <Input
+          label='Password'
+          type='password'
+          value={password}
+          name='password'
+          handleChange={handleChange}
+        />
         <input 
           type='submit'
           value='Log In'
-          className='btn btn-primary btn-block'
         />
       </form>
     </div>

@@ -13,17 +13,17 @@ router.post('/',
   goalController.addGoal
 );
 
-router.patch('/:goalid', 
+router.patch('/:goalId', 
   auth, 
   goalController.updateGoal
 );
 
-router.patch('/tracker/:goalid', 
+router.patch('/tracker/:goalId', 
   auth, 
   goalController.updateGoalTracker
 );
 
-router.delete('/:goalid', 
+router.delete('/:goalId', 
   auth, 
   goalController.deleteGoal
 );

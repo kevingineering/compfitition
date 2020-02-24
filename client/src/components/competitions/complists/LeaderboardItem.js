@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const LeaderboardItem = ({name, count, type}) => {
 
@@ -10,6 +11,12 @@ const LeaderboardItem = ({name, count, type}) => {
       <span>{progress}</span>
     </div>
   )
+}
+
+LeaderboardItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  count: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired
 }
 
 export default LeaderboardItem;

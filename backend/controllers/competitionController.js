@@ -1,13 +1,13 @@
-const Competition = require('../models/Competitions');
-const Goal = require('../models/Goals');
-const User = require('../models/Users');
-const { validateGoalRequest } = require('./validation');
-const { createTracker, updateTracker } = require('./goalFunctions');
 const mongoose = require('mongoose');
+const { validateGoalRequest } = require('./validation');
+const { createTracker } = require('./goalFunctions');
+const competitionService = require('../services/competition');
+const goalService = require('../services/goal');
+const userService = require('../services/user');
 
-const getCompetition = async(req, res) => {
+exports.getCompetition = async(req, res) => {
   try {
-    const competition = await Competition.findById(req.params.compid);
+    const competition = await competitionService.getCompetitionById(req.params.compId);
     if (!competition)
       return res.status(404).json({msg: 'Competition not found.'});
     res.json(competition);
@@ -16,9 +16,9 @@ const getCompetition = async(req, res) => {
   }
 }
 
-const getCompetitionGoalsByCompId = async(req, res) => {
+exports.getCompetitionGoals = async(req, res) => {
   try {
-    const goals = await Goal.find({ compId: req.params.compid });
+    const goals = await goalService.getGoalsByCompId(req.params.compId);
     if (!goals)
       return res.status(404).json({msg: 'Competition has no goals.'});
     res.json(goals);
@@ -27,16 +27,16 @@ const getCompetitionGoalsByCompId = async(req, res) => {
   }
 }
 
-const getCompetitionParticipants = async(req, res) => {
+exports.getCompetitionParticipants = async(req, res) => {
   try {
     //get user ids
-    const userIdObject = await Competition.findById(req.params.compid).select('userIds -_id');
+    const competition = await competitionService.getCompetitionById(req.params.compId);
 
     //destructure returned object
-    const { userIds } = userIdObject;
+    const { userIds } = competition;
 
     //get user attributes
-    const participants = await User.find({ _id: { $in: userIds }}).select('_id firstName alias');
+    const participants = await userService.getUsersInArray(userIds, '_id firstName alias');
 
     //return participants
     res.json(participants);
@@ -45,10 +45,10 @@ const getCompetitionParticipants = async(req, res) => {
   }
 }
 
-const createCompetitionByGoalId = async (req, res) => {
+exports.createCompetitionByGoalId = async (req, res) => {
   try {
     //verify goal exists
-    let goal = await Goal.findById(req.params.goalid).select('-_id');
+    let goal = await goalService.getGoalById(req.params.goalId)
     if (!goal)
       return res.status(404).json({msg: 'Goal does not exist.'})
 
@@ -59,26 +59,24 @@ const createCompetitionByGoalId = async (req, res) => {
       ses1.startTransaction();
 
       //create competition
-      const competition = new Competition({
-        goalId: req.params.goalid,
+      const compFields = {
+        goalId: req.params.goalId,
         userIds: [req.user.id],
         adminIds: [req.user.id]
-      });
-      await competition.save({ session: ses1 });
+      };
+      const competition = await competitionService.addNewCompetition(compFields, ses1);
 
       //modify goal to include compId
-      goal = await Goal.findByIdAndUpdate(
-        req.params.goalid, 
-        { $set: {user: competition._id} },
-        { new: true, session: ses1 },
-      );
+      goal = await goalService.updateGoalById(
+        req.params.goalId, 
+        {user: competition._id}, session);
 
       //if type is difference, change start value to 0 
       if (type === 'difference')
         tracker[0] === 0;
 
       //duplicate goal as competition template
-      const newGoal = new Goal({
+      const newGoal = {
         user,
         name, 
         duration, 
@@ -89,22 +87,21 @@ const createCompetitionByGoalId = async (req, res) => {
         isPrivate, 
         compId: competition._id,
         tracker
-      });
+      };
 
-      await newGoal.save({ session: ses1 });
+      await goalServices.addNewGoal(newGoal, ses1);
 
     await ses1.commitTransaction();
 
     res.json(competition);
   } catch (err) {
-    console.log(err)
     res.status(500).json({ msg: 'Server error.' });
   }
 }
 
-const deleteCompetition = async(req, res) => {
+exports.deleteCompetition = async(req, res) => {
   try {
-    const competition = await Competition.findById(req.params.compid);
+    const competition = await competitionService.getCompetitionById(req.params.compId);
 
     //verify competition exists
     if(!competition)
@@ -119,25 +116,15 @@ const deleteCompetition = async(req, res) => {
       ses1.startTransaction();
 
       //delete competition
-      await Competition.findByIdAndDelete(
-        req.params.compid, 
-        { session: ses1 }
-      );
-    
+      await competitionService.deleteCompetitionById(req.params.compId, ses1);
+      
       //delete template goal
-      await Goal.findOneAndDelete(
-        { user: req.params.compid },
-        { session: ses1 }
-      );
+      await goalService.deleteGoalByUserId(req.params.compId, ses1)
 
       //change compId of competition goals to null
-      await Goal.updateMany(
-        { compId: req.params.compid }, 
-        { compId: null },
-        { session: ses1 }
-      );
+      await goalService.updateCompIdOnGoals(req.params.compId, ses1);
   
-      //TODO send invite telling competition has been deleted
+      //TODO send letter telling competition has been deleted
 
     await ses1.commitTransaction();
 
@@ -147,18 +134,18 @@ const deleteCompetition = async(req, res) => {
   }
 }
 
-const updateCompetition = async(req, res) => {
+exports.updateCompetition = async(req, res) => {
   try {
     //#region temp
     const { goal: { name, duration, startDate, type, units, total, isPrivate, tracker, initialValue }} = req.body;
 
     //verify template goal exists
-    let goal = await Goal.findOne({ user: req.params.compid });
+    let goal = await goalService.getGoalsByUserId(req.params.compId);
     if(!goal)
       return res.status(404).json({ msg: 'Competition goal not found.' });
 
     //verify competition exists
-    let competition = await Competition.findById(req.params.compid);
+    let competition = await competitionService.getCompetitionById(req.params.compId);
     if(!competition)
       return res.status(404).json({ msg: 'Competition not found.' });
 
@@ -205,17 +192,10 @@ const updateCompetition = async(req, res) => {
         ses1.startTransaction();
 
         //update template goal
-        await Goal.findOneAndUpdate(
-          { user: req.params.compid },
-          { $set: goalFields },
-          { session: ses1 }
-        );
+        await goalService.updateGoalsByUserId(req.params.compId, goalFields, ses1);
+
         //update user goals
-        await Goal.updateMany(
-          { compId: req.params.compid },
-          { $set: goalFields }, 
-          { session: ses1 }
-        )
+        await goalService.updateGoalsByCompId(req.params.compId, goalFields, ses1);
 
       await ses1.commitTransaction();
     } else {
@@ -234,17 +214,10 @@ const updateCompetition = async(req, res) => {
 
         if (length === 0) {
           //update template goal
-          await Goal.findOneAndUpdate(
-            { user: req.params.compid },
-            { $set: goalFields },
-            { session: ses1 }
-          );
+          await goalService.updateGoalsByUserId(req.params.compId, goalFields, ses1);
+
           //update user goals
-          await Goal.updateMany(
-            { compId: req.params.compid },
-            { $set: goalFields },
-            { session: ses1 }
-          )
+          await goalService.updateGoalsByCompId(req.params.compId, goalFields, ses1);
         }
         //update goals and append trackers
         else if (length > 0) {
@@ -252,33 +225,20 @@ const updateCompetition = async(req, res) => {
             new Array(length).fill(0) : 
             new Array(length).fill(null)
           );
+
           //update template goal
-          await Goal.findOneAndUpdate(
-            { user: req.params.compid },
-            { $set: goalFields, $push: { tracker: appendArray }},
-            { session: ses1 }
-          );
+          await goalService.updateGoalsByUserIdAndAppendTracker(req.params.compId, goalFields, appendArray, ses1);
+
           //update user goals
-          await Goal.updateMany(
-            { compId: req.params.compid },
-            { $set: goalFields, $push: { tracker: appendArray }},
-            { session: ses1 }
-          )
+          await goalService.updateGoalsByCompIdAndAppendTracker(req.params.compId, goalFields, appendArray, ses1);
         }
         //update goals and trim trackers
         else if (length < 0) {
           //update template goal
-          await Goal.findOneAndUpdate(
-            { user: req.params.compid },
-            { $set: goalFields, $push: { tracker: { $each: [ ], $slice: newDuration }}}, 
-            { new: true, session: ses1 }
-          );
+          await goalService.updateGoalsByUserIdAndAppendTracker(req.params.compId, goalFields, newDuration, ses1);
+
           //update user goals
-          await Goal.updateMany(
-            { compId: req.params.compid },
-            { $set: goalFields, $push: { tracker: { $each: [ ], $slice: newDuration }}},
-            { session: ses1 }
-          )
+          await goalService.updateGoalsByCompIdAndAppendTracker(req.params.compId, goalFields, newDuration, ses1);
         }
       
       await ses1.commitTransaction();
@@ -286,14 +246,13 @@ const updateCompetition = async(req, res) => {
 
     res.json(competition)
   } catch (err) {
-    console.log(err);
     res.status(500).json({ msg: 'Server error.' });
   }
 }
 
-const addUserToCompetition = async(req, res) => {
+exports.addUserToCompetition = async(req, res) => {
   try {
-    let competition = await Competition.findById(req.params.compid);    
+    let competition = await competitionService.getCompetitionById(req.params.compId);    
 
     //verify competition exists
     if(!competition)
@@ -304,13 +263,13 @@ const addUserToCompetition = async(req, res) => {
       return res.status(400).json({msg: 'User is already in competition.'})
 
     //get template goal
-    const goal = await Goal.findOne({ user: req.params.compid });
+    const goal = await goalService.getGoalsByUserId(req.params.compId);
     if(!goal)
       return res.status(404).json({msg: 'Competition goal not found.'})
     const { name, duration, startDate, type, units, total, isPrivate, tracker } = goal;
 
     //create goal for user from template goal
-    const newGoal = new Goal({
+    const goalFields = {
       user: req.user.id,
       name, 
       duration, 
@@ -319,21 +278,17 @@ const addUserToCompetition = async(req, res) => {
       units,
       total,
       isPrivate, 
-      compId: req.params.compid,
+      compId: req.params.compId,
       tracker
-    });
+    };
 
     const ses1 = await mongoose.startSession();
       ses1.startTransaction();
 
-      await newGoal.save({ session: ses1 });
+      await addNewGoal(goalFields, ses1);
 
       //add user id to userIds array
-      competition = await Competition.findByIdAndUpdate(
-        req.params.compid,
-        { $addToSet: { 'userIds': req.user.id }},
-        { new: true, session: ses1 }
-      );
+      competition = await competitionService.addUserToCompetition(req.params.compId, req.user.id, ses1)
 
     await ses1.commitTransaction();
 
@@ -344,9 +299,9 @@ const addUserToCompetition = async(req, res) => {
   }
 }
 
-const removeUserFromCompetition = async(req, res) => {
+exports.removeUserFromCompetition = async(req, res) => {
   try {
-    let competition = await Competition.findById(req.params.compid);    
+    let competition = await competitionService.getCompetitionById(req.params.compId);    
 
     //verify competition exists
     if(!competition)
@@ -363,18 +318,11 @@ const removeUserFromCompetition = async(req, res) => {
     const ses1 = await mongoose.startSession();
       ses1.startTransaction();
       //reset user goal so it is not part of competition
-      await Goal.findOneAndUpdate(
-        { compId: req.params.compid, user: req.user.id },
-        { $set: { compId: null }},
-        { session: ses1 }
-      );
+      goalService.removeGoalFromCompetition(req.params.compid, req.user.id, ses1)
 
       //remove user id from userIds array
-      await Competition.findByIdAndUpdate(
-        req.params.compid,
-        { $pull: { 'userIds': req.user.id }},
-        { session: ses1 }
-      );
+      await competitionService.removeUserFromCompetition(req.params.compId, req.user.id, ses1);
+
     await ses1.commitTransaction();
 
     res.json({msg: 'User removed from competition.'});
@@ -383,11 +331,11 @@ const removeUserFromCompetition = async(req, res) => {
   }
 }
 
-const kickUserFromCompetition = async(req, res) => {
+exports.kickUserFromCompetition = async(req, res) => {
   try {
     const { kickeeId } = req.body;
 
-    let competition = await Competition.findById(req.params.compid);    
+    let competition = await competitionService.getCompetitionById(req.params.compId);    
 
     //verify competition exists
     if(!competition)
@@ -409,18 +357,11 @@ const kickUserFromCompetition = async(req, res) => {
       ses1.startTransaction();
 
       //reset user goal so it is not part of competition
-      await Goal.findOneAndUpdate(
-        { compId: req.params.compid, user: kickeeId },
-        { $set: { compId: null }},
-        { session: ses1 }
-      );
+      goalService.removeGoalFromCompetition(req.params.compid, kickeeId, ses1)
 
       //remove user id from userIds array
-      competition = await Competition.findByIdAndUpdate(
-        req.params.compid,
-        { $pull: { 'userIds': kickeeId }},
-        { new: true, session: ses1 }
-      );
+      competition = await competitionService.removeUserFromCompetition(req.params.compId, kickeeId, ses1)
+
     await ses1.commitTransaction();
 
     res.json(competition);
@@ -429,11 +370,11 @@ const kickUserFromCompetition = async(req, res) => {
   }
 }
 
-const addAdminToCompetition = async(req, res) => {
+exports.addAdminToCompetition = async(req, res) => {
   try {
     const {newAdminId} = req.body;
 
-    let competition = await Competition.findById(req.params.compid);
+    let competition = await competitionService.getCompetitionById(req.params.compId);
 
     //verify competition exists
     if(!competition)
@@ -452,11 +393,7 @@ const addAdminToCompetition = async(req, res) => {
       return res.status(401).json({msg: 'Only admin can add another admin.'});
 
     //add admin to adminIds
-    competition = await Competition.findByIdAndUpdate(
-      req.params.compid,
-      { $addToSet: { 'adminIds': newAdminId }},
-      { new: true }
-    );
+    competition = await competitionService.addAdminToCompetition( req.params.compId, newAdminId);
 
     //return competition
     res.json(competition);
@@ -465,9 +402,9 @@ const addAdminToCompetition = async(req, res) => {
   }
 }
 
-const removeAdminFromCompetition = async(req, res) => {
+exports.removeAdminFromCompetition = async(req, res) => {
   try {
-    let competition = await Competition.findById(req.params.compid);
+    let competition = await competitionService.getCompetitionById(req.params.compId);
 
     //verify competition exists
     if(!competition)
@@ -482,11 +419,7 @@ const removeAdminFromCompetition = async(req, res) => {
       return res.status(400).json({msg: 'You must appoint another user to be the admin for this competition before you can relinquish your role.'});
 
     //remove admin from adminIds
-    competition = await Competition.findByIdAndUpdate(
-      req.params.compid,
-      { $pull: { 'adminIds': req.user.id }},
-      { new: true }
-    );
+    competition = await competitionService.removeAdminFromCompetition( req.params.compId, req.user.id);
 
     //return competition
     res.json(competition);
@@ -494,15 +427,3 @@ const removeAdminFromCompetition = async(req, res) => {
     res.status(500).json({ msg: 'Server error.' });
   }
 }
-
-exports.getCompetition = getCompetition;
-exports.getCompetitionGoalsByCompId = getCompetitionGoalsByCompId;
-exports.getCompetitionParticipants = getCompetitionParticipants;
-exports.createCompetitionByGoalId = createCompetitionByGoalId;
-exports.deleteCompetition = deleteCompetition;
-exports.updateCompetition = updateCompetition;
-exports.addUserToCompetition = addUserToCompetition;
-exports.removeUserFromCompetition = removeUserFromCompetition;
-exports.kickUserFromCompetition = kickUserFromCompetition;
-exports.addAdminToCompetition = addAdminToCompetition;
-exports.removeAdminFromCompetition = removeAdminFromCompetition;

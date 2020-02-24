@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 
 const CompInfo = ({goal, time, record, value, isStarted}) => {
 
@@ -63,6 +64,14 @@ const CompInfo = ({goal, time, record, value, isStarted}) => {
       }
     </React.Fragment>
   )
+}
+
+CompInfo.propTypes = {
+  goal: PropTypes.object.isRequired,
+  time: PropTypes.number.isRequired,
+  record: PropTypes.array.isRequired,
+  value: PropTypes.number.isRequired,
+  isStarted: PropTypes.bool.isRequired
 }
 
 export default CompInfo;
