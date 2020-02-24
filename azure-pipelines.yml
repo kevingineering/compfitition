@@ -3,20 +3,31 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+#trigger determines when build is run - here whenever master is changed
 trigger:
 - master
 
+#pool is collection of resources, here we pull from the ubuntu pool
 pool:
   vmImage: 'ubuntu-latest'
 
+#steps - run sequencially
 steps:
+#tasks are prepackaged scripts - there is a task built for using node, so we don't have to write a script to install it
 - task: NodeTool@0
   inputs:
-    versionSpec: '10.x'
+    versionSpec: '12.x'
   displayName: 'Install Node.js'
 
   # originally npm install and npm run build, added prefixes
-- script: |
-    npm install --prefix client
-    npm run build --prefix client
-  displayName: 'npm install and build'
+- script: npm install --prefix client
+  displayName: 'Install client dependencies'
+
+- script: npm install --prefix backend
+  displayName: 'Install backend dependencies'
+
+- script: npm run server 
+displayName: 'Start server'
+
+- script: npm run build 
+  displayName: 'Build app'
