@@ -28,5 +28,16 @@ steps:
 
 - script: |
     npm run build
-    npm run server 
-  displayName: 'Build app and start server'
+  displayName: 'Build app'
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirector)'
+    includeRootFolder: false
+
+- task: AzureWebApp@1
+  inputs: 
+    azureSubscription: c305819f-2f31-461b-9853-0a122e2cc497
+    appName: Compfitition
+    package: '$(System.DefaultWorkingDirectory)'
+    customWebConfig: '-Handler iisnode -NodeStartFile backend/server.js -appType node'
