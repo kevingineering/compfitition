@@ -15,7 +15,8 @@ steps:
     versionSpec: '10.x'
   displayName: 'Install Node.js'
 
+  # originally npm install and npm run build, added prefixes
 - script: |
-    npm install
-    npm run build
+    npm install --prefix client
+    npm run build --prefix client
   displayName: 'npm install and build'
