@@ -12,7 +12,9 @@ module.exports = (req, res, next) => {
 
   try {
     //verify token
-    const decoded = jwt.verify(token, config.get('jwtSecret'));
+    //TODO - REMOVE JWT SECRET FROM CODE
+    //const decoded = jwt.verify(token, config.get('jwtSecret'));
+    const decoded = jwt.verify(token, '#kchsecret');
     //add user from payload
     req.user = decoded.user;
     //calls next middleware - if we don't use next, no more middleware functions will be run, so call next(); unless you want to send a response
