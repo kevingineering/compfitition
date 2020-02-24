@@ -31,7 +31,7 @@ steps:
 # #bundles up code to a zip file
 # - task: ArchiveFiles@2
 #   inputs:
-#     rootFolderOrFile: '$(System.DefaultWorkingDirector)'
+#     rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
 #     includeRootFolder: false
 
 #publish build as artifact
