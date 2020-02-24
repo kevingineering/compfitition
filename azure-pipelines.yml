@@ -28,11 +28,11 @@ steps:
     npm run build
   displayName: 'Build app'
 
-#bundles up code to a zip file
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirector)'
-    includeRootFolder: false
+# #bundles up code to a zip file
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: '$(System.DefaultWorkingDirector)'
+#     includeRootFolder: false
 
 #publish build as artifact
 - task: PublishBuildArtifacts@1
