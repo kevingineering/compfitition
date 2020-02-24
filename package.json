@@ -1,0 +1,24 @@
+{
+  "name": "compfitition",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm start --prefix client",
+    "build": "npm build --prefix client",
+    "server": "npm run server --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevingineering/compfitition.git"
+  },
+  "author": "kch",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kevingineering/compfitition/issues"
+  },
+  "homepage": "https://github.com/kevingineering/compfitition#readme"
+}
