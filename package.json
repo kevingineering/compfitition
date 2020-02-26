@@ -10,7 +10,7 @@
     "start": "npm start --prefix client",
     "build": "npm build --prefix client",
     "server": "npm run server --prefix backend",
-    "azure": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm install --backend && npm run build && npm run start"
+    "azure": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm install --prefix backend && npm run build --prefix client && npm run start --prefix client"
   },
   "repository": {
     "type": "git",
