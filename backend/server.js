@@ -14,7 +14,7 @@ connectDB();
 app.use(express.json({ extended: false }));
 
 //routes for HTTP functions - first argument is path, second argument is function that gets called - note that .use() takes all paths that start with '/api/goals', whereas .get(), .post(), etc work with only exact paths
-//note also that .use functions are not called when the server starts, but are stored as callback functions that run when requests get sent
+//note also that .use(), .get(), etc functions are not called when the server starts, but are stored as callback functions that run when requests get sent
 app.use('/api/goals', require('./routes/goals'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/requests', require('./routes/requests'));
