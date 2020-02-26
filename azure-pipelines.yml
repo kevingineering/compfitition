@@ -24,15 +24,15 @@ steps:
 - script: npm install --prefix backend
   displayName: 'Install backend dependencies'
 
-- script: |
-    npm run build
+- script: npm run build
   displayName: 'Build app'
 
-# #bundles up code to a zip file
-# - task: ArchiveFiles@2
-#   inputs:
-#     rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-#     includeRootFolder: false
+#bundles up code to a zip file
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
+  displayName: 'Create zip file'
 
 #publish build as artifact
 - task: PublishBuildArtifacts@1
