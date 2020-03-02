@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'production') {
   })
 } else {
   app.get('/', (req, res) => {
-    res.json({msg: 'Server is not in production'})
+    res.status(501).json({msg: 'Server is not in production'})
   })
 }
 //environmental port (if deployed) or local port 5004
