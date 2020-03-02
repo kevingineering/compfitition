@@ -10,10 +10,10 @@ app.use('/api/friends', require('./friends'));
 app.use('/api/competitions', require('./competitions'));
 app.use('/api/letters', require('./letters'));
 
-//error handler for unsupported routes
-app.use((req, res) => {
-  return res.status(404).json({msg: 'This route could not be found.'})
-})
+// //error handler for unsupported routes
+// app.use((req, res) => {
+//   return res.status(404).json({msg: 'This route could not be found.'})
+// })
 
 //error handler response
 app.use((error, req, res, next) => {
