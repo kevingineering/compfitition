@@ -4,7 +4,7 @@ import GoalChartDifference from './GoalChartDifference';
 import GoalChartTotal from './GoalChartTotal';
 import GoalChartPassFail from './GoalChartPassFail';
 
-const GoalChart = ({goal, record, setRecord, time, isComplete, isOwner, isStarted}) => {
+const GoalChart = ({goal, record, setRecord, time, isComplete, isOwner}) => {
   const {duration, units, total, type, startDate} = goal;
 
   return (
@@ -30,7 +30,6 @@ const GoalChart = ({goal, record, setRecord, time, isComplete, isOwner, isStarte
           duration={duration} 
           isComplete={isComplete}
           isOwner={isOwner}
-          isStarted={isStarted}
           units={units} 
           total={total} 
           setRecord={setRecord}
@@ -49,8 +48,7 @@ GoalChart.propTypes = {
   setRecord: PropTypes.func.isRequired,
   time: PropTypes.number.isRequired,
   isComplete: PropTypes.bool.isRequired,
-  isOwner: PropTypes.bool.isRequired,
-  isStarted: PropTypes.bool.isRequired
+  isOwner: PropTypes.bool.isRequired
 }
 
 export default GoalChart;

@@ -17,10 +17,10 @@ const AlertState = props => {
   //if type is true, clear alert will not clear it
   const setAlert = (msg, persist = false) => {
     //console.log('setAlert');
-    const id = uuid.v4();
-    dispatch({ type: SET_ALERT, payload: {msg, id, persist}});
+    const alertId = uuid.v4();
+    dispatch({ type: SET_ALERT, payload: {msg, alertId, persist}});
 
-    setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: id }), 3000);
+    setTimeout(() => dispatch({ type: REMOVE_ALERT, payload: alertId }), 3000);
   };
 
   //clear alert

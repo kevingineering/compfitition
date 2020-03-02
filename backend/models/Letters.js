@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const LetterSchema = mongoose.Schema({
-  //goal is ID of template goal
+  //compId indicates competition letter is associated with
   compId: { 
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Goal',
@@ -19,7 +19,7 @@ const LetterSchema = mongoose.Schema({
     required: true
   },
   //type dictates type of letter
-  //type can be toUser, fromUser, userAdded, userKicked, compDeleted
+  //type can be toUser (tell user an admin invited them to join competition), fromUser (tell admin user asked to join competition), userAdded (tell user their request to join competition was granted), userKicked (tell user they were kicked from competition), compDeleted (tell user a competition was deleted)
   type: {
     type: String,
     required: true

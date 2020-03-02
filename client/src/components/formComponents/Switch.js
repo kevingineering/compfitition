@@ -14,9 +14,9 @@ const Switch = ({label, name, isChecked, handleClick, msgChecked, msgBlank}) => 
         />
         <span className='slider round'/>
       </label>
-      <span className='register-span'>
+      <li className='register-span'>
         {isChecked ? msgChecked : msgBlank} 
-      </span>
+      </li>
     </div>
   )
 }

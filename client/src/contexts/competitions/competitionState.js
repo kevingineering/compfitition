@@ -141,22 +141,22 @@ const CompetitionState = props => {
     }
   };
 
-  const addAdminToCompetition = async (_id, newAdminId) => {
+  const addAdminToCompetition = async (compId, newAdminId) => {
     //console.log('addAdminToCompetition')
     try{
       setLoading();
-      const res = await axios.patch(`/api/competitions/addadmin/${_id}`, newAdminId, config);
+      const res = await axios.patch(`/api/competitions/addadmin/${compId}`, newAdminId, config);
       dispatch({ type: ADD_ADMIN_TO_COMPETITION, payload: res.data });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
     }
   };
 
-  const removeAdminFromCompetition = async (_id) => {
+  const removeAdminFromCompetition = async (compId) => {
     //console.log('removeAdminFromCompetition')
     try{
       setLoading();
-      const res = await axios.patch(`/api/competitions/removeadmin/${_id}`);
+      const res = await axios.patch(`/api/competitions/removeadmin/${compId}`);
       dispatch({ type: REMOVE_ADMIN_FROM_COMPETITION, payload: res.data });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });

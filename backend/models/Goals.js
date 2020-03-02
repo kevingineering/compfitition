@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
       //created from template goal when a user joins a competition (including the user who created the competition)
       //if competition is deleted, becomes a solo goal
       //has userId as user
-      //compId is id of competition
+      //compId indicates competition
   //competition template goal
       //created when user adds a competition
       //user competition goals are created by copying this goal
@@ -17,7 +17,7 @@ const mongoose = require('mongoose');
       //compId is null
         //otherwise competition would find it when getting user goals which is not desired
 const GoalSchema = mongoose.Schema({
-  // user is ID of user or ID of competition (for template goal)
+  // user is userId of user or compId of competition (for template goal)
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref:'User'
@@ -62,7 +62,7 @@ const GoalSchema = mongoose.Schema({
     type: Boolean,
     required: true
   },
-  // compId is the id of the competition associated with this goal (if one exists)
+  // compId indicates competition associated with this goal (if one exists)
   compId: {
     type: mongoose.Schema.Types.ObjectId,
     default: null,

@@ -9,7 +9,7 @@ export default (state, action) => {
     case SET_ALERT:
       return action.payload;
     case REMOVE_ALERT:
-      if (state.id === action.payload)
+      if (state.alertId === action.payload)
         return {};
       else return state;
     case CLEAR_ALERT:

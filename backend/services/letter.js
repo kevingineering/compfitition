@@ -1,44 +1,40 @@
+const Letter = require('../models/Letters');
+
 //add new letter
 exports.addNewLetter = async (letterFields) => {
-  try {
+  const newLetter = new Letter(letterFields)
+  await newLetter.save();
+  return newLetter;
+}
 
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+//get letter by letterId
+exports.getLetterById = async (letterId) => {
+  const letter = await Letter.findById(letterId);
+  return letter;
 }
 
 //get letters
-exports.getLettersByUserId = async (id) => {
-  try {
-
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+exports.getLettersByUserId = async (userId) => {
+  const letters = await Letter.find({ user: userId });
+  return letters;
 }
 
-//update letter expiration 
-exports.updateLetterExpirationDate = async (id, date) => {
-  try {
+//TODO update letter expiration by compId
+exports.updateLetterExpirationDate = async (compId, date) => {
 
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
 }
 
 //delete letter
-exports.deleteLetterById = async (id) => {
-  try {
+exports.deleteLetterById = async (letterId) => {
+  await Letter.findByIdAndDelete(letterId);
+}
 
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+//delete all user letters
+exports.deleteAllUserLetters = async (userId) => {
+  await Letter.deleteMany({ userId: userId });
 }
 
 //delete all competition letters
-exports.deleteAllCompetitionLetters = async (id) => {
-  try {
-
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+exports.deleteAllCompetitionLetters = async (compId) => {
+  await Letter.deleteMany({ compId: compId });
 }

@@ -5,7 +5,7 @@ exports.getRequests = async (req, res) => {
   try {
     const requests = await requestService.getRequestsWithOneUser(req.user.id);
     //sending back both request and req.user.id so requests can be sorted
-    res.json({requests, id: req.user.id});
+    res.json({requests, userId: req.user.id});
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }
@@ -57,7 +57,7 @@ exports.deleteRequests = async (req, res) => {
     if(!requestId)
       return res.status(404).json({ msg: 'Request not found.'});
     else {
-      //delete request and return id so state can be updated
+      //delete request and return requestId so state can be updated
       await requestService.deleteRequestById(requestId._id);
       res.json(requestId._id);
     }

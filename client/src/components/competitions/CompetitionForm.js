@@ -181,7 +181,7 @@ const CompetitionForm = () => {
             name='duration' 
             onChange={handleChange}
             value={duration}
-            min='0'
+            min='1'
             max='3654'
           />
           {type === 'pass/fail' && !(Number.isInteger(duration / 7)) && (duration !== '') &&

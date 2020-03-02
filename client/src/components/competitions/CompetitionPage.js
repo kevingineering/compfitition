@@ -1,31 +1,29 @@
 import React, { useContext, useState, useEffect } from 'react';
 import moment from 'moment';
 import GoalContext from '../../contexts/goals/goalContext';
-import FriendContext from '../../contexts/friends/friendContext';
+//import FriendContext from '../../contexts/friends/friendContext';
 import CompetitionContext from '../../contexts/competitions/competitionContext';
 import AlertContext from '../../contexts/alerts/alertContext';
 import AuthContext from '../../contexts/auth/authContext';
-import Leaderboard from './complists/Leaderboard';
-import Participants from './complists/Participants';
-import LetterTable from './complists/LetterTable';
 import CompetitionTable from './comptable/CompetitionTable';
 import CreateArray from './comptable/CreateArray';
+import CompLists from './complists/CompLists';
 
 const CompetitionPage = (props) => {
   const { goalCurrent, setCurrentGoal } = useContext(GoalContext);
 
-  const { friendCurrentGoal } = useContext(FriendContext);
+  //const { friendCurrentGoal } = useContext(FriendContext);
 
   const { setAlert, clearAlert } = useContext(AlertContext);
   
   const [competitionArray, setCompetitionArray] = useState([]);
   
-  let goalUsed;
+  //let goalUsed;
   
   //use useParams().participant? useParams can be loaded from react-router-dom
-  goalUsed = (props.match.params.participant === 'true') ? goalCurrent : friendCurrentGoal;
+  //goalUsed = (props.match.params.participant === 'true') ? goalCurrent : friendCurrentGoal;
   
-  const {startDate, duration, type, total} = goalUsed;
+  const {startDate, duration, type, total} = goalCurrent;
 
   const { 
     getCompetitionGoals, 
@@ -33,7 +31,8 @@ const CompetitionPage = (props) => {
     competition, 
     competitionGoals, 
     competitionParticipants,
-    competitionError
+    competitionError,
+    removeAdminFromCompetition
   } = useContext(CompetitionContext);
 
   const { user } = useContext(AuthContext);
@@ -42,9 +41,9 @@ const CompetitionPage = (props) => {
   const [isAdminView, setIsAdminView] = useState(false);
 
   //calc time to determine which day of competition we are on
-  let time = moment().startOf('day').diff(startDate, 'days');
   let timeHours = moment().startOf('day').diff(startDate, 'hours');
   const isStarted = timeHours >= 0 ? true : false;
+  let time = moment().startOf('day').diff(startDate, 'days');
   if (time > duration)
     time = duration;
   const isComplete = time === duration ? true : false;
@@ -97,31 +96,17 @@ const CompetitionPage = (props) => {
     <div className='competition-container'>
       <div className='grid-1-2'>
         <div>
-          {isAdmin && 
-            <div className='collection competition-lists-container'>
-              <button className='btn btn-block btn-primary' onClick={() => setIsAdminView(!isAdminView)}>
-                <h3>{isAdminView ? 'View as User' : 'View as Admin'}</h3>
-              </button>
-            </div>
-          }
-          {isStarted &&
-            <Leaderboard 
-              competitionArray={competitionArray}
-              type={type}
-            />
-          }
-          {(isAdminView || !isStarted) && 
-            <Participants 
-              participants={competitionParticipants} 
-              isAdminView={isAdminView}
-              compId={competition._id}
-            />
-          }
-          {(isAdminView && !isStarted) &&
-            <LetterTable 
-              participants={competitionParticipants}
-            />
-          }
+          <CompLists 
+            isAdmin={isAdmin}
+            isAdminView={isAdminView}
+            setIsAdminView={setIsAdminView}
+            competitionArray={competitionArray}
+            type={type}
+            participants={competitionParticipants}
+            competition={competition}
+            isStarted={isStarted}
+            removeAdminFromCompetition={removeAdminFromCompetition}
+          />
         </div>
         <div>
           <CompetitionTable 

@@ -25,7 +25,7 @@ const SearchBar = ({filter, clear}) => {
 }
 
 SearchBar.propTypes = {
-  filter: PropTypes.string.isRequired,
+  filter: PropTypes.func.isRequired,
   clear: PropTypes.func.isRequired
 }
 

@@ -4,14 +4,13 @@ const goalService = require('../services/goal');
 
 exports.getUserFriends = async (req, res) => {
   try {
-    //get user friends array - array of ids
+    //get user friends array - array of userIds
     const user = await userService.getUserById(req.user.id);
 
     //get array of user items from friends array
     const friendArray = await userService.getUsersInArray(user.friends, 'firstName lastName email alias _id')
     res.json(friendArray);
   } catch (err) {
-    console.log(err)
     res.status(500).json({ msg: 'Server error.' });
   }
 }
@@ -33,7 +32,6 @@ exports.addFriend = async (req, res) => {
 
     res.json(friend);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ msg: 'Server error.' });
   }
 }
@@ -55,7 +53,6 @@ exports.deleteFriend = async (req, res) => {
     
     res.json({msg: 'Friend deleted!'});
   } catch (err) {
-    console.log(err)
     res.status(500).json({ msg: 'Server error.' });
   }
 }
@@ -71,7 +68,6 @@ exports.getFriendGoals = async (req, res) => {
     const goals = await goalService.getFriendGoals(req.params.userId)
     res.json(goals);
   } catch (err) {
-    console.log(err)
     res.status(500).json({ msg: 'Server error.' });
   }
 }
@@ -93,7 +89,6 @@ exports.getFriendFriends = async (req, res) => {
 
     res.json(friendArray);
   } catch (err) {
-    console.log(err)
     res.status(500).json({ msg: 'Server error.' });
   }
 }

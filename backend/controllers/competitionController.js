@@ -29,7 +29,7 @@ exports.getCompetitionGoals = async(req, res) => {
 
 exports.getCompetitionParticipants = async(req, res) => {
   try {
-    //get user ids
+    //get userIds
     const competition = await competitionService.getCompetitionById(req.params.compId);
 
     //destructure returned object
@@ -69,7 +69,7 @@ exports.createCompetitionByGoalId = async (req, res) => {
       //modify goal to include compId
       goal = await goalService.updateGoalById(
         req.params.goalId, 
-        {user: competition._id}, session);
+        {user: competition._id}, ses1);
 
       //if type is difference, change start value to 0 
       if (type === 'difference')
@@ -89,7 +89,7 @@ exports.createCompetitionByGoalId = async (req, res) => {
         tracker
       };
 
-      await goalServices.addNewGoal(newGoal, ses1);
+      await goalService.addNewGoal(newGoal, ses1);
 
     await ses1.commitTransaction();
 
@@ -124,7 +124,7 @@ exports.deleteCompetition = async(req, res) => {
       //change compId of competition goals to null
       await goalService.updateCompIdOnGoals(req.params.compId, ses1);
   
-      //TODO send letter telling competition has been deleted
+      //TODO send letters telling competition has been deleted
 
     await ses1.commitTransaction();
 
@@ -287,7 +287,7 @@ exports.addUserToCompetition = async(req, res) => {
 
       await addNewGoal(goalFields, ses1);
 
-      //add user id to userIds array
+      //add userId to userIds array
       competition = await competitionService.addUserToCompetition(req.params.compId, req.user.id, ses1)
 
     await ses1.commitTransaction();
@@ -320,7 +320,7 @@ exports.removeUserFromCompetition = async(req, res) => {
       //reset user goal so it is not part of competition
       goalService.removeGoalFromCompetition(req.params.compid, req.user.id, ses1)
 
-      //remove user id from userIds array
+      //remove userId from userIds array
       await competitionService.removeUserFromCompetition(req.params.compId, req.user.id, ses1);
 
     await ses1.commitTransaction();
@@ -359,7 +359,7 @@ exports.kickUserFromCompetition = async(req, res) => {
       //reset user goal so it is not part of competition
       goalService.removeGoalFromCompetition(req.params.compid, kickeeId, ses1)
 
-      //remove user id from userIds array
+      //remove userId from userIds array
       competition = await competitionService.removeUserFromCompetition(req.params.compId, kickeeId, ses1)
 
     await ses1.commitTransaction();
@@ -419,7 +419,7 @@ exports.removeAdminFromCompetition = async(req, res) => {
       return res.status(400).json({msg: 'You must appoint another user to be the admin for this competition before you can relinquish your role.'});
 
     //remove admin from adminIds
-    competition = await competitionService.removeAdminFromCompetition( req.params.compId, req.user.id);
+    competition = await competitionService.removeAdminFromCompetition(req.params.compId, req.user.id);
 
     //return competition
     res.json(competition);

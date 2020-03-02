@@ -31,6 +31,7 @@ const SearchPage = () => {
         <li className='collection-header'>
           <h2>Search Results</h2>
         </li>
+        <p className='lr-border'/>
         <SearchResults/>
       </ul>
     </div>

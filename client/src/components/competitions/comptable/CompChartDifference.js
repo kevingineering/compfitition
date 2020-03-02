@@ -77,7 +77,7 @@ const CompChartDifference = ({competitionArray, units, time, duration}) => {
             maxValue: chartMax
           },
           legend: {
-            position: 'none'
+            position: 'in'
           },
           vAxis: {
             textPosition: 'none',

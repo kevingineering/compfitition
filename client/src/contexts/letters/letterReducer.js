@@ -1,53 +1,53 @@
 import {
-  GET_INVITES,
-  ADD_INVITE,
-  DELETE_INVITE,
-  //DELETE_INVITES,
-  INVITE_ERROR,
-  CLEAR_INVITES,
-  SET_INVITES_LOADING
+  GET_LETTERS,
+  ADD_LETTER,
+  DELETE_LETTER,
+  //DELETE_LETTERS,
+  LETTER_ERROR,
+  CLEAR_LETTERS,
+  SET_LETTERS_LOADING
 } from '../types';
 
 export default (state, action) => {
   switch(action.type) {
-    case GET_INVITES:
+    case GET_LETTERS:
       return {
         ...state,
         letters: action.payload,
         lettersLoading: false
       }
-    case ADD_INVITE:
+    case ADD_LETTER:
       return {
         ...state,
         letters: [...state.letters, action.payload],
         lettersLoading: false
       }
-    case DELETE_INVITE:
+    case DELETE_LETTER:
       return {
         ...state,
         letters: state.letters.filter(letter => letter._id !== action.payload),
         lettersLoading: false
       }
-    // case DELETE_INVITES:
+    // case DELETE_LETTERS:
     //   return {
     //     ...state,
     //     letters: state.letters.filter(letter => letter._id !== action.payload._id),
     //     lettersLoading: false
     //   }
-    case INVITE_ERROR:
+    case LETTER_ERROR:
       return {
         ...state,
         lettersError: action.payload,
         lettersLoading: false
       }
-    case CLEAR_INVITES:
+    case CLEAR_LETTERS:
       return {
         ...state, 
         letters: [],
         lettersError: null,
         lettersLoading: true
       }
-    case SET_INVITES_LOADING:
+    case SET_LETTERS_LOADING:
       return {
         ...state,
         lettersLoading: true

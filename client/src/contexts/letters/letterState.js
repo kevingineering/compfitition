@@ -1,15 +1,15 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
-import letterContext from './letterContext';
+import LetterContext from './letterContext';
 import LetterReducer from './letterReducer';
 import {
-  GET_INVITES,
-  ADD_INVITE,
-  DELETE_INVITE,
-  DELETE_INVITES,
-  INVITE_ERROR,
-  CLEAR_INVITES,
-  SET_INVITES_LOADING
+  GET_LETTERS,
+  ADD_LETTER,
+  DELETE_LETTER,
+  DELETE_LETTERS,
+  LETTER_ERROR,
+  CLEAR_LETTERS,
+  SET_LETTERS_LOADING
 } from '../types';
 
 const LetterState = props => {
@@ -27,9 +27,9 @@ const LetterState = props => {
     try {
       setLoading();
       const res = await axios.get('/api/letters');
-      dispatch({ type: GET_INVITES, payload: { letters: res.data.letters, id: res.data.id }});
+      dispatch({ type: GET_LETTERS, payload: res.data });
     } catch (err) {
-      dispatch({ type: INVITE_ERROR, payload: err.response.data.msg });
+      dispatch({ type: LETTER_ERROR, payload: err.response.data.msg });
     }
   };
 
@@ -39,9 +39,9 @@ const LetterState = props => {
     try {
       setLoading();
       const res = await axios.post('/api/letters');
-      dispatch({ type: ADD_INVITE, payload: res.data});
+      dispatch({ type: ADD_LETTER, payload: res.data});
     } catch (err) {
-      dispatch({ type: INVITE_ERROR, payload: err.response.data.msg });
+      dispatch({ type: LETTER_ERROR, payload: err.response.data.msg });
     }
   };
   
@@ -51,9 +51,9 @@ const LetterState = props => {
     try {
       setLoading();
       const res = await axios.delete(`/api/letters/${_id}`);
-      dispatch({ type: DELETE_INVITE, payload: res.data });
+      dispatch({ type: DELETE_LETTER, payload: res.data });
     } catch (err) {
-      dispatch({ type: INVITE_ERROR, payload: err.response.data.msg });
+      dispatch({ type: LETTER_ERROR, payload: err.response.data.msg });
     }
   };
 
@@ -63,26 +63,26 @@ const LetterState = props => {
     try {
       setLoading();
       const res = await axios.delete(`/api/letters/${_id}`);
-      dispatch({ type: DELETE_INVITES, payload: res.data });
+      dispatch({ type: DELETE_LETTERS, payload: res.data });
     } catch (err) {
-      dispatch({ type: INVITE_ERROR, payload: err.response.data.msg });
+      dispatch({ type: LETTER_ERROR, payload: err.response.data.msg });
     }
   };
 
   //set loading
   const setLoading = () => {
     //console.log('setLoading')
-    return { type: SET_INVITES_LOADING }
+    return { type: SET_LETTERS_LOADING }
   };
 
   //clear letters
   const clearLetters = () => {
     //console.log('clearLetters')
-    dispatch({ type: CLEAR_INVITES });
+    dispatch({ type: CLEAR_LETTERS });
   };
 
   return (
-    <letterContext.Provider
+    <LetterContext.Provider
     value={{
       letters: state.letters,
       lettersError: state.lettersError,
@@ -94,7 +94,7 @@ const LetterState = props => {
       clearLetters
     }}>
       {props.children}
-    </letterContext.Provider>
+    </LetterContext.Provider>
   )
 };
 

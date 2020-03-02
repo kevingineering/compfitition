@@ -157,7 +157,7 @@ const GoalForm = () => {
           value={duration}
           name='duration'
           handleChange={handleChange}
-          min='0'
+          min='1'
           max='3654'
           warning={(
               type === 'pass/fail' && 

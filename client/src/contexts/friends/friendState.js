@@ -46,11 +46,11 @@ const FriendState = props => {
   };
 
   //add friend
-  const addFriend = async _id => {
+  const addFriend = async userId => {
     //console.log('addFriend')
     try {
       //setLoading();
-      const res = await axios.patch(`/api/friends/add/${_id}`);
+      const res = await axios.patch(`/api/friends/add/${userId}`);
       dispatch({ type: ADD_FRIEND, payload: res.data });
       getFriends();
     } catch (err) {

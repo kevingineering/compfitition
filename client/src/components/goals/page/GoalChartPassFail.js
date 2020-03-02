@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import AlertContext from '../../../contexts/alerts/alertContext';
 
-const GoalChartPassFail = ({isComplete, isOwner, isStarted, time, record, setRecord, duration, startDate, total}) => {
+const GoalChartPassFail = ({isComplete, isOwner, time, record, setRecord, duration, startDate, total}) => {
 
-  const { setAlert } = useContext(AlertContext);
+  const { setAlert, clearAlert } = useContext(AlertContext);
 
   //event.target will get the icon and fail, but event.currentTarget will get the button every time
   const handleClick = e => {
@@ -13,10 +13,8 @@ const GoalChartPassFail = ({isComplete, isOwner, isStarted, time, record, setRec
       return null;
     }
     let clickLoc = parseInt(e.currentTarget.name);
-    if (time < clickLoc) {
-      setAlert("You can't record the future.");
-    }
-    else if (time === clickLoc || time === clickLoc + 1) {
+    if (time === clickLoc || time === clickLoc + 1) {
+      clearAlert();
       setRecord(record.map((value, index) => {
         if (index === clickLoc) {
           if (value === null || value === false) {
@@ -82,7 +80,6 @@ const GoalChartPassFail = ({isComplete, isOwner, isStarted, time, record, setRec
 GoalChartPassFail.propTypes = {
   isComplete: PropTypes.bool.isRequired,
   isOwner: PropTypes.bool.isRequired,
-  isStarted: PropTypes.bool.isRequired,
   time: PropTypes.number.isRequired,
   record: PropTypes.array.isRequired,
   setRecord: PropTypes.func.isRequired,

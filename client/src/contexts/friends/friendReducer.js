@@ -27,14 +27,14 @@ export default (state, action) => {
       return {
         ...state,
         friends: [...state.friends, action.payload],
-        friendIds: [...state.friendIds, action.payload.id],
+        friendIds: [...state.friendIds, action.payload.userId],
         friendsLoading: false
       }
     case DELETE_FRIEND:
       return {
         ...state,
         friends: state.friends.filter(friend => friend._id !== action.payload),
-        friendIds: state.friendIds.filter(id => id !== action.payload),
+        friendIds: state.friendIds.filter(friendId => friendId !== action.payload),
         friendsLoading: false
       }
     case SET_CURRENT_FRIEND:

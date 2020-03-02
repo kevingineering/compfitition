@@ -30,7 +30,7 @@ Input.propTypes = {
   max: PropTypes.string,
   autofocus: PropTypes.bool,
   disabled: PropTypes.bool,
-  warning: PropTypes.string
+  warning: PropTypes.object
 }
 
 export default Input;

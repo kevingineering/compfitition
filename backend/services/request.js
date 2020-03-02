@@ -2,61 +2,41 @@ const Request = require('../models/Requests');
 
 //add request
 exports.addNewRequest = async (requestFields) => {
-  try {
-    const newRequest = new Request(requestFields)
-    await newRequest.save();
-    return newRequest;
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+  const newRequest = new Request(requestFields)
+  await newRequest.save();
+  return newRequest;
 }
 
 //get requests including user
-exports.getRequestsWithOneUser = async (id) => {
-  try {
-    const requests = await Request.find({ $or: [
-      { requestee: id }, 
-      { requester: id }
-    ]}).sort({ startDate: 1 });
-    return requests;
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+exports.getRequestsWithOneUser = async (userId) => {
+  const requests = await Request.find({ $or: [
+    { requestee: userId }, 
+    { requester: userId }
+  ]}).sort({ startDate: 1 });
+  return requests;
 }
 
 //get request including two users
-exports.getRequestsWithTwoUsers = async (id1, id2) => {
-  try {
-    const requestId = await Request.findOne({$or: [
-      { requester: id1, requestee: id2 },
-      { requester: id2, requestee: id1 }
-    ]})
-    return requestId;
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+exports.getRequestsWithTwoUsers = async (userId1, userId2) => {
+  const requestId = await Request.findOne({$or: [
+    { requester: userId1, requestee: userId2 },
+    { requester: userId2, requestee: userId1 }
+  ]})
+  return requestId;
 }
 
-//delete request by id
-exports.deleteRequestById = async (id) => {
-  try {
-    await Request.findByIdAndDelete(id);
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+//delete request by requestId
+exports.deleteRequestById = async (requestId) => {
+    await Request.findByIdAndDelete(requestId);
 }
 
 //delete all requests involving user
-exports.deleteAllUserRequests = async (id, session = null) => {
-  try {
-    await Request.deleteMany(
-      { $or: [ 
-        { requester: id} , 
-        { requestee: id } 
-      ]}, 
-      { session: session }  
-    );
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+exports.deleteAllUserRequests = async (userId, session = null) => {
+  await Request.deleteMany(
+    { $or: [ 
+      { requester: userId} , 
+      { requestee: userId } 
+    ]}, 
+    { session: session }  
+  );
 }

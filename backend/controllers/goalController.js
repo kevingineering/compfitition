@@ -26,7 +26,7 @@ exports.addGoal = async (req, res) => {
   }
 
   //create tracker
-  let tracker = createTracker(newDuration, total, type);
+  let tracker = createTracker(newDuration, total, type, initialValue);
 
   try {
     const goalFields = { 

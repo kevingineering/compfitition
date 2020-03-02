@@ -39,6 +39,12 @@ const SearchResults = () => {
   if (searchableUsers.length === 0)
     searchList = <li className='collection-item'>Loading...</li>;
   if (searchableUsersFiltered !== null) {
+    if (searchableUsersFiltered.length === 0)
+      return (
+        <li className='search-item center'>
+          <h3 className='pb5'>No users match your search!</h3>
+        </li>
+      )
     searchList = searchableUsersFiltered.map(user => {
       let status = 'stranger';
       if (friendIds.includes(user._id)) {
@@ -66,7 +72,6 @@ const SearchResults = () => {
   }
   return (
     <React.Fragment>
-      {searchableUsersFiltered.length !== 0 && <p className='lr-border'/>}
       {searchList}
     </React.Fragment>
   );

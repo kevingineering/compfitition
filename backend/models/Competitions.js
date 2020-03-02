@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const CompetitionSchema = mongoose.Schema({
-  //goal is ID of template goal
+  //goalId is of template goal
   //template goal is goal that will be copied any time a user joins a competition 
   //see Goal model for more notes
   goalId: { 

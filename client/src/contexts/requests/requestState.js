@@ -28,7 +28,7 @@ const RequestState = props => {
     try {
       setLoading();
       const res = await axios.get('/api/requests');
-      dispatch({ type: GET_REQUESTS, payload: { requests: res.data.requests, id: res.data.id }});
+      dispatch({ type: GET_REQUESTS, payload: { requests: res.data.requests, userId: res.data.userId }});
     } catch (err) {
       dispatch({ type: REQUEST_ERROR, payload: err.response.data.msg });
     }

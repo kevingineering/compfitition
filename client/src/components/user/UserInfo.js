@@ -7,22 +7,24 @@ const UserInfo = ({current, setEditToggle, setPasswordToggle, setDeleteToggle}) 
 
   return (
     <React.Fragment>
-      <p>
-        <strong>Name: &nbsp;&nbsp;&nbsp;</strong>
-        {firstName} {lastName}
-      </p>
-      <p>
-        <strong>Alias: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
-        {alias !== '' ? alias : 'none'}
-      </p>
-      <p>
-        <strong>Email: &nbsp;&nbsp;&nbsp;&nbsp;</strong>
-        {email}
-      </p>
-      <p>
-        <strong>Privacy: &nbsp;</strong>
-        Other users {isSearchable ? 'can' : 'cannot'} search for me using my name and email.
-      </p>
+      <ul>
+        <li>
+          <strong>Name: &nbsp;&nbsp;&nbsp;</strong>
+          {firstName} {lastName}
+        </li>
+        <li>
+          <strong>Alias: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+          {alias !== '' ? alias : 'none'}
+        </li>
+        <li>
+          <strong>Email: &nbsp;&nbsp;&nbsp;&nbsp;</strong>
+          {email}
+        </li>
+        <li>
+          <strong>Privacy: &nbsp;</strong>
+          Other users {isSearchable ? 'can' : 'cannot'} search for me using my name and email.
+        </li>
+      </ul>
       <input
         type='button'
         value='Edit User'

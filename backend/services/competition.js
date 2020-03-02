@@ -2,89 +2,61 @@ const Competition = require('../models/Competitions');
 
 //add new 
 exports.addNewCompetition = async (compFields, session = null) => {
-  try {
-    const competition = new Competition(compFields);
-    await competition.save({ session: session })
-    return competition;
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+  const competition = new Competition(compFields);
+  await competition.save({ session: session })
+  return competition;
 }
 
-//get competition by id
-exports.getCompetitionById = async (id) => {
-  try {
-    const competition = await Competition.findById(id);
-    return competition;
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+//get competition by compId
+exports.getCompetitionById = async (compId) => {
+  const competition = await Competition.findById(compId);
+  return competition;
 }
 
 //add user to competition
 exports.addUserToCompetition = async (compId, userId, session = null) => {
-  try {
-    const competition = await Competition.findByIdAndUpdate(
-      compId,
-      { $addToSet: { 'userIds': userId }},
-      { new: true, session: session }
-    );
-    return competition;
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+  const competition = await Competition.findByIdAndUpdate(
+    compId,
+    { $addToSet: { 'userIds': userId }},
+    { new: true, session: session }
+  );
+  return competition;
 }
 
 //remove user to competition
 exports.removeUserFromCompetition = async (compId, userId, session = null) => {
-  try {
-    const competition = await Competition.findByIdAndUpdate(
-      compId,
-      { $pull: { 'userIds': userId }},
-      { new: true, session: session }
-    );
-    return competition;
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+  const competition = await Competition.findByIdAndUpdate(
+    compId,
+    { $pull: { userIds: userId }},
+    { new: true, session: session }
+  );
+  return competition;
 }
 
 //add admin to competition
 exports.addAdminToCompetition = async (compId, userId, session = null) => {
-  try {
-    const competition = await Competition.findByIdAndUpdate(
-      compId,
-      { $addToSet: { 'adminIds': userId }},
-      { new: true, session: session }
-    );
-    return competition;
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+  const competition = await Competition.findByIdAndUpdate(
+    compId,
+    { $addToSet: { 'adminIds': userId }},
+    { new: true, session: session }
+  );
+  return competition;
 }
 
 //remove admin to competition
-exports.removeAdminFromCompetition = async (compId, userId, session = null) => {
-  try {
-    const competition = await Competition.findByIdAndUpdate(
-      compId,
-      { $pull: { 'adminIds': userId }},
-      { new: true, session: session }
-    );
-    return competition;
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+exports.removeAdminFromCompetition = async (compId, userId) => {
+  const competition = await Competition.findByIdAndUpdate(
+    compId,
+    { $pull: { adminIds: userId }},
+    { new: true }
+  );
+  return competition;
 }
 
-//delete competition by id
-exports.deleteCompetitionById = async (id, session = null) => {
-  try {
-    await Competition.findByIdAndDelete(
-      id, 
-      { session: session }
-    )
-  } catch (err) {
-    res.status(500).json({ msg: 'Server error.' });
-  }
+//delete competition by compId
+exports.deleteCompetitionById = async (compId, session = null) => {
+  await Competition.findByIdAndDelete(
+    compId, 
+    { session: session }
+  )
 }

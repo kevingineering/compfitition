@@ -195,6 +195,8 @@ exports.deleteUser = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if(!isMatch) 
       return res.status(401).json({msg: 'Password is incorrect.'});
+  
+    //TODO - appoint new admin if user is only admin and deletes account
 
     //start session for many DB updates
     const ses1 = await mongoose.startSession();
@@ -210,11 +212,13 @@ exports.deleteUser = async (req, res) => {
 
       //TODO delete user from competitions 
 
+      //TODO delete competition if user is only member
+
       //TODO delete user letters
 
       //delete user
-      userService.deleteUserById(req.params.userId, ses1)
-
+      await userService.deleteUserById(req.params.userId, ses1)
+      
     await ses1.commitTransaction();
 
     res.json({msg: 'User deleted.'});

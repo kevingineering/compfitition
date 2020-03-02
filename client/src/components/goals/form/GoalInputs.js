@@ -39,7 +39,7 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
           value={duration}
           name='duration'
           handleChange={handleChange}
-          min='0'
+          min='1'
           max='3654'
           warning={(
               type === 'pass/fail' && 
@@ -117,6 +117,7 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
                 handleChange={handleChange}
                 min='0'
                 max='1000000'
+                disabled={started}
               />
               <Input
                 label='What number do you want to achieve?'

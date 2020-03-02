@@ -46,7 +46,7 @@ const App = () => {
             <PrivateRoute exact path='/friend' component={FriendPage}/>
             <PrivateRoute exact path='/friend/goal' component={FriendGoalPage}/>
             <PrivateRoute exact path='/competitionform' component={CompetitionForm}/>
-            <PrivateRoute path='/competition/:participant' component={CompetitionPage}/>
+            <PrivateRoute path='/competition' component={CompetitionPage}/>
             <Route component={NotFound}/>
           </Switch>
         </div>

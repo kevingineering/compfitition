@@ -3,6 +3,7 @@ import Goals from '../goals/list/Goals';
 import Friends from '../friends/user/Friends';
 import GoalContext from '../../contexts/goals/goalContext';
 import CompetitionContext from '../../contexts/competitions/competitionContext';
+import Notifications from '../letters/Notifications';
 
 const Home = () => {
   const goalContext = useContext(GoalContext);
@@ -20,7 +21,10 @@ const Home = () => {
   return (
     <div className='grid-2'>
       <Goals/>
-      <Friends/>
+      <div>
+        <Notifications/>
+        <Friends/>
+      </div>
     </div>
   )
 };

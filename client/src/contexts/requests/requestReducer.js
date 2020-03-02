@@ -13,8 +13,8 @@ export default (state, action) => {
       return {
         ...state,
         requests: action.payload.requests,
-        requestsSent: action.payload.requests.filter(request => request.requester === action.payload.id),
-        requestsReceived: action.payload.requests.filter(request => request.requestee === action.payload.id),
+        requestsSent: action.payload.requests.filter(request => request.requester === action.payload.userId),
+        requestsReceived: action.payload.requests.filter(request => request.requestee === action.payload.userId),
         requestsLoading: false
       }
     case ADD_REQUEST:
@@ -27,9 +27,9 @@ export default (state, action) => {
     case DELETE_REQUEST:
       return {
         ...state,
-        requests: state.requests.filter(request => request._id !== action.payload._id),
-        requestsSent: state.requestsSent.filter(request => request._id !== action.payload._id),
-        requestsReceived: state.requestsReceived.filter(request => request._id !== action.payload._id),
+        requests: state.requests.filter(request => request._id !== action.payload),
+        requestsSent: state.requestsSent.filter(request => request._id !== action.payload),
+        requestsReceived: state.requestsReceived.filter(request => request._id !== action.payload),
         requestsLoading: false
       }
     case REQUEST_ERROR:

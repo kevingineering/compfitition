@@ -1,51 +1,48 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import CompetitionContext from '../../../contexts/competitions/competitionContext';
+import ParticipantButtons from './ParticipantButtons';
 
-const ParticipantItem = ({participant: {_id, firstName, lastName}, isAdminView, compId}) => {
+const ParticipantItem = ({participant: {_id, firstName, alias}, isAdminView, compId, isUserAdmin, isUserInvited}) => {
   const [userToggle, setUserToggle] = useState(false);
   const [deleteToggle, setDeleteToggle] = useState(false);
 
   const { kickUserFromCompetition } = useContext(CompetitionContext);
 
-  // const handleClick = () => {
-  //   setUse
-  // }
+
+  let name = (isAdminView && !isUserAdmin) ? (
+    <React.Fragment>
+      <span className='block'>
+        {alias ? alias : firstName} {isUserAdmin && '(admin)'} {isUserInvited && '(admin pending)'}
+      </span>
+      <button 
+        className='btn-participants btn-primary' 
+        onClick={() => {
+          setUserToggle(!userToggle)
+          setDeleteToggle(false)
+        }}
+      >
+        <i className={userToggle ? 'fas fa-times' : 'fas fa-plus'}/>
+      </button>
+    </React.Fragment>
+  ) : (
+    <span className='block'>
+      {alias ? alias : firstName} {isUserAdmin && '(admin)'}
+    </span>
+  )
 
   return (
     <React.Fragment>
       {userToggle && <hr/>}
       <div className='participant-row space-between lr-border'>
-        <span className='block'>
-          {firstName} {lastName} {false && '(admin)'} {true && '(admin pending)'}
-        </span>
-        {isAdminView && 
-          <button 
-            className='btn-participants btn-primary' 
-            onClick={() => {
-              setUserToggle(!userToggle)
-              setDeleteToggle(false)
-            }}
-          >
-            <i className={userToggle ? 'fas fa-times' : 'fas fa-plus'}/>
-          </button>
-        }
+        {name}
       </div>
       {userToggle && 
-        <React.Fragment>
-          <button 
-            className='btn btn-split btn-primary' 
-            onClick={console.log('send admin letter')}
-          >
-            Make Admin
-          </button>
-          <button 
-            className='btn btn-split btn-danger' 
-            onClick={() => setDeleteToggle(!deleteToggle)}
-          >
-            Kick User
-          </button>
-        </React.Fragment>
+        <ParticipantButtons 
+          isUserInvited={isUserInvited}
+          compId={compId}
+          userId={_id}          
+        />
       }
       {deleteToggle &&
         <div className="lr-border">
@@ -71,7 +68,11 @@ const ParticipantItem = ({participant: {_id, firstName, lastName}, isAdminView, 
 }
 
 ParticipantItem.propTypes = {
-  participant: PropTypes.object.isRequired
+  participant: PropTypes.object.isRequired,
+  isAdminView: PropTypes.bool.isRequired,
+  compId: PropTypes.string.isRequired,
+  isUserAdmin: PropTypes.bool.isRequired,
+  isUserInvited: PropTypes.bool.isRequired
 }
 
 export default ParticipantItem;

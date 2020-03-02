@@ -109,7 +109,7 @@ GoalProgress.propTypes = {
   time: PropTypes.number.isRequired,
   record: PropTypes.array.isRequired,
   setRecord: PropTypes.func.isRequired,
-  units: PropTypes.number.isRequired
+  units: PropTypes.string.isRequired
 }
 
 export default GoalProgress;
