@@ -1,5 +1,4 @@
 //Validates credentials for private routes
-const config = require('config');
 const jwt = require('jsonwebtoken');
 
 //create middleware function
@@ -11,7 +10,7 @@ module.exports = (req, res, next) => {
 
   try {
     //verify token
-    const decoded = jwt.verify(token, config.get('jwtSecret'));
+    const decoded = jwt.verify(token, process.env.jwtSecret);
     //add user from payload
     req.user = decoded.user;
     //calls next middleware - if we don't use next, no more middleware functions will be run, so call next(); unless you want to send a response

@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs');
-const config = require('config');
 const jwt = require('jsonwebtoken');
 const { check } = require('express-validator');
 const mongoose = require('mongoose');
@@ -42,7 +41,7 @@ exports.registerUser = async (req, res) => {
     }
 
     //create jwt - takes payload, secret, options, and callback function (that returns token)
-    jwt.sign( payload, config.get('jwtSecret'), { expiresIn: 3600 },
+    jwt.sign( payload, process.env.jwtSecret, { expiresIn: 3600 },
       (err, token) => { 
         if(err) throw err;
         res.json({ token });
@@ -82,7 +81,7 @@ exports.loginUser = async (req, res) => {
     }
 
     //create jwt - takes payload, secret, options, and callback function (that returns token)
-    jwt.sign( payload, config.get('jwtSecret'), { expiresIn: 3600 }, 
+    jwt.sign( payload, process.env.jwtSecret, { expiresIn: 3600 }, 
       (err, token) => {
         if(err) throw err;
         res.json({ token })
