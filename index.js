@@ -20,7 +20,7 @@ app.use(routes);
 //serve static assets (build folder) if in production
 if (process.env.NODE_ENV === 'production') {
   //sets static folder to build folder
-  app.use(express.static('cliend/build'));
+  app.use(express.static('client/build'));
   //returns index.html for routes not handled above
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
