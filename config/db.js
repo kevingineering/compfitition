@@ -1,10 +1,8 @@
 const mongoose = require ('mongoose');
-//const config = require('config');
+const config = require('config');
 
 //gets db connection string
-//TODO - REMOVE DB KEYS FROM CODE
-//const db = config.get('mongoURI');
-const db = "mongodb+srv://kcharders:password321@fitness-website-cluster-lam0s.mongodb.net/test?retryWrites=true&w=majority";
+const db = config.get('mongoURI');
 
 //connect to DB
 const connectDB = async () => {
