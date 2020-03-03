@@ -45,7 +45,7 @@ stages:
           - task: AzureRmWebAppDeployment@4
             displayName: 'Azure App Service Deploy: Compfitition'
             inputs:
-              azureSubscription: 'Compfitition Subscription'
+              azureSubscription: 'Kcharders Subscription'
               appType: webAppLinux
               WebAppName: Compfitition
               packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
