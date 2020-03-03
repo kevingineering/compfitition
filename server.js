@@ -18,7 +18,7 @@ app.use(express.json({ extended: false }));
 app.use(routes);
 
 //serve static assets (build folder) if in production
-if(process.env.NODE_ENV === 'production') {
+if(true || process.env.NODE_ENV === 'production') {
   //sets static folder to build folder
   app.use(express.static('client/build'));
   //returns index.html for routes not handled above
