@@ -15,11 +15,8 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\"",
-    "client-install": "npm install --prefix client",
-    "start": "node server.js",
-    "client": "npm start --prefix client",
+    "start": "npm start --prefix client",
     "build": "npm run build --prefix client",
-    "azure": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "repository": {
