@@ -1,6 +1,6 @@
 node_modules
 notes.txt
-/config/default.json
+/nodemon.json
 
 /client/build 
 /client/node_modules

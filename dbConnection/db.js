@@ -1,10 +1,11 @@
 const mongoose = require ('mongoose');
 
-//connect to DB
+//connect to DB - process.env is nodemon.json when in dev
 const connectDB = async () => {
   try {
     await mongoose
-    .connect(process.env.mongoURI, {
+    //.connect(process.env.mongoURI, {
+    .connect("mongodb+srv://kcharders:password321@fitness-website-cluster-lam0s.mongodb.net/test?retryWrites=true&w=majority", {
       useNewUrlParser: true, 
       useCreateIndex: true, 
       useUnifiedTopology: true,
