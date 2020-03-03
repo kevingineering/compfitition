@@ -41,8 +41,7 @@ exports.registerUser = async (req, res) => {
     }
 
     //create jwt - takes payload, secret, options, and callback function (that returns token)
-    //jwt.sign( payload, process.env.jwtSecret, { expiresIn: 3600 },
-    jwt.sign(payload, "#kchsecret", { expiresIn: 3600 },
+    jwt.sign( payload, process.env.jwtSecret, { expiresIn: 3600 },
       (err, token) => { 
         if(err) throw err;
         res.json({ token });
@@ -82,8 +81,7 @@ exports.loginUser = async (req, res) => {
     }
 
     //create jwt - takes payload, secret, options, and callback function (that returns token)
-    //jwt.sign( payload, process.env.jwtSecret, { expiresIn: 3600 }, 
-    jwt.sign( payload, "#kchsecret", { expiresIn: 3600 }, 
+    jwt.sign( payload, process.env.jwtSecret, { expiresIn: 3600 }, 
       (err, token) => {
         if(err) throw err;
         res.json({ token })
