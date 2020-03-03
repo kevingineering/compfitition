@@ -18,18 +18,27 @@ app.use(express.json({ extended: false }));
 app.use(routes);
 
 //serve static assets (build folder) if in production
-if(true || process.env.NODE_ENV === 'production') {
-  //sets static folder to build folder
-  app.use(express.static('client/build'));
-  //returns index.html for routes not handled above
-  app.use((req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-  })
-} else {
-  app.get('/', (req, res) => {
-    res.status(501).json({msg: 'Server is not in production'})
-  })
-}
+// if(true || process.env.NODE_ENV === 'production') {
+//   //sets static folder to build folder
+//   app.use(express.static('client/build'));
+//   //returns index.html for routes not handled above
+//   app.use((req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+//   })
+// } 
+// else {
+//   app.get('/', (req, res) => {
+//     res.status(501).json({msg: 'Server is not in production'})
+//   })
+// }
+
+//sets static folder to build folder
+app.use(express.static('client/build'));
+//returns index.html for routes not handled above
+app.use((req, res) => {
+  res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+})
+
 //environmental port (if deployed) or local port 5004
 const port = process.env.PORT || 5004;
 
