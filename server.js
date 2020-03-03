@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const connectDB = require('./config/db');
+const connectDB = require('./dbConnection/db');
 const routes = require('./backend/routes/index');
 // const swaggerUi = require('swagger-ui-express');
 // const swaggerDocument = require('./swagger.json');
@@ -22,7 +22,7 @@ if(process.env.NODE_ENV === 'production') {
   //sets static folder to build folder
   app.use(express.static('client/build'));
   //returns index.html for routes not handled above
-  app.get('*', (req, res) => {
+  app.use((req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
   })
 } else {
