@@ -7,7 +7,7 @@ import Switch from '../formComponents/Switch';
 
 const Register = () => {
   const authContext = useContext(AuthContext);
-  const { registerUser, userError, clearUserErrors, isAuthenticated } = authContext;
+  const { registerUser, userError, clearUserError, isAuthenticated } = authContext;
 
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlert } = alertContext;
@@ -21,7 +21,7 @@ const Register = () => {
 
     if (userError) {
       setAlert(userError);
-      clearUserErrors();
+      clearUserError();
     }
     //eslint-disable-next-line
   }, [userError, isAuthenticated]);

@@ -4,6 +4,8 @@ import Participants from './Participants';
 import InviteTable from './InviteTable';
 import PropTypes from 'prop-types';
 
+//contains admin toggle button, Leaderboard, Participants, InviteTable, and relinquish admin button
+
 const CompLists = ({isAdmin, isAdminView, setIsAdminView, competitionArray, type, participants, competition, isStarted, removeAdminFromCompetition}) => {
   const [relinquishToggle, setRelinquishToggle] = useState(false);
 
@@ -16,7 +18,7 @@ const CompLists = ({isAdmin, isAdminView, setIsAdminView, competitionArray, type
     <div>
       {isAdmin && 
         <div className='collection competition-lists-container'>
-          <button className='btn btn-block btn-primary' onClick={() => setIsAdminView(!isAdminView)}>
+          <button className='btn btn-block btn-primary' onClick={() => setIsAdminView(prevState => !prevState)}>
             <h3>{isAdminView ? 'View as User' : 'View as Admin'}</h3>
           </button>
         </div>

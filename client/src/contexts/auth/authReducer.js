@@ -13,7 +13,7 @@ import {
   USER_DELETED_SUCCESS,
   USER_DELETED_FAIL,
   SET_AUTH_LOADING,
-  CLEAR_AUTH_ERRORS
+  CLEAR_AUTH_ERROR
 } from '../types';
 
 export default (state, action) => {
@@ -79,7 +79,7 @@ export default (state, action) => {
         ...state,
         userLoading: true
       }
-    case CLEAR_AUTH_ERRORS:
+    case CLEAR_AUTH_ERROR:
       return {
         ...state,
         userError: null

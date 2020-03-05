@@ -21,7 +21,7 @@ const Friends = () => {
         <h2>Friends!</h2>
         <button 
           className='btn btn-primary right'
-          onClick={() => setIsFriendsOpen(!isFriendsOpen)}
+          onClick={() => setIsFriendsOpen(prevState => !prevState)}
         >
           <i className={isFriendsOpen ? 'fas fa-minus' : 'fas fa-plus'}/>
         </button>
@@ -38,7 +38,9 @@ const Friends = () => {
           />
           <li className='collection-footer'>
             <Link to='/search' className='text-secondary'>
-              <p className='margin-025'><i className='fas fa-plus'/> Add Friend</p>
+              <p className='padding-025'>
+                <i className='fas fa-plus'/> Add Friend
+              </p>
             </Link>
           </li>
         </React.Fragment>

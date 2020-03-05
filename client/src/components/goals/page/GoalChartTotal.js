@@ -52,7 +52,7 @@ const GoalChartTotal = ({ units, record, time }) => {
           }
         },
         legend: {
-          position: 'in'
+          position: 'in',
         },
         vAxis: {
           textPosition: 'none',

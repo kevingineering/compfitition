@@ -11,7 +11,8 @@ const CompButtons = ({isAdminView, isOwner, isStarted, isActive, handleSave, rec
     competition, 
     competitionError, 
     deleteCompetition,
-    clearCompetition
+    clearCompetition,
+    clearCompetitionError
   } = useContext(CompetitionContext);
 
   const { clearCurrentGoal } = useContext(GoalContext);
@@ -27,6 +28,7 @@ const CompButtons = ({isAdminView, isOwner, isStarted, isActive, handleSave, rec
     await deleteCompetition(competition._id);
     if (competitionError) {
       setAlert(competitionError);
+      clearCompetitionError();
     }
     else {
       setAlert('Competition deleted!', true);

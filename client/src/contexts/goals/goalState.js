@@ -12,7 +12,8 @@ import {
   CLEAR_CURRENT_GOAL,
   //SET_GOAL_LOADING,
   GOAL_ERROR,
-  CLEAR_GOALS
+  CLEAR_GOALS,
+  CLEAR_GOALS_ERROR
 } from '../types';
 
 const GoalState = props => {
@@ -117,6 +118,12 @@ const GoalState = props => {
     dispatch({ type: CLEAR_GOALS });
   };
 
+  //clear goals error
+  const clearGoalsError = () => {
+    //console.log('clearGoalsError')
+    dispatch({ type: CLEAR_GOALS_ERROR });
+  };
+
   return (
     <GoalContext.Provider
     value={{
@@ -131,7 +138,8 @@ const GoalState = props => {
       updateGoalTracker,
       setCurrentGoal,
       clearCurrentGoal,
-      clearGoals
+      clearGoals,
+      clearGoalsError
     }}>
       {props.children}
     </GoalContext.Provider>

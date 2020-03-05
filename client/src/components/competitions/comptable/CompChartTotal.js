@@ -47,6 +47,8 @@ const CompChartTotal = ({competitionArray, units, type }) => {
   let dataPoints = [dataPointsZero, dataPointsOne, ...dataPointsBeyond];
   
   return (
+    competitionArray.length === 0 ? 
+    <div className='border'>Loading Chart</div> :
     <div className='border'>
       <Chart
         chartType="LineChart"

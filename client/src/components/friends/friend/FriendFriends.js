@@ -19,7 +19,7 @@ const FriendFriends = () => {
         <h2>{friendCurrent.firstName}'s Friends!</h2>
         <button 
           className='btn btn-primary right'
-          onClick={() => setIsFriendsOpen(!isFriendsOpen)}
+          onClick={() => setIsFriendsOpen(prevState => !prevState)}
         >
           <i className={isFriendsOpen ? 'fas fa-minus' : 'fas fa-plus'}/>
         </button>

@@ -4,42 +4,57 @@ import PropTypes from 'prop-types';
 
 const CompInfo = ({goal, time, record, value, isStarted}) => {
 
-  const { duration, startDate, units, type } = goal;
+  const { duration, startDate, description, units, type } = goal;
 
-  let topLeft = `Start Date: ${moment.utc(startDate).format('MMMM Do, YYYY')}`
-  let topRight = (time === duration) ? 
-    `Duration: ${duration} days` : 
-    `Day: ${time + 1} / ${duration}`;
-  let bottomLeft = null;
-  let bottomRight = null;
+  let topLeftTag = 'Start Date: '
+  let topLeftMsg = moment.utc(startDate).format('MMMM Do, YYYY')
+  let topRightTag = (time === duration) ? 'Duration: ' : 'Day: '
+  let topRightMsg = (time === duration) ? `${duration} days` : `${time + 1} / ${duration}`;
+  let bottomLeftTag = null;
+  let bottomLeftMsg = null;
+  let bottomRightTag = null;
+  let bottomRightMsg = null;
 
   if (isStarted) {
     //difference
     if (type === 'difference') {
-      bottomLeft = `Start: ${record[0]} ${units}`;
-      bottomRight = (time === duration) ? 
-        `Final: ${record[0] + value} ${units}` :
-        `Change: ${value} ${units}`;
+      bottomLeftTag = 'Start: '
+      bottomLeftMsg = `${record[0]} ${units}`
+      bottomRightTag = (time === duration) ? 'Final: ' : 'Change: '
+      bottomRightMsg = (time === duration) ? 
+        `${record[0] + value > 0 ? '+' : ''}${record[0] + value} ${units}` : 
+        `${value > 0 ? '+' : ''}${value} ${units}`
     }
   }
 
   if (!isStarted) {
-    topLeft = `Begins: ${moment.utc(startDate).format('MMMM Do, YYYY')}`
-    topRight = `Duration: ${duration} days`
+    topLeftTag = 'Begins: '
+    topLeftMsg = `${moment.utc(startDate).format('MMMM Do, YYYY')}`
+    topRightTag = 'Duration: '
+    topRightMsg = `${duration} days`
     if (type === 'difference') {
-      bottomLeft = `Start: ${record[0]} ${units}`;
+      bottomLeftTag = 'Start: '
+      bottomLeftMsg = `${record[0]} ${units}`;
     }
   }
   
   return (
     <React.Fragment>
+      {description &&
+        <React.Fragment>
+          <li className='table-info lr-border'>
+            <span><strong>Description: </strong>{description}</span>
+          </li>
+          <hr/>
+        </React.Fragment>
+      }
       <li className='table-info lr-border'>
         <div className='space-between'>
           <span>
-            {topLeft}
+            <strong>{topLeftTag}</strong>{topLeftMsg}
           </span>
           <span className='right'>
-            {topRight}
+            <strong>{topRightTag}</strong>{topRightMsg}
           </span>
         </div>
       </li>
@@ -47,10 +62,10 @@ const CompInfo = ({goal, time, record, value, isStarted}) => {
         <li className='table-info lr-border'>
           <div className='space-between'>
             <span>
-              {bottomLeft}
+              <strong>{bottomLeftTag}</strong>{bottomLeftMsg}
             </span>
             <span className='right'>
-              {bottomRight}
+              <strong>{bottomRightTag}</strong>{bottomRightMsg}
             </span>
           </div>
         </li>

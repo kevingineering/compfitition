@@ -30,16 +30,14 @@ const InviteItem = ({friend: {_id, firstName, lastName}, isPending, compId}) => 
           <input
             type='button'
             value='No'
-            className='btn btn-primary btn-split'
+            className='btn btn-primary btn-split margin-0'
             onClick={() => setInviteToggle(false)}
-            style={{margin: 0}}
           />
           <input
             type='button'
             value='Yes'
-            className='btn btn-primary btn-split'
+            className='btn btn-primary btn-split margin-0'
             onClick={() => {isPending ? deleteLetter(compId, _id) : addLetter(compId, _id)}}
-            style={{margin: 0}}
           />
         </div>
       }

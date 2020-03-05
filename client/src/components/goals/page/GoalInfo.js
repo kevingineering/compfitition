@@ -5,65 +5,89 @@ import PropTypes from 'prop-types';
 
 const GoalInfo = ({goal, time, record, value, isStarted}) => {
 
-  const { duration, startDate, units, total, type } = goal;
+  const { duration, startDate, description, units, total, type } = goal;
 
-  let topLeft = `Start Date: ${moment.utc(startDate).format('MMMM Do, YYYY')}`
-  let topRight = null;
-  let middleLeft = null;
-  let middleRight = null;
-  let bottomLeft = null;
-  let bottomRight = null;
+  let topLeftTag = 'Start Date: '
+  let topLeftMsg = `${moment.utc(startDate).format('MMMM Do, YYYY')}`
+  let topRightTag = null
+  let topRightMsg = null
+  let middleLeftTag = null
+  let middleLeftMsg = null
+  let middleRightTag = null
+  let middleRightMsg = null
+  let bottomLeftTag = null
+  let bottomLeftMsg = null
+  let bottomRightTag = null
+  let bottomRightMsg = null
 
   if (isStarted) {
-      //difference
-      if (type === 'difference') {
-        topRight = (time === duration) ? 
-        `Duration: ${duration} days` :
-        `Day: ${time + 1} / ${duration}`;
-      middleLeft = `Start: ${record[0]} ${units}`;
-      middleRight = `Goal: ${total} ${units}`;
-      bottomLeft = (time === duration) ? 
-        `Final: ${record[0] + value} ${units}` :
-        `Current: ${record[0] + value} ${units}`;
-      bottomRight = `Change: ${value > 0 ? '+' : ''}${value} ${units}`
+    //difference
+    if (type === 'difference') {
+      topRightTag = (time === duration) ? 'Duration: ' : 'Day: '
+      topRightMsg = (time === duration) ? `${duration} days` : `${time + 1} / ${duration}`
+      middleLeftTag = 'Start: '
+      middleLeftMsg = `${record[0]} ${units}`
+      middleRightTag = 'Goal: '
+      middleRightMsg = `${total} ${units}`
+      bottomLeftTag = (time === duration) ? 'Final: ' : 'Current: '
+      bottomLeftMsg = (time === duration) ? `${record[0] + value} ${units}` : `${record[0] + value} ${units}`
+      bottomRightTag = 'Change: '
+      bottomRightMsg = `${value > 0 ? '+' : ''}${value} ${units}`
     }
     //total
     else if (type === 'total') {
-      topRight = (time === duration) ? 
-        `Duration: ${duration} days` : 
-        `Day: ${time + 1} / ${duration}`
-        middleLeft = `Total: ${value} / ${total} ${units}`;
-      middleRight = `Goal Completion: ${round(value / total * 100)}%`;
+      topRightTag = (time === duration) ? 'Duration: ' : 'Day: '
+      topRightMsg = (time === duration) ? `${duration} days` : `${time + 1} / ${duration}`
+      middleLeftTag = 'Total: '
+      middleLeftMsg = `${value} / ${total} ${units}`;
+      middleRightTag = 'Goal Completion: '
+      middleRightMsg = `${round(value / total * 100)}%`;
     }
     //pass/fail
     else if (type === 'pass/fail') {
-      topRight = null;
-      middleLeft = `Success To Date: ${value} / ${time > duration ? record.length : time + 1} (${round(value / (time + 1) * 100)}%)`
-      bottomLeft = `Success Total: ${value} / ${record.length} (${round(value / record.length * 100)}%)`
+      topRightTag = null;
+      topRightMsg = null;
+      middleLeftTag = 'Success To Date: '
+      middleLeftMsg = `${value} / ${time > duration ? record.length : time + 1} (${round(value / (time + 1) * 100)}%)`
+      bottomLeftTag = 'Success Total: '
+      bottomLeftMsg = `${value} / ${record.length} (${round(value / record.length * 100)}%)`
     }
   }
 
   if (!isStarted) {
-    topLeft = `Begins: ${moment.utc(startDate).format('MMMM Do, YYYY')}`
-    topRight = `Duration: ${duration} days`
+    topLeftTag = 'Begins: '
+    topLeftMsg = `${moment.utc(startDate).format('MMMM Do, YYYY')}`
+    topRightTag = 'Duration: '
+    topRightMsg = `${duration} days`
     if (type === 'difference') {
-      middleLeft = `Start: ${record[0]} ${units}`;
-      middleRight = `Goal: ${total} ${units}`;
+      middleLeftTag = 'Start: '
+      middleLeftMsg = `${record[0]} ${units}`
+      middleRightTag = 'Goal: '
+      middleRightMsg = `${total} ${units}`
     }
     else if (type === 'total') {
-      middleLeft = `Goal: ${total} ${units}`;
+      middleLeftTag = 'Goal: '
+      middleLeftMsg = `${total} ${units}`
     }
   }
   
   return (
     <React.Fragment>
+      {description &&
+        <React.Fragment>
+          <li className='table-info lr-border'>
+            <span><strong>Description: </strong>{description}</span>
+          </li>
+          <hr/>
+        </React.Fragment>
+      }
       <li className='table-info lr-border'>
         <div className='space-between'>
           <span>
-            {topLeft}
+            <strong>{topLeftTag}</strong>{topLeftMsg}
           </span>
           <span className='right'>
-            {topRight}
+            <strong>{topRightTag}</strong>{topRightMsg}
           </span>
         </div>
       </li>
@@ -71,10 +95,10 @@ const GoalInfo = ({goal, time, record, value, isStarted}) => {
         <li className='table-info lr-border'>
           <div className='space-between'>
             <span>
-              {middleLeft}
+              <strong>{middleLeftTag}</strong>{middleLeftMsg}
             </span>
             <span className='right'>
-              {middleRight}
+              <strong>{middleRightTag}</strong>{middleRightMsg}
             </span>
           </div>
         </li>
@@ -83,10 +107,10 @@ const GoalInfo = ({goal, time, record, value, isStarted}) => {
         <li className='table-info lr-border'>
           <div className='space-between'>
             <span>
-              {bottomLeft}
+              <strong>{bottomLeftTag}</strong>{bottomLeftMsg}
             </span>
             <span className='right'>
-              {bottomRight}
+              <strong>{bottomRightTag}</strong>{bottomRightMsg}
             </span>
           </div>
         </li>

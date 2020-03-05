@@ -2,10 +2,12 @@
 
 /*#region Global Styles */
 :root {
-  --primary-color: black;
-  --secondary-color: white;
-  --danger-color: red;
-  --success-color: green;
+  --primary-color:#000000;
+  --secondary-color:#FFFFFF;
+  --danger-color:#FF0000;
+  --success-color:#008000;
+  --current-color:#FFFF00;
+  --tooltip-color:#FFFFFF;
 }
 
 html {
@@ -18,7 +20,12 @@ html {
   padding: 0;
 }
 
-label, li, h1 {
+.margin-0 {
+  margin: 0 !important;
+}
+
+
+label, li, h1, span {
   color: var(--primary-color);
 }
 
@@ -131,8 +138,6 @@ img {
   border: none;
 }
 
-
-
 #input-special {
   display: inline-block;
   width: 90%;
@@ -166,8 +171,16 @@ img {
   min-height: 0.5rem;
 }
 
-.margin-025 {
+.no-top-border {
+  border-top: 0 !important;
+}
+
+.padding-025 {
   padding: 0.25rem;
+}
+
+.padding-070 {
+  padding: 0.7rem !important;
 }
 
 .width-75 {
@@ -178,6 +191,28 @@ img {
 
 .width-325 {
   max-width: 325px;
+}
+
+/* Google Charts (SVG) */
+.google-visualization-tooltip path {
+  fill: var(--tooltip-color);
+}
+
+.google-visualization-tooltip > g > text {
+  fill: #000000;
+}
+
+svg > rect {
+  fill: var(--secondary-color);
+}
+
+g > text {
+  stroke: var(--secondary-color);
+  fill: var(--primary-color);
+}
+
+g > g > rect {
+  fill: #999999;
 }
 
 /* Table */
@@ -209,7 +244,7 @@ img {
 }
 
 .table-btn-today {
-  background-color: yellow;
+  background-color: var(--current-color);
 }
 
 .table-info {

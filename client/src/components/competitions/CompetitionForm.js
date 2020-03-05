@@ -21,6 +21,7 @@ const CompetitionForm = () => {
     duration: 28,
     startDate: moment().startOf('day').format('YYYY-MM-DD'),
     type: 'pass/fail',
+    description: '',
     units: '',
     total: 7,
     isPrivate: false,
@@ -81,7 +82,7 @@ const CompetitionForm = () => {
   }, [isSubmit, isUpdate])
   
   //destructure goal 
-  const { name, duration, startDate, type, units, total, isPrivate, initialValue, started } = goal;
+  const { name, duration, startDate, type, description, units, total, isPrivate, initialValue, started } = goal;
   
   //add or update competition
   const handleSubmit = async e => {
@@ -160,6 +161,16 @@ const CompetitionForm = () => {
             onChange={handleChange}
             value={name}
             autoFocus={true}
+          />
+        </div>
+        {/* Description */}
+        <div className="form-group">
+          <label>Competition Description (Optional)</label>
+          <input 
+            type='text' 
+            name='description' 
+            onChange={handleChange}
+            value={description}
           />
         </div>
         {/* Start Date */}

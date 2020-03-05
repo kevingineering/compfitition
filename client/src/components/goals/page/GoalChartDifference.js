@@ -60,7 +60,7 @@ const GoalChartDifference = ({ duration, units, record, time }) => {
           },
           vAxis: {
             textPosition: 'none',
-            baselineColor: 'none',
+            baselineColor: 'none'
           },
           titlePosition: 'none',
         }}

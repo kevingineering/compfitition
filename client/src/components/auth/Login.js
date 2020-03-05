@@ -6,7 +6,7 @@ import Input from '../formComponents/Input';
 
 const Login = () => {
   const authContext = useContext(AuthContext);
-  const { loginUser, userError, clearUserErrors, isAuthenticated } = authContext;
+  const { loginUser, userError, clearUserError, isAuthenticated } = authContext;
 
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlert } = alertContext;
@@ -20,7 +20,7 @@ const Login = () => {
 
     if (userError) {
       setAlert(userError);
-      clearUserErrors();
+      clearUserError();
     }
     //eslint-disable-next-line
   }, [isAuthenticated, userError]);

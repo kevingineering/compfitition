@@ -40,7 +40,9 @@ const CompChartDifference = ({competitionArray, units, time, duration}) => {
       if (value > maxValue) maxValue = value;
       list.push(
         value,
-        `Day ${i} \n Change: ${value} \n Current: ${competitionArray[j][2][i]} ${units}`
+        `Day ${i}
+        Change: ${value > 0 ? '+' : ''}${value} ${units}
+        Current: ${competitionArray[j][2][i]} ${units}`
       )
     }
     dataPointsBeyond.push(list);
@@ -51,6 +53,8 @@ const CompChartDifference = ({competitionArray, units, time, duration}) => {
   const chartMax = (time === duration) ? duration : time + 1;
 
   return (
+    competitionArray.length === 0 ? 
+    <div className='border'>Loading Chart</div> :
     <div className='border'>
       <Chart
         chartType="LineChart"

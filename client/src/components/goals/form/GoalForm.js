@@ -20,6 +20,7 @@ const GoalForm = () => {
     duration: 28,
     startDate: moment().startOf('day').format('YYYY-MM-DD'),
     type: 'pass/fail',
+    description: '',
     units: '',
     total: 7,
     isPrivate: false,
@@ -64,7 +65,7 @@ const GoalForm = () => {
     //eslint-disable-next-line
   }, [])
   
-  const { name, duration, startDate, type, units, total, isPrivate, started } = goal;
+  const { name, duration, startDate, type, description, units, total, isPrivate, started } = goal;
   
   //add or update goal
   const handleSubmit = async (e) => {

@@ -8,7 +8,7 @@ import DeleteModule from './DeleteModule';
 
 const UserPage = () => {
   const authContext = useContext(AuthContext);
-  const { user, updateUser, changeUserPassword, deleteUser, userError, clearUserErrors } = authContext;
+  const { user, updateUser, changeUserPassword, deleteUser, userError, clearUserError } = authContext;
   
   const alertContext = useContext(AlertContext);
   const { setAlert, clearAlert } = alertContext;
@@ -55,7 +55,7 @@ const UserPage = () => {
           setAlert(userError);
       }
     }
-    clearUserErrors();
+    clearUserError();
     //eslint-disable-next-line
   }, [userError]);
 

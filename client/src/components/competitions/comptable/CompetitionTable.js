@@ -13,7 +13,8 @@ const CompetitionTable = ({isAdminView, isStarted, isActive, isComplete, time, c
   const { 
     goalCurrent, 
     updateGoalTracker,
-    goalsError
+    goalsError,
+    clearGoalsError
   } = useContext(GoalContext);
 
   const { competition, getCompetitionGoals } = useContext(CompetitionContext);
@@ -58,6 +59,7 @@ const CompetitionTable = ({isAdminView, isStarted, isActive, isComplete, time, c
     await updateGoalTracker(record, _id);
     if (goalsError) {
       setAlert(goalsError);
+      clearGoalsError();
     }
     else {
       setAlert('Goal saved!');

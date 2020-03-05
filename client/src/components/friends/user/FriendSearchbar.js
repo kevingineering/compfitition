@@ -18,7 +18,7 @@ const FriendSearchbar = () => {
   return (
     <form>
       <input
-        style={{margin: 0, borderTop: 0}}
+        className='margin-0 no-top-border'
         type='text'
         ref={text}
         placeholder='Search Friends'

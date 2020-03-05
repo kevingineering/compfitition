@@ -9,7 +9,7 @@ import GoalContext from '../../../contexts/goals/goalContext';
 import GoalChart from './GoalChart';
 
 const GoalPage = () => {
-  const { goalCurrent, goalsError, updateGoalTracker } = useContext(GoalContext);
+  const { goalCurrent, goalsError, updateGoalTracker, clearGoalsError } = useContext(GoalContext);
   const { setAlert, clearAlert } = useContext(AlertContext);
 
   const { name, duration, startDate, units, tracker, type, _id } = goalCurrent;
@@ -69,6 +69,7 @@ const GoalPage = () => {
     await updateGoalTracker(record, _id);
     if (goalsError) {
       setAlert(goalsError);
+      clearGoalsError();
     }
     else {
       setAlert('Goal saved!');

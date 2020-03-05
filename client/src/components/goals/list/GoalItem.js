@@ -21,24 +21,28 @@ const GoalItem = ({isOwner, isGoal, goal: { _id, name, startDate, duration, trac
   let timeHours = moment().startOf('day').diff(startDate, 'hours');
 
   //calc progress
-  let progress = '';
+  let progressTag = '';
+  let progressMsg = '';
   let count = 0;
   if (type === 'pass/fail'){
     for (let i = 0; i < tracker.length; i++) {
       if (tracker[i]) count++;
     }
-    progress = `Success: ${count} / ${(time > tracker.length) ? tracker.length : time + 1}`
+    progressTag = 'Success: '
+    progressMsg = `${count} / ${(time > tracker.length) ? tracker.length : time + 1}`
   }
   else if (type === 'total') {
     for (let i = 0; i < tracker.length; i++) {
       count += tracker[i];
     }
-    progress = `Total: ${count} ${units}`
+    progressTag = 'Total: '
+    progressMsg = `${count} ${units}`
   }
   else {
     let temp = tracker.filter(value => value !== null)
     let count = temp.pop() - tracker[0];
-    progress = `Change: ${count > 0 ? '+' : ''}${count} ${units}`
+    progressTag = 'Change: '
+    progressMsg = `${count > 0 ? '+' : ''}${count} ${units}`
   }
 
   const handleClick = async () => {
@@ -65,20 +69,27 @@ const GoalItem = ({isOwner, isGoal, goal: { _id, name, startDate, duration, trac
         <div className='hide-sm'>
           {timeHours >= 0 ? (
           <React.Fragment>
-            <span className='right'>Day: {time + 1} / {duration}</span>
+            <span className='right'>
+              <strong>Day: </strong>{time + 1} / {duration}
+            </span>
             <br/>
-            <span className='right'>{progress}</span>
+            <span className='right'>
+              <strong>{progressTag}</strong>{progressMsg}
+            </span>
           </React.Fragment>
           ) : (
           <React.Fragment>
             <span className='right'>Begins </span>
             <br/>
-            <span className='right'>{moment.utc(startDate).format('MMM Do')}</span>
+            <span className='right'>
+              {moment.utc(startDate).format('MMM Do')}
+            </span>
           </React.Fragment>
           )}
         </div>
       ) : (
-        <span className='right hide-sm'>Final {progress}</span>
+        <span className='right hide-sm'>
+          <strong>Final {progressTag}</strong>{progressMsg}</span>
       )
       }
     </li>

@@ -38,7 +38,7 @@ const SearchResults = () => {
 
   if (searchableUsers.length === 0)
     searchList = <li className='collection-item'>Loading...</li>;
-  if (searchableUsersFiltered !== null) {
+  else if (searchableUsersFiltered !== null) {
     if (searchableUsersFiltered.length === 0)
       return (
         <li className='search-item center'>

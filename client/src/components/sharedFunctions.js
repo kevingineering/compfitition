@@ -2,7 +2,7 @@ import moment from 'moment';
 
 // const timeHours = moment().startOf('day').diff(startDate, 'hours');
 
-const getTime = (startDate) => moment().startOf('day').diff(startDate, 'days');
+export const getTime = (startDate) => moment().startOf('day').diff(startDate, 'days');
 
 // const utcTime = moment.utc().startOf('day').diff(startDate, 'days');
 
@@ -10,7 +10,7 @@ const getTime = (startDate) => moment().startOf('day').diff(startDate, 'days');
 //get the utcTime
 //get the current time
 
-const verifyDates = (startDate, started, duration) => {
+export const verifyDates = (startDate, started, duration) => {
   const time = getTime(startDate);
 
   //verify start date not in past
@@ -24,7 +24,7 @@ const verifyDates = (startDate, started, duration) => {
   }
 };
 
-const handleGoalChange = (e, setGoal, goal) => {
+export const handleGoalChange = (e, setGoal, goal) => {
   if (e.target.name === 'duration' || 
     e.target.name === 'total' || 
     e.target.name === 'initialValue') {
@@ -43,4 +43,40 @@ const handleGoalChange = (e, setGoal, goal) => {
     });
 };
 
-export { verifyDates, handleGoalChange }
+//http://there4.io/2012/05/02/google-chart-color-list/
+//https://htmlcolorcodes.com/
+//not currently using, was originally for google charts
+// export const getColors = () => {
+//   const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--secondary-color');
+//   const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
+//   let lineColors;
+
+//   if (backgroundColor === '#FFFFFF')
+//     lineColors = [
+//       '#3366CC',
+//       '#DC3912',
+//       '#109618',
+//       '#FF9900',
+//       '#990099',
+//       '#95A5A6',
+//       '#34495E',
+//       '#3498DB',
+//       '#1ABC9C',
+//       '#F1C4OF',
+//     ];
+//   else 
+//     lineColors = [
+//       '#1A5276',
+//       '#7B241C',
+//       '#196F3D',
+//       '#9C640C',
+//       '#5B2C6F',
+//       '#5F6A6A',
+//       '#212F3C',
+//       '#21618C',
+//       '#117864',
+//       '#9A7D0A',
+//     ];
+
+//   return [primaryColor, backgroundColor, lineColors]
+// }

@@ -32,6 +32,7 @@ const CompetitionPage = (props) => {
     competitionGoals, 
     competitionParticipants,
     competitionError,
+    clearCompetitionError,
     removeAdminFromCompetition
   } = useContext(CompetitionContext);
 
@@ -69,6 +70,7 @@ const CompetitionPage = (props) => {
   useEffect(() => {
     if(competitionError)
       setAlert(competitionError);
+      clearCompetitionError();
     //eslint-disable-next-line
   }, [competitionError])
 

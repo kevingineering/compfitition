@@ -11,6 +11,7 @@ const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
     clearCurrentGoal, 
     goalsError, 
     deleteGoal, 
+    clearGoalsError
   } = useContext(GoalContext);
 
   const { setAlert, clearAlert } = useContext(AlertContext);
@@ -23,6 +24,7 @@ const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
     await deleteGoal(goalCurrent._id);
     if (goalsError) {
       setAlert(goalsError);
+      clearGoalsError();
     }
     else {
       setAlert('Goal deleted!', true);

@@ -6,7 +6,7 @@ import Switch from '../../formComponents/Switch';
 
 const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) => {
 
-  const { name, duration, startDate, type, units, total, isPrivate, initialValue, started } = goal;
+  const { name, duration, startDate, type, description, units, total, isPrivate, initialValue, started } = goal;
 
   return (
     <div className='form-container'>
@@ -20,6 +20,14 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
           name='name'
           handleChange={handleChange}
           autoFocus={true}
+        />
+        {/* Goal Description */}
+        <Input
+          label='Goal Description (optional)'
+          type='text'
+          value={description}
+          name='description'
+          handleChange={handleChange}
         />
         {/* Start Date */}
         <Input

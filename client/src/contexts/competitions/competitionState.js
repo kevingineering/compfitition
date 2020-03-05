@@ -16,7 +16,8 @@ import {
   REMOVE_ADMIN_FROM_COMPETITION,
   SET_COMPETITION_LOADING,
   CLEAR_COMPETITION,
-  COMPETITION_ERROR
+  COMPETITION_ERROR,
+  CLEAR_COMPETITION_ERROR
 } from '../types';
 
 const CompetitionState = props => {
@@ -86,7 +87,7 @@ const CompetitionState = props => {
 
   //delete competition
   const deleteCompetition = async (_id) => {
-    //console.log('deleteCompetition')
+    console.log('deleteCompetition')
     try {
       setLoading();
       await axios.delete(`/api/competitions/${_id}`);
@@ -175,6 +176,12 @@ const CompetitionState = props => {
     dispatch({ type: CLEAR_COMPETITION });
   };
 
+  //clear error
+  const clearCompetitionError = () => {
+    //console.log('clearCompetitionError')
+    dispatch({ type: CLEAR_COMPETITION_ERROR });
+  };
+
   return (
     <CompetitionContext.Provider
     value={{
@@ -194,7 +201,8 @@ const CompetitionState = props => {
       kickUserFromCompetition,
       addAdminToCompetition,
       removeAdminFromCompetition,
-      clearCompetition
+      clearCompetition,
+      clearCompetitionError
     }}>
       {props.children}
     </CompetitionContext.Provider>

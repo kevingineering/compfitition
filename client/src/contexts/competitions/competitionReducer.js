@@ -12,7 +12,8 @@ import {
   REMOVE_ADMIN_FROM_COMPETITION,
   SET_COMPETITION_LOADING,
   CLEAR_COMPETITION,
-  COMPETITION_ERROR
+  COMPETITION_ERROR,
+  CLEAR_COMPETITION_ERROR
 } from '../types';
 
 export default (state, action) => {
@@ -41,19 +42,14 @@ export default (state, action) => {
         competitionParticipants: action.payload,
         competitionLoading: false
       }
-    case DELETE_COMPETITION:
-    case REMOVE_USER_FROM_COMPETITION:
-      return {
-        ...state,
-        competition: {},
-        competitionLoading: false
-      }
     case COMPETITION_ERROR:
       return {
         ...state,
         competitionError: action.payload,
         competitionLoading: false
       }
+    case DELETE_COMPETITION:
+    case REMOVE_USER_FROM_COMPETITION:
     case CLEAR_COMPETITION:
       return {
         ...state, 
@@ -67,6 +63,11 @@ export default (state, action) => {
       return {
         ...state,
         competitionLoading: true
+      }
+    case CLEAR_COMPETITION_ERROR:
+      return {
+        ...state,
+        competitionError: null
       }
     default: 
       return state;

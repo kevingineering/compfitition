@@ -18,7 +18,7 @@ const GoalTable = ({goals, isPast, isGoal, isOwner, name, loading}) => {
             <h2>{owner}{status}{type}s</h2>
             <button 
               className='btn btn-primary right'
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsOpen(prevState => !prevState)}
             >
               <i className={isOpen ? 'fas fa-minus' : 'fas fa-plus'}/>
             </button>
@@ -37,7 +37,7 @@ const GoalTable = ({goals, isPast, isGoal, isOwner, name, loading}) => {
                     to={isGoal ? '/goalform' : '/competitionform'} 
                     className='text-secondary'
                   >
-                    <p className='margin-025'>
+                    <p className='padding-025'>
                       <i className='fas fa-plus'/> Add {type}
                     </p>
                   </Link>

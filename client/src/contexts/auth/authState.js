@@ -18,7 +18,7 @@ import {
   USER_DELETED_SUCCESS,
   USER_DELETED_FAIL,
   SET_AUTH_LOADING,
-  CLEAR_AUTH_ERRORS
+  CLEAR_AUTH_ERROR
 } from '../types';
 
 const AuthState = props => {
@@ -133,10 +133,10 @@ const AuthState = props => {
     dispatch({ type: SET_AUTH_LOADING });
   };
 
-  //clear errors
-  const clearUserErrors = () => {
-    //console.log('clearUserErrors')
-    dispatch({ type: CLEAR_AUTH_ERRORS });
+  //clear error
+  const clearUserError = () => {
+    //console.log('clearUserError')
+    dispatch({ type: CLEAR_AUTH_ERROR });
   };
 
   return (
@@ -153,7 +153,7 @@ const AuthState = props => {
       changeUserPassword,
       deleteUser,
       logoutUser,
-      clearUserErrors
+      clearUserError
     }}>
       {props.children}
     </AuthContext.Provider>

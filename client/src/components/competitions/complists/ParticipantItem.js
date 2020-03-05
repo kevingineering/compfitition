@@ -50,16 +50,14 @@ const ParticipantItem = ({participant: {_id, firstName, alias}, isAdminView, com
           <input
             type='button'
             value='No'
-            className='btn btn-primary btn-split'
+            className='btn btn-primary btn-split margin-0'
             onClick={() => setDeleteToggle(false)}
-            style={{margin: 0}}
           />
           <input
             type='button'
             value='Yes'
-            className='btn btn-danger btn-split'
+            className='btn btn-danger btn-split margin-0'
             onClick={() => kickUserFromCompetition(compId, _id)}
-            style={{margin: 0}}
           />
         </div>
       }
