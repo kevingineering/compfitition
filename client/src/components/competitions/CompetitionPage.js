@@ -5,16 +5,22 @@ import GoalContext from '../../contexts/goals/goalContext';
 import CompetitionContext from '../../contexts/competitions/competitionContext';
 import AlertContext from '../../contexts/alerts/alertContext';
 import AuthContext from '../../contexts/auth/authContext';
+import LetterContext from '../../contexts/letters/letterContext';
 import CompetitionTable from './comptable/CompetitionTable';
 import CreateArray from './comptable/CreateArray';
 import CompLists from './complists/CompLists';
 
-const CompetitionPage = (props) => {
+const CompetitionPage = () => {
+
+  console.log('CompetitionPage')
+
   const { goalCurrent, setCurrentGoal } = useContext(GoalContext);
 
   //const { friendCurrentGoal } = useContext(FriendContext);
 
   const { setAlert, clearAlert } = useContext(AlertContext);
+
+  const { getLetters, letters, clearLetters } = useContext(LetterContext);
   
   const [competitionArray, setCompetitionArray] = useState([]);
   
@@ -39,7 +45,7 @@ const CompetitionPage = (props) => {
   const { user } = useContext(AuthContext);
 
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isAdminView, setIsAdminView] = useState(false);
+  const [isAdminView, setIsAdminView] = useState(true);
 
   //calc time to determine which day of competition we are on
   let timeHours = moment().startOf('day').diff(startDate, 'hours');
@@ -74,10 +80,17 @@ const CompetitionPage = (props) => {
     //eslint-disable-next-line
   }, [competitionError])
 
-  //clear alert and competition before redirect
+  //get letters
   useEffect(() => {
-    return () => {
-      clearAlert();
+    getLetters(competition._id)
+    //eslint-disable-next-line
+  }, [competition])
+
+  //clear alert and letters before redirect
+  useEffect(() => {
+    return async () => {
+      await clearAlert();
+      await clearLetters();
     }
     //eslint-disable-next-line
   }, []);
@@ -95,6 +108,9 @@ const CompetitionPage = (props) => {
   }, [competition])
 
   return (
+    Object.entries(competition).length === 0 ? 
+    <h1>Loading...</h1>
+    :
     <div className='competition-container'>
       <div className='grid-1-2'>
         <div>
@@ -103,11 +119,12 @@ const CompetitionPage = (props) => {
             isAdminView={isAdminView}
             setIsAdminView={setIsAdminView}
             competitionArray={competitionArray}
-            type={type}
             participants={competitionParticipants}
             competition={competition}
             isStarted={isStarted}
             removeAdminFromCompetition={removeAdminFromCompetition}
+            goal={goalCurrent}
+            letters={letters}
           />
         </div>
         <div>

@@ -6,7 +6,6 @@ import {
   GET_LETTERS,
   ADD_LETTER,
   DELETE_LETTER,
-  DELETE_LETTERS,
   LETTER_ERROR,
   CLEAR_LETTERS,
   SET_LETTERS_LOADING
@@ -21,12 +20,21 @@ const LetterState = props => {
 
   const [state, dispatch] = useReducer(LetterReducer, initialState);
 
-  //get user letters
-  const getLetters = async () => {
+  //set headers for requests with body
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  //get user or comp letters
+  const getLetters = async (compId = '') => {
     //console.log('getLetters')
+    //fields should include type, compId, compName, and userId
+    //fields can include userName and/or startDate
     try {
       setLoading();
-      const res = await axios.get('/api/letters');
+      const res = await axios.get('/api/letters/' + compId);
       dispatch({ type: GET_LETTERS, payload: res.data });
     } catch (err) {
       dispatch({ type: LETTER_ERROR, payload: err.response.data.msg });
@@ -34,11 +42,11 @@ const LetterState = props => {
   };
 
   //add letter
-  const addLetter = async letter => {
+  const addLetter = async (fields) => {
     //console.log('addLetter')
     try {
       setLoading();
-      const res = await axios.post('/api/letters');
+      const res = await axios.post('/api/letters', fields, config);
       dispatch({ type: ADD_LETTER, payload: res.data});
     } catch (err) {
       dispatch({ type: LETTER_ERROR, payload: err.response.data.msg });
@@ -52,18 +60,6 @@ const LetterState = props => {
       setLoading();
       const res = await axios.delete(`/api/letters/${_id}`);
       dispatch({ type: DELETE_LETTER, payload: res.data });
-    } catch (err) {
-      dispatch({ type: LETTER_ERROR, payload: err.response.data.msg });
-    }
-  };
-
-  //delete all letters associated with a competition
-  const deleteLetters = async _id => {
-    //console.log('deleteLetters')
-    try {
-      setLoading();
-      const res = await axios.delete(`/api/letters/${_id}`);
-      dispatch({ type: DELETE_LETTERS, payload: res.data });
     } catch (err) {
       dispatch({ type: LETTER_ERROR, payload: err.response.data.msg });
     }
@@ -90,7 +86,6 @@ const LetterState = props => {
       getLetters,
       addLetter,
       deleteLetter,
-      deleteLetters,
       clearLetters
     }}>
       {props.children}

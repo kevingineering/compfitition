@@ -2,7 +2,6 @@ import {
   GET_LETTERS,
   ADD_LETTER,
   DELETE_LETTER,
-  //DELETE_LETTERS,
   LETTER_ERROR,
   CLEAR_LETTERS,
   SET_LETTERS_LOADING
@@ -19,21 +18,16 @@ export default (state, action) => {
     case ADD_LETTER:
       return {
         ...state,
-        letters: [...state.letters, action.payload],
+        letters: [...state.letters, action.payload.letter],
+        lettersError: action.payload.msg,
         lettersLoading: false
       }
     case DELETE_LETTER:
       return {
         ...state,
-        letters: state.letters.filter(letter => letter._id !== action.payload),
+        letters: state.letters.filter(letter => letter._id !== action.payload.letterId),
         lettersLoading: false
       }
-    // case DELETE_LETTERS:
-    //   return {
-    //     ...state,
-    //     letters: state.letters.filter(letter => letter._id !== action.payload._id),
-    //     lettersLoading: false
-    //   }
     case LETTER_ERROR:
       return {
         ...state,

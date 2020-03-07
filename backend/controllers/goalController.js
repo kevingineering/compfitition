@@ -17,7 +17,7 @@ exports.addGoal = async (req, res) => {
   if (msg) 
     return res.status(422).json({ msg: msg });
 
-  const { name, duration, startDate, type, units, total, isPrivate, initialValue } = req.body;
+  const { name, duration, startDate, type, description, units, total, isPrivate, initialValue } = req.body;
   
   //fix duration if pass/fail
   let newDuration = duration;
@@ -35,6 +35,7 @@ exports.addGoal = async (req, res) => {
       duration: newDuration, 
       startDate, 
       type, 
+      description,
       units,
       total,
       isPrivate, 
@@ -50,7 +51,7 @@ exports.addGoal = async (req, res) => {
 
 exports.updateGoal = async (req, res) => {
   try {
-    const { name, duration, startDate, type, units, total, isPrivate, tracker, initialValue } = req.body;
+    const { name, duration, startDate, type, description, units, total, isPrivate, tracker, initialValue } = req.body;
     
     //verify goal exists
     let goal = await goalService.getGoalById(req.params.goalId);
@@ -91,6 +92,7 @@ exports.updateGoal = async (req, res) => {
     if(newDuration) goalFields.duration = newDuration;
     if(startDate) goalFields.startDate = startDate;
     if(type) goalFields.type = type;
+    if(description || description === '') goalFields.description = description;
     if(units) goalFields.units = units;
     if(total) goalFields.total = total;
     if(isPrivate !== undefined) goalFields.isPrivate = isPrivate;

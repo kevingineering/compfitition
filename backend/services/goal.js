@@ -89,7 +89,7 @@ exports.updateGoalsByCompIdAndAppendTracker = async (compId, goalFields, array, 
   )
 }
 
-exports.updateGoalsByUserIdAndTrimTracker = async (userId, goalFields, duration, session = null) => {
+exports.updateGoalsByUserIdAndTrimTracker = async (userId, goalFields, newDuration, session = null) => {
   await Goal.findOneAndUpdate(
     { user: userId },
     { $set: goalFields, $push: { tracker: { $each: [ ], $slice: newDuration }}},

@@ -28,6 +28,7 @@ if (localStorage.token) {
 }
 
 const App = () => {
+  console.log('App')
   return (
     <Contexts>
       <Router>

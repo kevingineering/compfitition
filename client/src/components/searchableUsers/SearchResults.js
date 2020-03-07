@@ -5,6 +5,9 @@ import FriendContext from '../../contexts/friends/friendContext';
 import RequestContext from '../../contexts/requests/requestContext';
 
 const SearchResults = () => {
+
+  console.log('SearchResults')
+
   const searchableUsersContext = useContext(SearchableUsersContext);
   const { searchableUsers, searchableUsersFiltered } = searchableUsersContext;
 

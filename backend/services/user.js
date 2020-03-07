@@ -19,13 +19,13 @@ exports.getUserByIdWithPassword = async (userId) => {
   return user;
 }
 
-//get user by property
+//get user by email
 exports.getUserByEmail = async (email) => {
   const user = await User.findOne({ email: email });
   return user;
 }
 
-//get array of userIds
+//get array of users
 exports.getUsersInArray = async (idArray, selectString) => {
   const users = await User.find(
     { _id: { $in: idArray }}
@@ -77,7 +77,7 @@ exports.addFriendToUser = async (userId1, userId2, session = null) => {
 }
   
 // //remove friend from user
-exports.removeFriendFromUser = async (userId1, userId2, session) => {
+exports.removeFriendFromUser = async (userId1, userId2, session = null) => {
   const friend = await User.findByIdAndUpdate(
     userId1,
     { $pull: { friends: userId2 }},

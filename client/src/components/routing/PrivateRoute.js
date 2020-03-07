@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 
 //taking component and anything else as rest, creates a route that is only reachable if you have been authenticated
 const PrivateRoute = ({ component: Component, ...rest }) => {
+
+  console.log('PrivateRoute')
+
   const authContext = useContext(AuthContext);
   const { isAuthenticated, loading } = authContext;
 

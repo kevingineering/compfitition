@@ -3,6 +3,8 @@ import FriendContext from '../../../contexts/friends/friendContext';
 
 const FriendSearchbar = () => {
 
+  console.log('FriendSearchbar')
+
   const friendContext = useContext(FriendContext);
   const { filterFriends, clearFriendsFilter } = friendContext;
 

@@ -4,6 +4,9 @@ import FriendContext from '../../../contexts/friends/friendContext';
 import GoalTable from '../../goals/list/GoalTable';
 
 const FriendGoals = () => {
+
+  console.log('FriendGoals')
+
   const friendContext = useContext(FriendContext);
   const { friendCurrent, getCurrentFriendGoals, friendCurrentGoals, friendsLoading } = friendContext;
 
@@ -20,19 +23,19 @@ const FriendGoals = () => {
 
   //create arrays for past and active goals and competitions
   useEffect(() => {
-    //if(friendCurrentGoals.)
-    let active = friendCurrentGoals.filter(goal => 
-      (moment().startOf('day').diff(goal.startDate, 'days') + 1) <= goal.duration);
-    
-    setActiveGoals(active.filter(goal => goal.compId === null));
-    setActiveCompetitions(active.filter(goal => goal.compId !== null));
-
-    let past = friendCurrentGoals.filter(goal => 
-      (moment().startOf('day').diff(goal.startDate, 'days') + 1) > goal.duration);
-
-    setPastGoals(past.filter(goal => goal.compId === null));
-    setPastCompetitions(past.filter(goal => goal.compId !== null));
-
+    if (friendCurrentGoals.length !== 0) {
+      let active = friendCurrentGoals.filter(goal => 
+        (moment().startOf('day').diff(goal.startDate, 'days') + 1) <= goal.duration);
+      
+      setActiveGoals(active.filter(goal => goal.compId === null));
+      setActiveCompetitions(active.filter(goal => goal.compId !== null));
+  
+      let past = friendCurrentGoals.filter(goal => 
+        (moment().startOf('day').diff(goal.startDate, 'days') + 1) > goal.duration);
+  
+      setPastGoals(past.filter(goal => goal.compId === null));
+      setPastCompetitions(past.filter(goal => goal.compId !== null));
+    }
   }, [friendCurrentGoals]);
 
   return (

@@ -193,6 +193,11 @@ img {
   max-width: 325px;
 }
 
+.width-225 {
+  max-width: 225px;
+  margin: auto;
+}
+
 /* Google Charts (SVG) */
 .google-visualization-tooltip path {
   fill: var(--tooltip-color);

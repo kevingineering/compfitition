@@ -1,19 +1,35 @@
 import React, { useState } from 'react';
 import Leaderboard from './Leaderboard';
 import Participants from './Participants';
-import InviteTable from './InviteTable';
+import Invites from './Invites';
 import PropTypes from 'prop-types';
+import Requests from './Requests';
 
-//contains admin toggle button, Leaderboard, Participants, InviteTable, and relinquish admin button
+//contains admin toggle button, Leaderboard, Participants, Invites, Requests, and relinquish admin button
 
-const CompLists = ({isAdmin, isAdminView, setIsAdminView, competitionArray, type, participants, competition, isStarted, removeAdminFromCompetition}) => {
+const CompLists = ({isAdmin, isAdminView, setIsAdminView, competitionArray, goal, participants, competition, isStarted, removeAdminFromCompetition, letters}) => {
+
+  console.log('CompLists')
+
   const [relinquishToggle, setRelinquishToggle] = useState(false);
+
+  const { type, name, startDate} = goal;
 
   const handleDelete = () => {
     removeAdminFromCompetition(competition._id);
     setIsAdminView(false)
   }
-  
+
+  let userRequests = []
+  let adminRequests = []
+  let userInvites = []
+
+  if(letters.length !== 0) {
+    userRequests = letters.filter(letter => letter.type === 'fromUser')
+    adminRequests = letters.filter(letter => letter.type === 'requestAdmin')
+    userInvites = letters.filter(letter => letter.type === 'toUser')
+  }
+
   return (
     <div>
       {isAdmin && 
@@ -22,6 +38,11 @@ const CompLists = ({isAdmin, isAdminView, setIsAdminView, competitionArray, type
             <h3>{isAdminView ? 'View as User' : 'View as Admin'}</h3>
           </button>
         </div>
+      }
+      {userRequests.length !== 0 &&
+        <Requests 
+          requests={userRequests}
+        />
       }
       {isStarted &&
         <Leaderboard 
@@ -35,12 +56,16 @@ const CompLists = ({isAdmin, isAdminView, setIsAdminView, competitionArray, type
           isAdminView={isAdminView}
           compId={competition._id}
           adminIds={competition.adminIds}
+          adminRequests={adminRequests}
         />
       }
       {(isAdminView && !isStarted) &&
-        <InviteTable 
+        <Invites 
           participants={participants}
           compId={competition._id}
+          compName={name}
+          startDate={startDate}
+          invites={userInvites}
         />
       }
       {isAdmin && isAdminView &&
@@ -77,10 +102,11 @@ CompLists.propTypes = {
   isAdminView: PropTypes.bool.isRequired,
   setIsAdminView: PropTypes.func.isRequired,
   competitionArray: PropTypes.array.isRequired,
-  type: PropTypes.string.isRequired,
+  goal: PropTypes.object.isRequired,
   participants: PropTypes.array.isRequired,
   competition: PropTypes.object.isRequired,
-  isStarted: PropTypes.bool.isRequired
+  isStarted: PropTypes.bool.isRequired,
+  letters: PropTypes.array.isRequired,
 }
 
 export default CompLists;

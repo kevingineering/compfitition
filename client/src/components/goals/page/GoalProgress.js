@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 const GoalProgress = ({type, time, record, setRecord, units}) => {
 
+  console.log('GoalProgress')
+
   //first value of difference array is start value, so we need to add one to get the current day's value
   let day = time;
   if (type === 'difference')

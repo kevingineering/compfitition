@@ -14,7 +14,7 @@ const AlertState = props => {
   const [state, dispatch] = useReducer(AlertReducer, initialState);
 
   //set alert - will timeout after 3 seconds
-  //if type is true, clear alert will not clear it
+  //if persist is true, clear alert will not clear it
   const setAlert = (msg, persist = false) => {
     //console.log('setAlert');
     const alertId = uuid.v4();

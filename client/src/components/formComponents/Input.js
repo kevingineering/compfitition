@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Input = ({name, label, type, value, handleChange, min, max, autofocus, disabled, warning}) => {
+  
+  //console.log('Input')
+
   return (
     <div className='form-group'>
       <label htmlFor={name}>{label}</label>

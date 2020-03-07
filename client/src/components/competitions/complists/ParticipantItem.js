@@ -1,14 +1,33 @@
-import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
-import CompetitionContext from '../../../contexts/competitions/competitionContext';
-import ParticipantButtons from './ParticipantButtons';
+import React, { useState, useContext } from 'react'
+import PropTypes from 'prop-types'
+import CompetitionContext from '../../../contexts/competitions/competitionContext'
+import ParticipantButtons from './ParticipantButtons'
+import LetterContext from '../../../contexts/letters/letterContext'
+import AuthContext from '../../../contexts/auth/authContext'
+
 
 const ParticipantItem = ({participant: {_id, firstName, alias}, isAdminView, compId, isUserAdmin, isUserInvited}) => {
+
+  //TODO - request admin and delete letter when request deleted
+  //TODO - test kick user and send letter on user kick
+
+  console.log('ParticipantItem')
+
   const [userToggle, setUserToggle] = useState(false);
   const [deleteToggle, setDeleteToggle] = useState(false);
 
   const { kickUserFromCompetition } = useContext(CompetitionContext);
+  const { addLetter, deleteLetter } = useContext(LetterContext);
+  const { user } = useContext(AuthContext);
 
+
+  const handleKickUser = () => {
+    kickUserFromCompetition()
+  }
+
+  const handleMakeAdmin = () => {
+    //TODO
+  }
 
   let name = (isAdminView && !isUserAdmin) ? (
     <React.Fragment>

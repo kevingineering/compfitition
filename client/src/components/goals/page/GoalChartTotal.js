@@ -3,6 +3,9 @@ import Chart from 'react-google-charts';
 import PropTypes from 'prop-types';
 
 const GoalChartTotal = ({ units, record, time }) => {
+  
+  console.log('GoalChartTotal')
+  
   //format data array and configure tooltip
   const dataPoints = [[
     'x', 

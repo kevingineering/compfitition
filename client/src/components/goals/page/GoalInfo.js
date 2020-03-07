@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 
 const GoalInfo = ({goal, time, record, value, isStarted}) => {
 
+  console.log('GoalInfo')
+
   const { duration, startDate, description, units, total, type } = goal;
 
   let topLeftTag = 'Start Date: '
@@ -78,7 +80,6 @@ const GoalInfo = ({goal, time, record, value, isStarted}) => {
           <li className='table-info lr-border'>
             <span><strong>Description: </strong>{description}</span>
           </li>
-          <hr/>
         </React.Fragment>
       }
       <li className='table-info lr-border'>

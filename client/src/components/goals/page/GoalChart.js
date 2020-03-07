@@ -5,6 +5,9 @@ import GoalChartTotal from './GoalChartTotal';
 import GoalChartPassFail from './GoalChartPassFail';
 
 const GoalChart = ({goal, record, setRecord, time, isComplete, isOwner}) => {
+
+  console.log('GoalChart')
+
   const {duration, units, total, type, startDate} = goal;
 
   return (

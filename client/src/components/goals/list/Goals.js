@@ -4,6 +4,9 @@ import GoalContext from '../../../contexts/goals/goalContext';
 import GoalTable from './GoalTable';
 
 const Goals = () => {
+
+  console.log('Goals')
+
   const goalContext = useContext(GoalContext);
   const { getGoals, goals, goalsLoading } = goalContext;
 
@@ -19,18 +22,19 @@ const Goals = () => {
 
   //create arrays for past and active goals and competitions
   useEffect(() => {
-    let active = goals.filter(goal => 
-      (moment().startOf('day').diff(goal.startDate, 'days') + 1) <= goal.duration);
-    
-    setActiveGoals(active.filter(goal => goal.compId === null));
-    setActiveCompetitions(active.filter(goal => goal.compId !== null));
-
-    let past = goals.filter(goal => 
-      (moment().startOf('day').diff(goal.startDate, 'days') + 1) > goal.duration);
-
-    setPastGoals(past.filter(goal => goal.compId === null));
-    setPastCompetitions(past.filter(goal => goal.compId !== null));
-
+    if (goals.length !== 0) {
+      let active = goals.filter(goal => 
+        (moment().startOf('day').diff(goal.startDate, 'days') + 1) <= goal.duration);
+      
+      setActiveGoals(active.filter(goal => goal.compId === null));
+      setActiveCompetitions(active.filter(goal => goal.compId !== null));
+  
+      let past = goals.filter(goal => 
+        (moment().startOf('day').diff(goal.startDate, 'days') + 1) > goal.duration);
+  
+      setPastGoals(past.filter(goal => goal.compId === null));
+      setPastCompetitions(past.filter(goal => goal.compId !== null));
+    }
   }, [goals]);
 
   return (

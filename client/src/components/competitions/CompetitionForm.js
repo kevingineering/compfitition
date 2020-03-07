@@ -6,6 +6,9 @@ import CompetitionContext from '../../contexts/competitions/competitionContext';
 import AlertContext from '../../contexts/alerts/alertContext';
 
 const CompetitionForm = () => {
+
+  console.log('CompetitionForm')
+
   const goalContext = useContext(GoalContext);
   const { addGoal, goalCurrent, setCurrentGoal, getGoals } = goalContext;
 
@@ -48,8 +51,7 @@ const CompetitionForm = () => {
       if (moment(goalCurrent.startDate).startOf('day') < moment.utc().startOf('day')) {
         setGoal({
           ...goalCurrent, 
-          started: true,
-          initialValue: goalCurrent.tracker[0] 
+          started: true
         })
         setAlert('This competition has already begun, so some attributes cannot be changed.')
       }

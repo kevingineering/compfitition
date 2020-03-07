@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import FriendItem from './FriendItem';
 
 const FriendList = ({friends, loading, filtered, isOwner}) => {
+  console.log('FriendList')
+
   //populate list
   let listItems = '';
 
@@ -18,7 +20,7 @@ const FriendList = ({friends, loading, filtered, isOwner}) => {
       <li className='collection-item center collection-item-block'>
         {isOwner ? 
           'You have no friends ... awkward :/' :
-          'This user has no other friends, but they have you.'
+          'This user has no other viewable friends.'
         }
         <br/>
         {isOwner ? 

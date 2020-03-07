@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ParticipantItem from './ParticipantItem';
 
-const Participants = ({participants, isAdminView, compId, adminIds}) => {
+const Participants = ({participants, isAdminView, compId, adminIds, adminRequests}) => {
+
+  //TODO
+
+  console.log('Participants')
 
   let participantList = '';
   
@@ -16,16 +20,14 @@ const Participants = ({participants, isAdminView, compId, adminIds}) => {
   else {
     participantList = (
       participants.map(participant => {
-        let isUserAdmin = false;
-        let isUserInvited = false;
-        if(adminIds.includes(participant._id)) isUserAdmin = true;
+        let isUserInvited = false
         return (
           <ParticipantItem 
             participant={participant} 
             key={participant._id} 
             isAdminView={isAdminView} 
             compId={compId}
-            isUserAdmin={isUserAdmin}
+            isUserAdmin={adminIds.includes(participant._id)}
             isUserInvited={isUserInvited}
           />
         )
@@ -49,8 +51,9 @@ const Participants = ({participants, isAdminView, compId, adminIds}) => {
 Participants.propTypes = {
   participants: PropTypes.array.isRequired,
   isAdminView: PropTypes.bool.isRequired,
-  compId: PropTypes.string,
-  adminIds: PropTypes.array
+  compId: PropTypes.string.isRequired,
+  adminIds: PropTypes.array.isRequired,
+  adminRequests: PropTypes.array.isRequired,
 }
 
 export default Participants;

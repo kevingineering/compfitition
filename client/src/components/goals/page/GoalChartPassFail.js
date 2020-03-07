@@ -5,6 +5,8 @@ import AlertContext from '../../../contexts/alerts/alertContext';
 
 const GoalChartPassFail = ({isComplete, isOwner, time, record, setRecord, duration, startDate, total}) => {
 
+  console.log('GoalChartPassFail')
+
   const { setAlert, clearAlert } = useContext(AlertContext);
 
   //event.target will get the icon and fail, but event.currentTarget will get the button every time

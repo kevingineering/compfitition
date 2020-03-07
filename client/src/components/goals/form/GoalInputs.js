@@ -6,6 +6,8 @@ import Switch from '../../formComponents/Switch';
 
 const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) => {
 
+  console.log('GoalInputs')
+
   const { name, duration, startDate, type, description, units, total, isPrivate, initialValue, started } = goal;
 
   return (

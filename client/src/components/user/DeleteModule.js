@@ -4,6 +4,8 @@ import Input from '../formComponents/Input';
 
 const DeleteModule = ({current, handleChange, setDeleteToggle, setAlert, deleteUser}) => {
 
+  console.log('DeleteModule')
+
   const { _id, oldPassword } = current;
 
   const handleDelete = async () => {

@@ -7,6 +7,8 @@ import GoalChart from '../../goals/page/GoalChart';
 
 const FriendGoalPage = () => {
 
+  console.log('FriendGoalPage')
+
   const { friendCurrentGoal } = useContext(FriendContext);
 
   const { name, duration, startDate, tracker, type } = friendCurrentGoal;

@@ -5,6 +5,9 @@ import AlertContext from '../../contexts/alerts/alertContext';
 import Input from '../formComponents/Input';
 
 const Login = () => {
+
+  console.log('Login')
+  
   const authContext = useContext(AuthContext);
   const { loginUser, userError, clearUserError, isAuthenticated } = authContext;
 
@@ -15,8 +18,9 @@ const Login = () => {
 
   //redirect if authenticated, set alert if error
   useEffect(() => {
-    if (isAuthenticated)
+    if (isAuthenticated) {
       history.push('/');
+    }
 
     if (userError) {
       setAlert(userError);

@@ -1,9 +1,7 @@
 const express = require('express');
 const path = require('path');
-const connectDB = require('./dbConnection/db');
+const connectDB = require('./dbConnection');
 const routes = require('./backend/routes/index');
-// const swaggerUi = require('swagger-ui-express');
-// const swaggerDocument = require('./swagger.json');
 
 //initialize express object 
 const app = express();
@@ -22,7 +20,7 @@ if(process.env.NODE_ENV === 'production') {
   //sets static folder to build folder
   app.use(express.static('client/build'));
   //returns index.html for routes not handled above
-  app.use((req, res) => {
+  app.get((req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
   })
 } 
@@ -32,8 +30,8 @@ else {
   })
 }
 
-//environmental port (if deployed) or local port 5004
-const port = process.env.PORT || 5004;
+//environmental port (if deployed) or local port 5000
+const port = process.env.PORT || 5000;
 
 //start server
 app.listen(port, () => console.log(`Server started on port ${port}`));

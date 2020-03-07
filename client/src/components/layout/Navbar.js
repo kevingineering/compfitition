@@ -6,6 +6,9 @@ import FriendContext from '../../contexts/friends/friendContext';
 import RequestContext from '../../contexts/requests/requestContext';
 
 const Navbar = () => {
+
+  console.log('Navbar')
+
   const authContext = useContext(AuthContext);
   const { isAuthenticated, user, logoutUser } = authContext;
 

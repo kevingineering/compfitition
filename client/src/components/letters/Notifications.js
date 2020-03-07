@@ -3,10 +3,14 @@ import LetterContext from '../../contexts/letters/letterContext';
 import NotificationList from './NotificationList';
 
 const Notifications = () => {
+
+  console.log('Notifications')
+
   const { getLetters, letters } = useContext(LetterContext);
 
   useEffect(() => {
     getLetters()
+    //eslint-disable-next-line
   }, [])
 
   return (

@@ -6,6 +6,9 @@ import Input from '../formComponents/Input';
 import Switch from '../formComponents/Switch';
 
 const Register = () => {
+
+  console.log('Register')
+
   const authContext = useContext(AuthContext);
   const { registerUser, userError, clearUserError, isAuthenticated } = authContext;
 
@@ -16,8 +19,9 @@ const Register = () => {
 
   //redirect if authenticated, set alert if error
   useEffect(() => {
-    if (isAuthenticated)
+    if (isAuthenticated) {
       history.push('/');
+    }
 
     if (userError) {
       setAlert(userError);

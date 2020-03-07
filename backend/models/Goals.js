@@ -45,6 +45,10 @@ const GoalSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  //description is optional but is intended to describe goal
+  description: {
+    type: String
+  },
   // units are for 'total' and 'difference' types, can be lbs, miles, etc. as determined by user
   units: {
     type: String

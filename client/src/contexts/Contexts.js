@@ -10,6 +10,9 @@ import CompetitionState from './competitions/competitionState';
 import LetterState from './letters/letterState';
 
 const Contexts = props => {
+
+  console.log('Contexts')
+
   return (
     <AuthState>
       <AlertState>

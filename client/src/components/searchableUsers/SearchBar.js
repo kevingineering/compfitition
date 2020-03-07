@@ -2,6 +2,9 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 const SearchBar = ({filter, clear}) => {
+
+  console.log('SearchBar')
+
   //useState is async, so we use useRef which is sync
   const text = useRef('');
 

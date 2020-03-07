@@ -3,6 +3,9 @@ import FriendContext from '../../../contexts/friends/friendContext';
 import FriendList from '../user/FriendList';
 
 const FriendFriends = () => {
+
+  console.log('FriendFriends')
+
   const friendContext = useContext(FriendContext);
   const { friendCurrent, getCurrentFriendFriends, friendCurrentFriends, friendsLoading } = friendContext;
   

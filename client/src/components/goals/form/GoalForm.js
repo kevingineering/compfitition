@@ -7,6 +7,9 @@ import GoalInputs from './GoalInputs';
 import { verifyDates, handleGoalChange } from '../../sharedFunctions';
 
 const GoalForm = () => {
+
+  console.log('Goal')
+
   const goalContext = useContext(GoalContext);
   const { addGoal, updateGoal, goalCurrent } = goalContext;
 
@@ -55,17 +58,21 @@ const GoalForm = () => {
   //redirect
   let history = useHistory();
   useEffect(() => {
-    if (isRedirect) history.push('/goal');
+    if (isRedirect) {
+      history.push('/goal');
+    }
     //eslint-disable-next-line
   }, [isRedirect])
 
   //on unmount, clear nonpersistant alert
   useEffect(() => {
-    return () => clearAlert();
+    return () => {
+      clearAlert();
+    }
     //eslint-disable-next-line
   }, [])
   
-  const { name, duration, startDate, type, description, units, total, isPrivate, started } = goal;
+  const { name, duration, startDate, type, units, total, isPrivate, started } = goal;
   
   //add or update goal
   const handleSubmit = async (e) => {

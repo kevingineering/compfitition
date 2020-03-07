@@ -5,6 +5,8 @@ import CompetitionContext from '../../../contexts/competitions/competitionContex
 
 const ParticipantButtons = ({isUserInvited, compId, userId}) => {
 
+  console.log('ParticipantButtons')
+
   const { kickUserFromCompetition } = useContext(CompetitionContext);
 
   const { letters } = useContext(LetterContext);

@@ -5,6 +5,8 @@ import Switch from '../formComponents/Switch';
 
 const EditModule = ({current, handleChange, handleClick, setEditToggle, setAlert, updateUser}) => {
 
+  console.log('EditModule')
+
   const handleEdit = async () => {
     if (firstName === '') 
       setAlert('Please enter a first name.');

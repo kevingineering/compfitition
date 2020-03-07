@@ -19,7 +19,7 @@ const LetterSchema = mongoose.Schema({
     required: true
   },
   //type dictates type of letter
-  //type can be toUser (tell user an admin invited them to join competition), fromUser (tell admin user asked to join competition), userAdded (tell user their request to join competition was granted), userKicked (tell user they were kicked from competition), compDeleted (tell user a competition was deleted)
+  //type can be toUser (tell user an admin invited them to join competition), fromUser (tell admin user asked to join competition), userAdded (tell user their request to join competition was granted), userKicked (tell user they were kicked from competition), compDeleted (tell user a competition was deleted), or requestAdmin (user has been asked to be an admin of a competition)
   type: {
     type: String,
     required: true

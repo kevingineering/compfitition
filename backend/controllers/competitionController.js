@@ -4,6 +4,7 @@ const { createTracker } = require('./goalFunctions');
 const competitionService = require('../services/competition');
 const goalService = require('../services/goal');
 const userService = require('../services/user');
+const letterService = require('../services/letter');
 
 exports.getCompetition = async(req, res) => {
   try {
@@ -52,7 +53,7 @@ exports.createCompetitionByGoalId = async (req, res) => {
     if (!goal)
       return res.status(404).json({msg: 'Goal does not exist.'})
 
-    const { user, name, duration, startDate, type, units, total, isPrivate, tracker} = goal;
+    const { user, name, duration, startDate, type, description, units, total, isPrivate, tracker} = goal;
 
     //start session for many DB updates
     const ses1 = await mongoose.startSession();
@@ -82,6 +83,7 @@ exports.createCompetitionByGoalId = async (req, res) => {
         duration, 
         startDate, 
         type, 
+        description,
         units,
         total,
         isPrivate, 
@@ -107,6 +109,13 @@ exports.deleteCompetition = async(req, res) => {
     if(!competition)
       return res.status(404).json({msg: 'Competition does not exist.'})
 
+    //get template goal 
+    const goal = (await goalService.getGoalsByUserId(req.params.compId))[0]
+
+    //verify template goal found
+    if(!competition)
+      return res.status(404).json({msg: 'Competition goal not found.'})
+
     //verify admin
     if (!competition.adminIds.includes(req.user.id))
       return res.status(401).json({msg: 'Only admin can delete competition.'});
@@ -116,15 +125,19 @@ exports.deleteCompetition = async(req, res) => {
       ses1.startTransaction();
 
       //delete competition
-      await competitionService.deleteCompetitionById(req.params.compId, ses1);
+      await competitionService.deleteCompetitionById(req.params.compId, ses1)
       
       //delete template goal
       await goalService.deleteGoalByUserId(req.params.compId, ses1)
 
       //change compId of competition goals to null
-      await goalService.updateCompIdOnGoals(req.params.compId, ses1);
-  
-      //TODO send letters telling competition has been deleted
+      await goalService.updateCompIdOnGoals(req.params.compId, ses1)
+
+      //delete current competition letters
+      await letterService.deleteAllCompetitionLetters(req.params.compId, ses1)
+
+      //send letters telling users competition has been deleted
+      await letterService.addCompDeletedLetters(competition.userIds, req.params.compId, goal.name, ses1)
 
     await ses1.commitTransaction();
 
@@ -137,10 +150,13 @@ exports.deleteCompetition = async(req, res) => {
 exports.updateCompetition = async(req, res) => {
   try {
     //#region temp
-    const { goal: { name, duration, startDate, type, units, total, isPrivate, tracker, initialValue }} = req.body;
+    const { goal: { name, duration, startDate, type, description, units, total, isPrivate, tracker, initialValue }} = req.body;
 
     //verify template goal exists
     let goal = await goalService.getGoalsByUserId(req.params.compId);
+
+    goal = goal[0];
+
     if(!goal)
       return res.status(404).json({ msg: 'Competition goal not found.' });
 
@@ -152,7 +168,7 @@ exports.updateCompetition = async(req, res) => {
     //verify user is admin
     if (!competition.adminIds.includes(req.user.id)) 
       return res.status(401).json({ msg: 'Only admins can modify competitions.' });
-    
+
     //check request for errors
     const msg = validateGoalRequest({ name, duration, startDate, type, total });
     if (msg) {
@@ -171,6 +187,7 @@ exports.updateCompetition = async(req, res) => {
     if(newDuration) goalFields.duration = newDuration;
     if(startDate) goalFields.startDate = startDate;
     if(type) goalFields.type = type;
+    if(description || description === '') goalFields.description = description;
     if(units) goalFields.units = units;
     if(total) goalFields.total = total;
     if(isPrivate !== undefined) goalFields.isPrivate = isPrivate;
@@ -197,6 +214,11 @@ exports.updateCompetition = async(req, res) => {
         //update user goals
         await goalService.updateGoalsByCompId(req.params.compId, goalFields, ses1);
 
+        //update letter expiration dates
+        if (startDate !== goal.startDate) {
+          await letterService.updateLetterExpirationDate(req.params.compId, startDate, ses1)
+        }
+
       await ses1.commitTransaction();
     } else {
       //need to preserve data in trackers
@@ -218,6 +240,11 @@ exports.updateCompetition = async(req, res) => {
 
           //update user goals
           await goalService.updateGoalsByCompId(req.params.compId, goalFields, ses1);
+
+          //update letter expiration dates
+          if (startDate !== goal.startDate) {
+            await letterService.updateLetterExpirationDate(req.params.compId, startDate, ses1)
+          }
         }
         //update goals and append trackers
         else if (length > 0) {
@@ -231,19 +258,28 @@ exports.updateCompetition = async(req, res) => {
 
           //update user goals
           await goalService.updateGoalsByCompIdAndAppendTracker(req.params.compId, goalFields, appendArray, ses1);
+
+          //update letter expiration dates
+          if (startDate !== goal.startDate) {
+            await letterService.updateLetterExpirationDate(req.params.compId, startDate, ses1)
+          }
         }
         //update goals and trim trackers
         else if (length < 0) {
           //update template goal
-          await goalService.updateGoalsByUserIdAndAppendTracker(req.params.compId, goalFields, newDuration, ses1);
+          await goalService.updateGoalsByUserIdAndTrimTracker(req.params.compId, goalFields, newDuration, ses1);
 
           //update user goals
-          await goalService.updateGoalsByCompIdAndAppendTracker(req.params.compId, goalFields, newDuration, ses1);
+          await goalService.updateGoalsByCompIdAndTrimTracker(req.params.compId, goalFields, newDuration, ses1);
+
+          //update letter expiration dates
+          if (startDate !== goal.startDate) {
+            await letterService.updateLetterExpirationDate(req.params.compId, startDate, ses1)
+          }
         }
-      
+    
       await ses1.commitTransaction();
     }
-
     res.json(competition)
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
@@ -266,7 +302,7 @@ exports.addUserToCompetition = async(req, res) => {
     const goal = await goalService.getGoalsByUserId(req.params.compId);
     if(!goal)
       return res.status(404).json({msg: 'Competition goal not found.'})
-    const { name, duration, startDate, type, units, total, isPrivate, tracker } = goal;
+    const { name, duration, startDate, type, description, units, total, isPrivate, tracker } = goal;
 
     //create goal for user from template goal
     const goalFields = {
@@ -275,6 +311,7 @@ exports.addUserToCompetition = async(req, res) => {
       duration, 
       startDate, 
       type, 
+      description,
       units,
       total,
       isPrivate, 

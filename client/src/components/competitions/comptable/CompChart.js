@@ -6,6 +6,8 @@ import CompChartTotal from './CompChartTotal';
 const CompChart = ({competitionArray, goal, time}) => {
   const {duration, units, type} = goal;
 
+  console.log('CompChart')
+
   return (
     <div>
       {type === 'difference' &&

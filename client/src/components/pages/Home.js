@@ -6,6 +6,9 @@ import CompetitionContext from '../../contexts/competitions/competitionContext';
 import Notifications from '../letters/Notifications';
 
 const Home = () => {
+
+  console.log('Home')
+
   const goalContext = useContext(GoalContext);
   const { clearCurrentGoal } = goalContext;
 

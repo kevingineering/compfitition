@@ -6,6 +6,9 @@ import FriendRequests from './FriendRequests';
 import FriendList from './FriendList';
 
 const Friends = () => {
+
+  console.log('Friends')
+
   const friendContext = useContext(FriendContext);
   const { getFriends, friends, friendsFiltered, friendsLoading } = friendContext;
   

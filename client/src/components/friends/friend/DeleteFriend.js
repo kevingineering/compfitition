@@ -4,6 +4,9 @@ import { useHistory } from 'react-router-dom';
 import FriendContext from '../../../contexts/friends/friendContext';
 
 const DeleteFriend = ({_id})=> {
+
+  console.log('DeleteFriend')
+
   const friendContext = useContext(FriendContext);
   const { deleteFriend } = friendContext;
 
@@ -18,31 +21,31 @@ const DeleteFriend = ({_id})=> {
 
   return (
     <div>
-      <form>
+      <form className='width-225'>
         <input
           type='button'
           value='Delete Friend?'
-          className='btn btn-block btn-primary btn-h2'
+          className='btn btn-block btn-primary btn-h2 margin-0'
           onClick={() => setDeleteToggle(true)}
         />
         {deleteToggle && (
-          <React.Fragment>
-            <p className='center'>
+          <div className='block'>
+            <p className='lr-border center search-email'>
               <strong>Are you sure you want to delete this friendship?</strong>
             </p>
             <input
               type='button'
               value='No'
-              className='btn btn-block btn-primary'
+              className='btn btn-primary btn-split margin-0'
               onClick={() => setDeleteToggle(false)}
             />
             <input
               type='button'
               value='Yes'
-              className='btn btn-danger btn-block'
+              className='btn btn-danger btn-split margin-0'
               onClick={handleDelete}
             />
-          </React.Fragment>
+          </div>
         )}
       </form>
     </div>

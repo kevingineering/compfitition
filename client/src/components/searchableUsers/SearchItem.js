@@ -7,6 +7,8 @@ import FriendContext from '../../contexts/friends/friendContext';
 
 const SearchItem = ({status, user: {firstName, lastName, email, _id}}) => {
 
+  console.log('SearchItem')
+
   let history = useHistory();
 
   const requestContext = useContext(RequestContext);
@@ -17,8 +19,6 @@ const SearchItem = ({status, user: {firstName, lastName, email, _id}}) => {
 
   //configure button(s) based on status
   let buttonMsg = 'Add';
-  let buttonClass = 'btn-primary';
-  
   if (status === 'friend') {
     buttonMsg = 'Friend!';
   } else if (status === 'received') {
@@ -71,7 +71,7 @@ const SearchItem = ({status, user: {firstName, lastName, email, _id}}) => {
         </div>
         <div className='right'>
           <button
-            className={`search-btn ${buttonClass} block`}
+            className={`search-btn btn-primary block`}
             onClick={handleClick}
             name='btn1'
           >

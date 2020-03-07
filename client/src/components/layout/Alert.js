@@ -2,6 +2,9 @@ import React, { useContext } from 'react';
 import AlertContext from '../../contexts/alerts/alertContext';
 
 const Alert = () => {
+
+  console.log('Alert')
+
   const { alert } = useContext(AlertContext);
   return (
     <div className='alert-placeholder'>

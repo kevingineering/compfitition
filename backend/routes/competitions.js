@@ -32,7 +32,7 @@ router.delete('/:compId',
 router.patch('/:compId', 
   auth, 
   competitionController.updateCompetition
-  );
+);
 
 router.patch('/adduser/:compId', 
   auth, 

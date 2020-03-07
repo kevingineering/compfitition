@@ -7,6 +7,9 @@ import FriendContext from '../../../contexts/friends/friendContext';
 import CompetitionContext from '../../../contexts/competitions/competitionContext';
 
 const GoalItem = ({isOwner, isGoal, goal: { _id, name, startDate, duration, tracker, type, units, compId }}) => {
+
+  console.log('GoalItem')
+
   const goalContext = useContext(GoalContext);
   const { setCurrentGoal } = goalContext;
 

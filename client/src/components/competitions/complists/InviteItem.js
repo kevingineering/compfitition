@@ -1,20 +1,41 @@
-import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
-import LetterContext from '../../../contexts/letters/letterContext';
+import React, { useState, useContext } from 'react'
+import PropTypes from 'prop-types'
+import LetterContext from '../../../contexts/letters/letterContext'
+import AuthContext from '../../../contexts/auth/authContext'
 
-const InviteItem = ({friend: {_id, firstName, lastName}, isPending, compId}) => {
+const InviteItem = ({friend: {_id, firstName, lastName}, inviteId, compId, compName, startDate}) => {
+
+  console.log('InviteItem')
 
   const [inviteToggle, setInviteToggle] = useState(false)
 
   const { addLetter, deleteLetter } = useContext(LetterContext);
+  const { user } = useContext(AuthContext);
 
-  //compId, message (adminname, compname), userId, startDate
+  const handleAdd = () => {
+    const fields = {
+      type: 'toUser',
+      compId: compId,
+      compName: compName,
+      userId: _id,
+      startDate: startDate,
+      userName: `${user.firstName} ${user.lastName}`
+    }
+
+    addLetter(fields)
+    setInviteToggle(false)
+  }
+
+  const handleDelete = () => {
+    deleteLetter(inviteId)
+    setInviteToggle(false)
+  }
 
   return (
     <React.Fragment>
       {inviteToggle && <hr/>}
       <div className='participant-row space-between lr-border'>
-        <span className='block'>{firstName} {lastName}</span>
+        <span className='block'>{firstName} {lastName} {inviteId && '(pending)'}</span>
         <button 
           className='btn-participants btn-primary'
           onClick={() => setInviteToggle(!inviteToggle)}
@@ -25,7 +46,7 @@ const InviteItem = ({friend: {_id, firstName, lastName}, isPending, compId}) => 
       {inviteToggle &&
         <div className="lr-border">
           <span className='participant-row block'>
-            {isPending ? 'Delete this user\'s invite?' : 'Invite this user to join competition?'}
+            {inviteId ? 'Delete this user\'s invite?' : 'Invite this user to join competition?'}
           </span>
           <input
             type='button'
@@ -37,7 +58,7 @@ const InviteItem = ({friend: {_id, firstName, lastName}, isPending, compId}) => 
             type='button'
             value='Yes'
             className='btn btn-primary btn-split margin-0'
-            onClick={() => {isPending ? deleteLetter(compId, _id) : addLetter(compId, _id)}}
+            onClick={() => {inviteId ? handleDelete() : handleAdd()}}
           />
         </div>
       }
@@ -47,8 +68,10 @@ const InviteItem = ({friend: {_id, firstName, lastName}, isPending, compId}) => 
 
 InviteItem.propType = {
   friend: PropTypes.object.isRequired,
-  isPending: PropTypes.bool.isRequired,
-  compId: PropTypes.string.isRequired
+  inviteId: PropTypes.string.isRequired,
+  compId: PropTypes.string.isRequired,
+  compName: PropTypes.string.isRequired,
+  startDate: PropTypes.string.isRequired
 }
 
 export default InviteItem;

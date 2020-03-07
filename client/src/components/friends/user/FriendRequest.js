@@ -6,6 +6,8 @@ import userimg from '../../../resources/userimg.png';
 
 const FriendRequest = ({ request: {requester, firstName, lastName, email }}) => {
   
+  console.log('FriendRequest')
+  
   //originally had each button a different color, changed them to all black/white
 
   const requestContext = useContext(RequestContext);
@@ -14,13 +16,13 @@ const FriendRequest = ({ request: {requester, firstName, lastName, email }}) => 
   const friendContext = useContext(FriendContext);
   const { addFriend } = friendContext;
 
-  const handleClick = e => {
-    if (e.target.name === 'btn1') {
-      addFriend(requester);
-      deleteRequest(requester);
-    } else if (e.target.name === 'btn2') {
-      deleteRequest(requester);
-    }
+  const handleAccept = e => {
+    addFriend(requester);
+    deleteRequest(requester);
+  }
+
+  const handleReject = e => {
+    deleteRequest(requester);
   }
 
   const avatar = null;
@@ -29,7 +31,8 @@ const FriendRequest = ({ request: {requester, firstName, lastName, email }}) => 
     <div>
       <li className='search-item'>
         <p className='center btn-primary'>
-          {firstName} sent you a friend request!</p>
+          {firstName} sent you a friend request!
+        </p>
         <div className='search-link'>
           <div className="flex">
             <img
@@ -45,15 +48,13 @@ const FriendRequest = ({ request: {requester, firstName, lastName, email }}) => 
           <div className='right'>
             <button
               className='search-btn btn-primary block'
-              onClick={handleClick}
-              name='btn1'
+              onClick={handleAccept}
             >
               Accept
             </button>
             <button
               className='search-btn btn-primary block'
-              onClick={handleClick}
-              name='btn2'
+              onClick={handleReject}
             >
               Reject
             </button>

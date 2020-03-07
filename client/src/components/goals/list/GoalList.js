@@ -4,6 +4,8 @@ import GoalItem from './GoalItem';
 
 const GoalList = ({goals, isOwner, isGoal, loading}) => {
   
+  console.log('GoalList')
+
   //create list
   let itemList = null;
 
@@ -22,7 +24,7 @@ const GoalList = ({goals, isOwner, isGoal, loading}) => {
         <p className='width-250'>
           {isOwner ? 
             `You have no ${type}... ` :
-            `This user has no ${type}.`
+            `This user has no public ${type}.`
           }
           <br/>
           {isOwner ? 

@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const userService = require('../services/user');
 const goalService = require('../services/goal');
 const requestService = require('../services/request');
+const letterService = require('../services/letter');
 
 exports.getUser = async (req, res) => {
   try {
@@ -186,7 +187,7 @@ exports.deleteUser = async (req, res) => {
       return res.status(401).json({ msg: 'User is not authorized to perform this action.'});
 
     //find user
-    let user = await userService.getUserByIdWithPassword(req.params.userId);
+    let user = await userService.getUserByIdWithPassword(req.user.id);
     if(!user) 
       return res.status(404).json({ msg: 'User not found.'});
     
@@ -202,10 +203,10 @@ exports.deleteUser = async (req, res) => {
       ses1.startTransaction();
 
       //delete user goals
-      await goalService.deleteAllUserGoals(req.params.userId, ses1)
+      await goalService.deleteAllUserGoals(req.user.id, ses1)
 
       //delete user requests
-      await requestService.deleteAllUserRequests(req.params.userId, ses1)
+      await requestService.deleteAllUserRequests(req.user.id, ses1)
 
       //TODO delete user from friends arrays
 
@@ -213,10 +214,11 @@ exports.deleteUser = async (req, res) => {
 
       //TODO delete competition if user is only member
 
-      //TODO delete user letters
+      //delete user letters
+      await letterService.deleteAllUserLetters(req.user.id, ses1)
 
       //delete user
-      await userService.deleteUserById(req.params.userId, ses1)
+      await userService.deleteUserById(req.user.id, ses1)
       
     await ses1.commitTransaction();
 
@@ -230,7 +232,6 @@ exports.getSearchableUsers = async (req, res) => {
   try {
     //finds user but does not return password
     const users = await userService.getSearchableUsers(req.user.id);
-
     res.json(users);
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });

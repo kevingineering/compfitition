@@ -4,6 +4,9 @@ import SearchResults from './SearchResults';
 import SearchBar from './SearchBar';
 
 const SearchPage = () => {
+
+  console.log('SearchPage')
+
   const searchableUsersContext = useContext(SearchableUsersContext);
   const { 
     getSearchableUsers, 

@@ -4,49 +4,19 @@ const letterController = require('../controllers/letterController');
 
 const router = express.Router();
 
-router.get('/', 
+router.get('/:compId?', 
   auth, 
   letterController.getLetters
 );
 
-router.post('/toUser', 
+router.post('/', 
   auth, 
-  letterController.addLetterToUser
+  letterController.addLetter
 );
 
-router.post('/fromUser', 
-  auth, 
-  letterController.addLetterFromUser
-);
-
-router.post('/userAdded', 
-  auth, 
-  letterController.addLetterUserAdded
-);
-
-router.post('/userKicked', 
-  auth, 
-  letterController.addLetterUserKicked
-);
-
-router.post('/compDeleted', 
-  auth, 
-  letterController.addLetterCompDeleted
-);
-
-router.delete('/:letterid',
+router.delete('/:letterId',
   auth,
   letterController.deleteLetter
-)
-
-router.delete('/:compId',
-  auth,
-  letterController.deleteAllCompetitionLetters
-)
-
-router.patch('/:compId',
-  auth,
-  letterController.updateLetterExpirationDate
 )
 
 module.exports = router;

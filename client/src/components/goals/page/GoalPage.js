@@ -9,6 +9,9 @@ import GoalContext from '../../../contexts/goals/goalContext';
 import GoalChart from './GoalChart';
 
 const GoalPage = () => {
+
+  console.log('GoalPage')
+
   const { goalCurrent, goalsError, updateGoalTracker, clearGoalsError } = useContext(GoalContext);
   const { setAlert, clearAlert } = useContext(AlertContext);
 

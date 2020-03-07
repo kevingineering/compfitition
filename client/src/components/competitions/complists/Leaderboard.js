@@ -4,6 +4,8 @@ import LeaderboardItem from './LeaderboardItem';
 
 const Leaderboard = ({competitionArray, type}) => {
 
+  console.log('Leaderboard')
+
   let leaderboardList = (
     <li className='collection-item center collection-item-block'>
       Loading...
