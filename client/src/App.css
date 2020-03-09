@@ -8,6 +8,7 @@
   --success-color:#008000;
   --current-color:#FFFF00;
   --tooltip-color:#FFFFFF;
+  --font-style: 'Roboto', sans-serif;
 }
 
 html {
@@ -35,7 +36,7 @@ label, li, h1, span {
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-style);
   font-size: 1rem;
   line-height: 1.6;
 }
@@ -120,6 +121,10 @@ img {
 
 .pb5 {
   padding-bottom: 5px;
+}
+
+.disabled {
+  opacity: 0.6;
 }
 
 /*#endregion*/
@@ -514,6 +519,7 @@ input[type='date'],
 input[type='number'],
 select,
 textarea {
+  font-family: var(--font-style);
   display: block;
   width: 100%;
   padding: 0.4rem;

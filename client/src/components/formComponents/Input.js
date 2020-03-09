@@ -6,18 +6,29 @@ const Input = ({name, label, type, value, handleChange, min, max, autofocus, dis
   //console.log('Input')
 
   return (
-    <div className='form-group'>
+    <div className={`form-group ${disabled && 'disabled'}`}>
       <label htmlFor={name}>{label}</label>
-      <input
-        type={type}
-        value={value}
-        name={name}
-        onChange={handleChange}
-        {...(min && {min: min})}
-        {...(max && {max: max})}
-        {...(disabled && {disabled: true})}
-        {...(autofocus && {autofocus: true})}
-      />
+        {type !== 'textarea' ? (
+          <input
+            type={type}
+            value={value}
+            name={name}
+            onChange={handleChange}
+            {...(min && {min: min})}
+            {...(max && {max: max})}
+            {...(disabled && {disabled: true})}
+            {...(autofocus && {autofocus: true})}
+          />
+        ) : (
+          <textarea
+            value={value}
+            name={name}
+            onChange={handleChange}
+            rows='3'
+            {...(disabled && {disabled: true})}
+            {...(autofocus && {autofocus: true})}
+          />
+        )}
       {warning && <span>{warning}</span>}
     </div>
   )

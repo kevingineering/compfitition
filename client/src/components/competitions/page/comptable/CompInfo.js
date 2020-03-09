@@ -46,7 +46,6 @@ const CompInfo = ({goal, time, record, value, isStarted}) => {
           <li className='table-info lr-border'>
             <span><strong>Description: </strong>{description}</span>
           </li>
-          <hr/>
         </React.Fragment>
       }
       <li className='table-info lr-border'>

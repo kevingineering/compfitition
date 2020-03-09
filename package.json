@@ -17,7 +17,8 @@
     "test": "echo \"Error: no test specified\"",
     "start": "node server.js",
     "client-start": "npm start --prefix client",
-    "build": "npm run build --prefix client",
+    "client-install": "npm install --prefix client",
+    "client-build": "npm run build --prefix client",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "repository": {

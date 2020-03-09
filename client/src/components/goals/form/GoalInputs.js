@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import Input from '../../formComponents/Input';
+import Select from '../../formComponents/Select';
 import Switch from '../../formComponents/Switch';
 
 const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) => {
@@ -26,7 +27,7 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
         {/* Goal Description */}
         <Input
           label='Goal Description (optional)'
-          type='text'
+          type='textarea'
           value={description}
           name='description'
           handleChange={handleChange}
@@ -63,48 +64,37 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
           }
         />          
         {/* Type */}
-        <div className="form-group">
-          <label>What type of goal would you like?
-            <select
-              disabled={started}
-              name='type'
-              value={type}
-              onChange={handleChange}
-            >
-              <option value='pass/fail'>
-                Pass/Fail (e.g. Stretch every day)
-              </option>
-              <option value='total'>
-                Total (e.g. Run 100 miles)
-              </option>
-              <option value='difference'>
-                Difference (e.g. Gain 10 lbs)
-              </option>
-            </select>  
-          </label>
-        </div>
+        <Select 
+          label='What type of goal would you like?'
+          name='type'
+          value={type}
+          handleChange={handleChange}
+          disabled={started}
+          options={[
+            {value: 'pass/fail', text: 'Pass/Fail (e.g. Drink 8+ cups of water)'},
+            {value: 'total', text: 'Total (e.g. Run 100 miles)'},
+            {value: 'difference', text: 'Difference (e.g. Gain 10 lbs)'}
+          ]}
+        />
         {/* Total */}
         <div className="form-group">
           {type === 'pass/fail' && (
-            <React.Fragment>
-              <label>
-                How many days a week do you want to hit your goal?
-              </label>
-              <select
-                disabled={started}
-                name='total'
-                value={total}
-                onChange={handleChange}
-              >
-                <option value='7'>Every day</option>
-                <option value='6'>Six days a week</option>
-                <option value='5'>Five days a week</option>
-                <option value='4'>Four days a week</option>
-                <option value='3'>Three days a week</option>
-                <option value='2'>Twice a week</option>
-                <option value='1'>Once a week</option>
-              </select>  
-            </React.Fragment>
+            <Select 
+              label='How many days per week do you want to hit your goal?'
+              name='total'
+              value={total}
+              handleChange={handleChange}
+              disabled={started}
+              options={[
+                {value: '7', text: 'Every day'},
+                {value: '6', text: 'Six days a week'},
+                {value: '5', text: 'Five days a week'},
+                {value: '4', text: 'Four days a week'},
+                {value: '3', text: 'Three days a week'},
+                {value: '2', text: 'Two days a week'},
+                {value: '1', text: 'One day a week'},
+              ]}
+            />
           )}
           {type === 'total' && 
             <Input

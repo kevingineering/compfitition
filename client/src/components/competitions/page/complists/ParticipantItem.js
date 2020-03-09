@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
-import CompetitionContext from '../../../contexts/competitions/competitionContext'
+import CompetitionContext from '../../../../contexts/competitions/competitionContext'
 import ParticipantButtons from './ParticipantButtons'
-import LetterContext from '../../../contexts/letters/letterContext'
-import AuthContext from '../../../contexts/auth/authContext'
+import LetterContext from '../../../../contexts/letters/letterContext'
+import AuthContext from '../../../../contexts/auth/authContext'
 
 
 const ParticipantItem = ({participant: {_id, firstName, alias}, isAdminView, compId, isUserAdmin, isUserInvited}) => {
@@ -52,7 +52,6 @@ const ParticipantItem = ({participant: {_id, firstName, alias}, isAdminView, com
 
   return (
     <React.Fragment>
-      {userToggle && <hr/>}
       <div className='participant-row space-between lr-border'>
         {name}
       </div>

@@ -18,7 +18,7 @@ import UserPage from './components/user/UserPage';
 import SearchPage from './components/searchableUsers/SearchPage';
 import FriendPage from './components/friends/friend/FriendPage';
 import FriendGoalPage from './components/friends/friend/FriendGoalPage';
-import CompetitionForm from './components/competitions/CompetitionForm';
+import CompetitionForm from './components/competitions/form/CompetitionForm';
 import CompetitionPage from './components/competitions/CompetitionPage';
 
 import './App.css';

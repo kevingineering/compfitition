@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import moment from 'moment';
-import GoalContext from '../../contexts/goals/goalContext';
-import CompetitionContext from '../../contexts/competitions/competitionContext';
-import AlertContext from '../../contexts/alerts/alertContext';
+import GoalContext from '../../../contexts/goals/goalContext';
+import CompetitionContext from '../../../contexts/competitions/competitionContext';
+import AlertContext from '../../../contexts/alerts/alertContext';
 
 const CompetitionForm = () => {
 
@@ -168,8 +168,7 @@ const CompetitionForm = () => {
         {/* Description */}
         <div className="form-group">
           <label>Competition Description (Optional)</label>
-          <input 
-            type='text' 
+          <textarea 
             name='description' 
             onChange={handleChange}
             value={description}
@@ -210,7 +209,7 @@ const CompetitionForm = () => {
               value={type}
               onChange={handleChange}
             >
-              <option value='pass/fail'>Pass/Fail  (e.g. Miss class the least)</option>
+              <option value='pass/fail'>Pass/Fail  (e.g. Sleep 8 hrs the most days)</option>
               <option value='total'>Total  (e.g. Run the most miles)</option>
               <option value='difference'>Difference  (e.g. Lose the most weight)</option>
             </select>  

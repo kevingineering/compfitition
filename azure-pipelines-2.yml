@@ -7,16 +7,12 @@ trigger:
 - master
 
 variables:
-
   # Azure Resource Manager connection created during pipeline creation
   azureSubscription: 'c07b01d0-c535-48b0-b899-544b53df2318'
-  
   # Web app name
   webAppName: 'Compfitition'
-  
   # Environment name
   environmentName: 'Compfitition'
-
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
@@ -36,9 +32,8 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
-        npm install
-        npm install --prefix client
-        npm run build
+        npm run client-install
+        npm run client-build
       displayName: 'npm install and build'
       
     - task: ArchiveFiles@2

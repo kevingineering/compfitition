@@ -6,9 +6,9 @@ import CompetitionContext from '../../contexts/competitions/competitionContext';
 import AlertContext from '../../contexts/alerts/alertContext';
 import AuthContext from '../../contexts/auth/authContext';
 import LetterContext from '../../contexts/letters/letterContext';
-import CompetitionTable from './comptable/CompetitionTable';
-import CreateArray from './comptable/CreateArray';
-import CompLists from './complists/CompLists';
+import CompetitionTable from './page/comptable/CompetitionTable';
+import CreateArray from './page/comptable/CreateArray';
+import CompLists from './page/complists/CompLists';
 
 const CompetitionPage = () => {
 
@@ -45,7 +45,7 @@ const CompetitionPage = () => {
   const { user } = useContext(AuthContext);
 
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isAdminView, setIsAdminView] = useState(true);
+  const [isAdminView, setIsAdminView] = useState(false);
 
   //calc time to determine which day of competition we are on
   let timeHours = moment().startOf('day').diff(startDate, 'hours');
@@ -101,8 +101,12 @@ const CompetitionPage = () => {
       getCompetitionGoals(competition._id);
       getCompetitionParticipants(competition._id);
       setCurrentGoal(goalCurrent._id);
-      if(competition.adminIds.includes(user._id))
+      if(competition.adminIds.includes(user._id)) {
         setIsAdmin(true);
+        setIsAdminView(true);
+      } else {
+        setIsAdminView(false);
+      }
     }
     //eslint-disable-next-line
   }, [competition])

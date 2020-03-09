@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import GoalList from './GoalList';
+import GoalContext from '../../../contexts/goals/goalContext';
 
 const GoalTable = ({goals, isPast, isGoal, isOwner, name, loading}) => {
 
  //console.log{'GoalTable')
-  
+
+  const { clearCurrentGoal } = useContext(GoalContext);
+
   const [isOpen, setIsOpen] = useState(true);
 
   const owner = name ? name + "'s " : null;
   const status = isPast ? 'Past ' : 'Current ';
   const type = isGoal ? 'Goal' : 'Competition';
+
+  const handleAdd = () => {
+    clearCurrentGoal()
+  }
 
   return (
     <React.Fragment>
@@ -37,6 +44,7 @@ const GoalTable = ({goals, isPast, isGoal, isOwner, name, loading}) => {
               {!isPast && isOwner &&
                 <li className='collection-footer'>
                   <Link 
+                    onClick={handleAdd}
                     to={isGoal ? '/goalform' : '/competitionform'} 
                     className='text-secondary'
                   >
