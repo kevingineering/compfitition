@@ -15,7 +15,8 @@ variables:
   environmentName: 'Compfitition'
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  System.debug: true
+  #Could include next line to show more detailed deployment information
+  #System.debug: true
 
 stages:
 - stage: Build
