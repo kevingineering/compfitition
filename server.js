@@ -20,12 +20,12 @@ if(process.env.NODE_ENV === 'production') {
   //sets static folder to build folder
   app.use(express.static('client/build'));
   //returns index.html for routes not handled above
-  app.get('/*', (req, res) => {
+  app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
   })
 } 
 else {
-  app.get('/*', (req, res) => {
+  app.get('*', (req, res) => {
     res.status(501).json({msg: 'Server is not in production'})
   })
 }
