@@ -33,6 +33,12 @@ stages:
         versionSpec: '10.x'
       displayName: 'Install Node.js'
 
+    - task: AzureKeyVault@1
+      inputs:
+        azureSubscription: 'Compfitition Subscription(c305819f-2f31-461b-9853-0a122e2cc497)'
+        KeyVaultName: 'CompfititionCredentials'
+        SecretsFilter: '*'
+
     - script: |
         npm run client-install
         npm run client-build
