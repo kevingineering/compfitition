@@ -48,7 +48,7 @@ const App = () => {
             <PrivateRoute exact path='/friend/goal' component={FriendGoalPage}/>
             <PrivateRoute exact path='/competitionform' component={CompetitionForm}/>
             <PrivateRoute path='/competition' component={CompetitionPage}/>
-            <Route component={NotFound}/>
+            <Redirect to='/login' />
           </Switch>
         </div>
       </Router>
