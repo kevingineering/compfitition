@@ -36,8 +36,8 @@ stages:
     - task: AzureKeyVault@1
       inputs:
         azureSubscription: 'Compfitition Subscription (c305819f-2f31-461b-9853-0a122e2cc497)'
-        keyVaultName: 'CompfititionCredentials'
-        secretsFilter: '*'
+        KeyVaultName: 'CompfititionCredentials'
+        SecretsFilter: '*'
 
     - script: |
         npm run client-install
