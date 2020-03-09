@@ -8,7 +8,7 @@ import DeleteModule from './DeleteModule';
 
 const UserPage = () => {
 
-  console.log('UserPage')
+ //console.log{'UserPage')
 
   const authContext = useContext(AuthContext);
   const { user, updateUser, changeUserPassword, deleteUser, userError, clearUserError } = authContext;

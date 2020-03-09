@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const NotificationList = ({letters}) => {
 
-  console.log('NotificationList')
+ //console.log{'NotificationList')
 
   let letterList = (
     <React.Fragment>

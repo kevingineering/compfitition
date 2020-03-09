@@ -9,7 +9,7 @@ import Requests from './Requests';
 
 const CompLists = ({isAdmin, isAdminView, setIsAdminView, competitionArray, goal, participants, competition, isStarted, removeAdminFromCompetition, letters}) => {
 
-  console.log('CompLists')
+ //console.log{'CompLists')
 
   const [relinquishToggle, setRelinquishToggle] = useState(false);
 

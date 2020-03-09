@@ -5,7 +5,7 @@ import SearchBar from './SearchBar';
 
 const SearchPage = () => {
 
-  console.log('SearchPage')
+ //console.log{'SearchPage')
 
   const searchableUsersContext = useContext(SearchableUsersContext);
   const { 

@@ -12,7 +12,7 @@ import CompLists from './complists/CompLists';
 
 const CompetitionPage = () => {
 
-  console.log('CompetitionPage')
+ //console.log{'CompetitionPage')
 
   const { goalCurrent, setCurrentGoal } = useContext(GoalContext);
 

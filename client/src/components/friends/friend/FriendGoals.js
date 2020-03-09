@@ -5,7 +5,7 @@ import GoalTable from '../../goals/list/GoalTable';
 
 const FriendGoals = () => {
 
-  console.log('FriendGoals')
+ //console.log{'FriendGoals')
 
   const friendContext = useContext(FriendContext);
   const { friendCurrent, getCurrentFriendGoals, friendCurrentGoals, friendsLoading } = friendContext;

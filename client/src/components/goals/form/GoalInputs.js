@@ -6,7 +6,7 @@ import Switch from '../../formComponents/Switch';
 
 const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) => {
 
-  console.log('GoalInputs')
+ //console.log{'GoalInputs')
 
   const { name, duration, startDate, type, description, units, total, isPrivate, initialValue, started } = goal;
 
@@ -144,10 +144,10 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
         {/* Units */}
         {type !== 'pass/fail' && (
           <Input
-            label='Units (e.g lbs or miles)'
+            label='Units (e.g. lbs or miles)'
             type='text'
             value={units}
-            name='units'
+            name='units'vl
             handleChange={handleChange}
           />
         )}

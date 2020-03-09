@@ -6,7 +6,7 @@ import userimg from '../../../resources/userimg.png';
 
 const FriendRequest = ({ request: {requester, firstName, lastName, email }}) => {
   
-  console.log('FriendRequest')
+ //console.log{'FriendRequest')
   
   //originally had each button a different color, changed them to all black/white
 

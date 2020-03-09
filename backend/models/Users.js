@@ -9,6 +9,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
+  //alias is optional name for user
   alias: {
     type: String, 
     default: ''
@@ -31,6 +32,7 @@ const UserSchema = mongoose.Schema({
     type: Boolean,
     default: true
   },
+  //array of userIds who are friends with user
   friends: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

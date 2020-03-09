@@ -5,7 +5,7 @@ import GoalTable from './GoalTable';
 
 const Goals = () => {
 
-  console.log('Goals')
+ //console.log{'Goals')
 
   const goalContext = useContext(GoalContext);
   const { getGoals, goals, goalsLoading } = goalContext;

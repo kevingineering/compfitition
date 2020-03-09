@@ -243,7 +243,7 @@ const GoalForm = () => {
         {/* Units */}
         {type !== 'pass/fail' && (
           <Input
-            label='Units (e.g lbs or miles)'
+            label='Units (e.g. lbs or miles)'
             type='text'
             value={units}
             name='units'

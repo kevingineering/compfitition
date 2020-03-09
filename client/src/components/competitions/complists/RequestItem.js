@@ -5,7 +5,7 @@ import LetterContext from '../../../contexts/letters/letterContext'
 
 const RequestItem = ({request}) => {
 
-  console.log('RequestItem')
+ //console.log{'RequestItem')
 
   console.log(request)
 

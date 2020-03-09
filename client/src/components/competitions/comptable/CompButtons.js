@@ -7,7 +7,7 @@ import AlertContext from '../../../contexts/alerts/alertContext';
 
 const CompButtons = ({isAdminView, isOwner, isStarted, isActive, handleSave, record}) => {
 
-  console.log('CompButtons')
+ //console.log{'CompButtons')
 
   const { 
     competition, 

@@ -7,7 +7,7 @@ import FriendList from './FriendList';
 
 const Friends = () => {
 
-  console.log('Friends')
+ //console.log{'Friends')
 
   const friendContext = useContext(FriendContext);
   const { getFriends, friends, friendsFiltered, friendsLoading } = friendContext;

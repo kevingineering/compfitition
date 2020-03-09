@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const LeaderboardItem = ({name, count, type}) => {
 
-  console.log('Leaderboard Item')
+ //console.log{'Leaderboard Item')
 
   let progress = (type === 'difference') ? `${count > 0 ? '+' : ''}${count}` : count;
 

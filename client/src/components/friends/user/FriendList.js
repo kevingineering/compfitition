@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import FriendItem from './FriendItem';
 
 const FriendList = ({friends, loading, filtered, isOwner}) => {
-  console.log('FriendList')
+ //console.log{'FriendList')
 
   //populate list
   let listItems = '';

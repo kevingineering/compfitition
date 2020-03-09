@@ -4,7 +4,7 @@ import FriendRequest from './FriendRequest';
 
 const FriendRequests = () => {
 
-  console.log('FriendRequests')
+ //console.log{'FriendRequests')
 
   const requestContext = useContext(RequestContext);
   const { getRequests, requestsReceived } = requestContext;

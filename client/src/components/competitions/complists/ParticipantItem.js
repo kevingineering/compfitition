@@ -11,7 +11,7 @@ const ParticipantItem = ({participant: {_id, firstName, alias}, isAdminView, com
   //TODO - request admin and delete letter when request deleted
   //TODO - test kick user and send letter on user kick
 
-  console.log('ParticipantItem')
+ //console.log{'ParticipantItem')
 
   const [userToggle, setUserToggle] = useState(false);
   const [deleteToggle, setDeleteToggle] = useState(false);

@@ -5,7 +5,7 @@ import FriendContext from '../../../contexts/friends/friendContext';
 
 const DeleteFriend = ({_id})=> {
 
-  console.log('DeleteFriend')
+ //console.log{'DeleteFriend')
 
   const friendContext = useContext(FriendContext);
   const { deleteFriend } = friendContext;

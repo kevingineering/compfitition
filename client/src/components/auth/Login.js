@@ -6,7 +6,7 @@ import Input from '../formComponents/Input';
 
 const Login = () => {
 
-  console.log('Login')
+ //console.log{'Login')
   
   const authContext = useContext(AuthContext);
   const { loginUser, userError, clearUserError, isAuthenticated } = authContext;

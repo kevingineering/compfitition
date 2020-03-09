@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const CompChartDifference = ({competitionArray, units, time, duration}) => {
 
-  console.log('CompChartDifference')
+ //console.log{'CompChartDifference')
 
   //format data array and configure tooltip 
   let dataPointsZero = ['x'];

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const SearchBar = ({filter, clear}) => {
 
-  console.log('SearchBar')
+ //console.log{'SearchBar')
 
   //useState is async, so we use useRef which is sync
   const text = useRef('');

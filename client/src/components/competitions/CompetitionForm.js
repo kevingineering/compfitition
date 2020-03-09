@@ -7,7 +7,7 @@ import AlertContext from '../../contexts/alerts/alertContext';
 
 const CompetitionForm = () => {
 
-  console.log('CompetitionForm')
+ //console.log{'CompetitionForm')
 
   const goalContext = useContext(GoalContext);
   const { addGoal, goalCurrent, setCurrentGoal, getGoals } = goalContext;
@@ -257,7 +257,7 @@ const CompetitionForm = () => {
         {/* Units */}
         {type !== 'pass/fail' && (
           <div className="form-group">
-            <label>Units (e.g lbs or miles)</label>
+            <label>Units (e.g. lbs or miles)</label>
             <input 
               type='text' 
               name='units' 

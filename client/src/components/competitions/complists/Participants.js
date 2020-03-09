@@ -6,7 +6,7 @@ const Participants = ({participants, isAdminView, compId, adminIds, adminRequest
 
   //TODO
 
-  console.log('Participants')
+ //console.log{'Participants')
 
   let participantList = '';
   

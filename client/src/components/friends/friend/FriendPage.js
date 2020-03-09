@@ -7,7 +7,7 @@ import DeleteFriend from './DeleteFriend';
 
 const FriendPage = () => {
 
-  console.log('FriendPage')
+ //console.log{'FriendPage')
 
   const friendContext = useContext(FriendContext);
   const { friendIds, friendCurrent } = friendContext;

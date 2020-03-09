@@ -2,7 +2,7 @@ import React from 'react';
 
 const About = () => {
 
-  console.log('About')
+ //console.log{'About')
 
   return (
     <React.Fragment>

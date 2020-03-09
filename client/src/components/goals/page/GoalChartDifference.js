@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const GoalChartDifference = ({ duration, units, record, time }) => {
 
-  console.log('GoalChartDifference')
+ //console.log{'GoalChartDifference')
 
   //format data array and configure tooltip
   const dataPoints = [

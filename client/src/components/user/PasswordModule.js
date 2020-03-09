@@ -4,7 +4,7 @@ import Input from '../formComponents/Input';
 
 const PasswordModule = ({current, handleChange, setPasswordToggle, setAlert, changeUserPassword}) => {
 
-  console.log('PasswordModule')
+ //console.log{'PasswordModule')
 
   const { _id, oldPassword, newPassword, newPassword2 } = current;
 

@@ -6,7 +6,7 @@ import CompetitionContext from '../../contexts/competitions/competitionContext';
 
 const NotificationItem = ({letter}) => {
 
-  console.log('NotificationItem')
+ //console.log{'NotificationItem')
 
   const { deleteLetter } = useContext(LetterContext)
 

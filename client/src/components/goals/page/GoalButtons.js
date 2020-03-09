@@ -6,7 +6,7 @@ import AlertContext from '../../../contexts/alerts/alertContext';
 
 const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
 
-  console.log('GoalButtons')
+ //console.log{'GoalButtons')
 
   const { 
     goalCurrent, 

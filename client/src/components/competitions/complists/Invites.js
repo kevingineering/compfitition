@@ -7,7 +7,7 @@ const Invites = ({participants, compId, compName, startDate, invites}) => {
 
   //TODO 
   
-  console.log('Invites')
+ //console.log{'Invites')
 
   const {friends} = useContext(FriendContext);
 

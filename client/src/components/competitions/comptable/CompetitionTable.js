@@ -10,7 +10,7 @@ import CompButtons from './CompButtons';
 
 const CompetitionTable = ({isAdminView, isStarted, isActive, isComplete, time, competitionArray }) => {
 
-  console.log('CompetitionTable')
+ //console.log{'CompetitionTable')
 
   const { 
     goalCurrent, 

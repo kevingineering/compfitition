@@ -7,7 +7,7 @@ import FriendContext from '../../contexts/friends/friendContext';
 
 const SearchItem = ({status, user: {firstName, lastName, email, _id}}) => {
 
-  console.log('SearchItem')
+ //console.log{'SearchItem')
 
   let history = useHistory();
 

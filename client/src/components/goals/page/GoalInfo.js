@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 const GoalInfo = ({goal, time, record, value, isStarted}) => {
 
-  console.log('GoalInfo')
+ //console.log{'GoalInfo')
 
   const { duration, startDate, description, units, total, type } = goal;
 

@@ -5,7 +5,7 @@ import GoalList from './GoalList';
 
 const GoalTable = ({goals, isPast, isGoal, isOwner, name, loading}) => {
 
-  console.log('GoalTable')
+ //console.log{'GoalTable')
   
   const [isOpen, setIsOpen] = useState(true);
 

@@ -8,7 +8,7 @@ import { verifyDates, handleGoalChange } from '../../sharedFunctions';
 
 const GoalForm = () => {
 
-  console.log('Goal')
+ //console.log{'Goal')
 
   const goalContext = useContext(GoalContext);
   const { addGoal, updateGoal, goalCurrent } = goalContext;

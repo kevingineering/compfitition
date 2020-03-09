@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 
 const CompInfo = ({goal, time, record, value, isStarted}) => {
-  console.log('CompInfo')
+ //console.log{'CompInfo')
 
   const { duration, startDate, description, units, type } = goal;
 

@@ -3,7 +3,7 @@ import AlertContext from '../../contexts/alerts/alertContext';
 
 const Alert = () => {
 
-  console.log('Alert')
+ //console.log{'Alert')
 
   const { alert } = useContext(AlertContext);
   return (

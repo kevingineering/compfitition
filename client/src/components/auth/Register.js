@@ -7,7 +7,7 @@ import Switch from '../formComponents/Switch';
 
 const Register = () => {
 
-  console.log('Register')
+ //console.log{'Register')
 
   const authContext = useContext(AuthContext);
   const { registerUser, userError, clearUserError, isAuthenticated } = authContext;

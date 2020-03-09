@@ -7,7 +7,7 @@ import userimg from '../../../resources/userimg.png';
 
 const FriendItem = ({friend: {firstName, lastName, alias, _id}}) => {
 
-  console.log('FriendItem')
+ //console.log{'FriendItem')
 
   const friendContext = useContext(FriendContext);
   const { friendIds, setCurrentFriend } = friendContext;

@@ -4,7 +4,7 @@ import GoalItem from './GoalItem';
 
 const GoalList = ({goals, isOwner, isGoal, loading}) => {
   
-  console.log('GoalList')
+ //console.log{'GoalList')
 
   //create list
   let itemList = null;

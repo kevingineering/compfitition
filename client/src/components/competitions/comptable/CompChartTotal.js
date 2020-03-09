@@ -3,7 +3,7 @@ import Chart from 'react-google-charts';
 import PropTypes from 'prop-types';
 
 const CompChartTotal = ({competitionArray, units, type }) => {
-  console.log('CompChartTotal')
+ //console.log{'CompChartTotal')
 
   //format data array and configure tooltip 
   let dataPointsZero = ['x'];

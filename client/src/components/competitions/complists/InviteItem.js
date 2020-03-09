@@ -5,7 +5,7 @@ import AuthContext from '../../../contexts/auth/authContext'
 
 const InviteItem = ({friend: {_id, firstName, lastName}, inviteId, compId, compName, startDate}) => {
 
-  console.log('InviteItem')
+ //console.log{'InviteItem')
 
   const [inviteToggle, setInviteToggle] = useState(false)
 

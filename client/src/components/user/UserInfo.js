@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const UserInfo = ({current, setEditToggle, setPasswordToggle, setDeleteToggle}) => {
 
-  console.log('UserInfo')
+ //console.log{'UserInfo')
 
   const { firstName, lastName, alias, isSearchable, email } = current;
 

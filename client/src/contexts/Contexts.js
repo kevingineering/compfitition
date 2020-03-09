@@ -11,7 +11,7 @@ import LetterState from './letters/letterState';
 
 const Contexts = props => {
 
-  console.log('Contexts')
+ //console.log{'Contexts')
 
   return (
     <AuthState>

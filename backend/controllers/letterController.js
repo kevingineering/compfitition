@@ -10,7 +10,7 @@ exports.getLetters = async(req, res) => {
     }
     res.json(letters);
   } catch (err) {
-    console.log(err)
+   //console.log{err)
     res.status(500).json({ msg: 'Server error.' });
   }
 }
@@ -53,7 +53,7 @@ exports.addLetter = async (req, res) => {
 
     res.json({ msg: 'Invite sent.', letter });
   } catch (err) {
-    console.log(err)
+   //console.log{err)
     res.status(500).json({ msg: 'Server error.' });
   }
 }
@@ -72,7 +72,7 @@ exports.deleteLetter = async (req, res) => {
 
     res.json({ msg: 'Letter deleted.', letterId: req.params.letterId})
   } catch (err) {
-    console.log(err)
+   //console.log{err)
     res.status(500).json({ msg: 'Server error.' });
   }
 }

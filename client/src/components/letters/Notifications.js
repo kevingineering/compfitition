@@ -4,7 +4,7 @@ import NotificationList from './NotificationList';
 
 const Notifications = () => {
 
-  console.log('Notifications')
+ //console.log{'Notifications')
 
   const { getLetters, letters } = useContext(LetterContext);
 
