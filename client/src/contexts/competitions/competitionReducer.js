@@ -2,6 +2,8 @@ import {
   GET_COMPETITION,
   GET_COMPETITION_GOALS,
   GET_COMPETITION_PARTICIPANTS,
+  GET_COMPETITION_INVITEES,
+  GET_COMPETITION_CURRENT_GOAL,
   ADD_COMPETITION,
   DELETE_COMPETITION,
   UPDATE_COMPETITION,
@@ -21,13 +23,19 @@ export default (state, action) => {
     case GET_COMPETITION:
     case ADD_COMPETITION:
     case UPDATE_COMPETITION:
-    case ADD_USER_TO_COMPETITION:
     case KICK_USER_FROM_COMPETITION:
     case ADD_ADMIN_TO_COMPETITION:
     case REMOVE_ADMIN_FROM_COMPETITION:
       return {
         ...state,
         competition: action.payload,
+        competitionLoading: false
+      }
+    case ADD_USER_TO_COMPETITION:
+      return {
+        ...state, 
+        competition: action.payload.competition,
+        competitionCurrentGoal: action.payload.goal,
         competitionLoading: false
       }
     case GET_COMPETITION_GOALS:
@@ -41,6 +49,18 @@ export default (state, action) => {
         ...state, 
         competitionParticipants: action.payload,
         competitionLoading: false
+      }
+    case GET_COMPETITION_INVITEES:
+      return {
+        ...state, 
+        competitionInvitees: action.payload,
+        competitionLoading: false
+      }
+    case GET_COMPETITION_CURRENT_GOAL:
+      console.log(action.payload)
+      return {
+        ...state,
+        competitionCurrentGoal: action.payload
       }
     case COMPETITION_ERROR:
       return {
@@ -56,6 +76,8 @@ export default (state, action) => {
         competition: {},
         competitionGoals: [],
         competitionParticipants: [],
+        competitionInvitees: [],
+        competitionCurrentGoal: {},
         competitionError: null,
         competitionLoading: true
       }

@@ -8,7 +8,7 @@ const Leaderboard = ({competitionArray, type}) => {
 
   let leaderboardList = (
     <li className='collection-item center collection-item-block'>
-      Loading...
+      <div className="spinner"/>
     </li>
   );
   

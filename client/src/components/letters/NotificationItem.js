@@ -10,27 +10,27 @@ const NotificationItem = ({letter}) => {
 
   const { deleteLetter } = useContext(LetterContext)
 
-  const { getCompetition } = useContext(CompetitionContext);
+  const { getCompetition, getCompetitionCurrentGoal } = useContext(CompetitionContext);
 
-  const { _id, message, type, compId } = letter
+  const { _id, message, type, compId, senderId } = letter
 
   let contents = '';
 
-  const handleDismiss = e => {
+  const handleDismiss = () => {
     deleteLetter(_id);
     //TODO - rerender when letter deleted
   }
 
-  const handleLink = async e => {
+  const handleLink = async () => {
     await getCompetition(compId)
-    //TODO - finish friend competition page, then add that here
+    await getCompetitionCurrentGoal(compId, senderId)
   }
 
   //note 'fromUser' letters are filtered out by backend
   switch(type) {
     //link to competition page, accept or reject letter there
-    case('toUser'):
-    case('requestAdmin'):
+    case 'toUser':
+    case 'requestAdmin':
       contents = (
         <Link 
           className='table-info block'
@@ -42,9 +42,9 @@ const NotificationItem = ({letter}) => {
       )
       break;
     //show and dismiss
-    case('userAdded'):
-    case('userKicked'):
-    case('compDeleted'):
+    case 'userAdded':
+    case 'userKicked':
+    case 'compDeleted':
       contents = (
         <div className='search-link'>
           <div className='table-info'>{message}</div>

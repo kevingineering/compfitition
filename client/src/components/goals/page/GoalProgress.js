@@ -62,7 +62,7 @@ const GoalProgress = ({type, time, record, setRecord, units}) => {
         <strong>Record Your Progress</strong>
       </li>
       <li className='table-info lr-border center'>
-        <span className='width-75'>
+        <span className='width-80'>
           <strong>Today:</strong>
         </span>
         <span>
@@ -82,7 +82,7 @@ const GoalProgress = ({type, time, record, setRecord, units}) => {
       {time > 0 && type === 'total' && 
         <React.Fragment>
           <li className='table-info lr-border center'>
-            <span className='width-75'>
+            <span className='width-80'>
               <strong>Yesterday:</strong>
             </span>
             <span>

@@ -5,6 +5,7 @@ import {
   UPDATE_GOAL,
   UPDATE_GOAL_TRACKER,
   SET_CURRENT_GOAL,
+  SET_CURRENT_GOAL_BY_COMP,
   CLEAR_CURRENT_GOAL,
   SET_GOAL_LOADING,
   GOAL_ERROR,
@@ -57,6 +58,11 @@ export default (state, action) => {
       return {
         ...state,
         goalCurrent: state.goals.find(goal => goal._id === action.payload)
+      }
+    case SET_CURRENT_GOAL_BY_COMP:
+      return {
+        ...state,
+        goalCurrent: state.goals.find(goal => goal.compId === action.payload)
       }
     case CLEAR_CURRENT_GOAL:
       return {

@@ -18,7 +18,9 @@ const CompChartTotal = ({competitionArray, units, type }) => {
 
   if (competitionArray.length !== 0) {
     valuesLength = competitionArray[0][2].length;
-    maxValue = competitionArray[0][1] + 1;
+    const max1 = competitionArray[0][1] + 1;
+    const max2 = competitionArray[competitionArray.length -1][1] + 1;
+    maxValue = max1 > max2? max1 : max2
   }
 
   let tooltipMsg = type === 'total' ? 'Total: ' : 'Successes: ';

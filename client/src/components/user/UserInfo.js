@@ -11,20 +11,36 @@ const UserInfo = ({current, setEditToggle, setPasswordToggle, setDeleteToggle}) 
     <React.Fragment>
       <ul>
         <li>
-          <strong>Name: &nbsp;&nbsp;&nbsp;</strong>
-          {firstName} {lastName}
+          <span className='width-80'>
+            <strong>Name:</strong>
+          </span>
+          <span>
+            {firstName} {lastName}
+          </span>
         </li>
         <li>
-          <strong>Alias: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
-          {alias !== '' ? alias : 'none'}
+          <span className='width-80'>
+            <strong>Alias:</strong>
+          </span>
+          <span>
+            {alias !== '' ? alias : 'none'}
+          </span>
         </li>
         <li>
-          <strong>Email: &nbsp;&nbsp;&nbsp;&nbsp;</strong>
-          {email}
+          <span className='width-80'>
+            <strong>Email:</strong>
+          </span>
+          <span>
+            {email}
+          </span>
         </li>
         <li>
-          <strong>Privacy: &nbsp;</strong>
-          Other users {isSearchable ? 'can' : 'cannot'} search for me using my name and email.
+          <span className='width-80'>
+            <strong>Privacy:</strong>
+          </span>
+          <span>
+            Other users {isSearchable ? 'can' : 'cannot'} search for me using my name and email.
+          </span>
         </li>
       </ul>
       <input

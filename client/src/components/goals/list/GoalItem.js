@@ -5,23 +5,17 @@ import moment from 'moment';
 import GoalContext from '../../../contexts/goals/goalContext';
 import FriendContext from '../../../contexts/friends/friendContext';
 import CompetitionContext from '../../../contexts/competitions/competitionContext';
+import { getTime } from '../../sharedFunctions';
 
 const GoalItem = ({isOwner, isGoal, goal: { _id, name, startDate, duration, tracker, type, units, compId }}) => {
 
  //console.log{'GoalItem')
 
-  const goalContext = useContext(GoalContext);
-  const { setCurrentGoal } = goalContext;
+  const { setCurrentGoal } = useContext(GoalContext);
+  const { setCurrentFriendGoal, friendCurrent } = useContext(FriendContext);
+  const { getCompetition, getCompetitionCurrentGoal } = useContext(CompetitionContext);
 
-  const friendContext = useContext(FriendContext);
-  const { setCurrentFriendGoal } = friendContext;
-
-  const competitionContext = useContext(CompetitionContext);
-  const { getCompetition } = competitionContext;
-
-  //time of 0 means a goal starts tomorrow, time of 1 means a goal started today
-  let time = moment().startOf('day').diff(startDate, 'days');
-  let timeHours = moment().startOf('day').diff(startDate, 'hours');
+  const [isStarted, time, isComplete] = getTime(startDate, duration);
 
   //calc progress
   let progressTag = '';
@@ -32,7 +26,7 @@ const GoalItem = ({isOwner, isGoal, goal: { _id, name, startDate, duration, trac
       if (tracker[i]) count++;
     }
     progressTag = 'Success: '
-    progressMsg = `${count} / ${(time > tracker.length) ? tracker.length : time + 1}`
+    progressMsg = `${count} / ${isComplete ? tracker.length : time + 1}`
   }
   else if (type === 'total') {
     for (let i = 0; i < tracker.length; i++) {
@@ -51,6 +45,7 @@ const GoalItem = ({isOwner, isGoal, goal: { _id, name, startDate, duration, trac
   const handleClick = async () => {
     isOwner ? setCurrentGoal(_id) : setCurrentFriendGoal(_id);
     !isGoal && await getCompetition(compId);
+    !isGoal && !isOwner && await getCompetitionCurrentGoal(compId, friendCurrent._id)
   };
 
   return (
@@ -68,9 +63,9 @@ const GoalItem = ({isOwner, isGoal, goal: { _id, name, startDate, duration, trac
           </Link>
         </h3>
       </div>
-      {time < duration + 1 ? (
+      {!isComplete ? (
         <div className='hide-sm'>
-          {timeHours >= 0 ? (
+          {isStarted ? (
           <React.Fragment>
             <span className='right'>
               <strong>Day: </strong>{time + 1} / {duration}

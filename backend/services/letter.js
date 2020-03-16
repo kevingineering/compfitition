@@ -31,13 +31,18 @@ exports.updateLetterExpirationDate = async (compId, date, session = null) => {
 }
 
 //delete letter
-exports.deleteLetterById = async (letterId) => {
-  await Letter.findByIdAndDelete(letterId);
+exports.deleteLetterById = async (letterId, session = null) => {
+  await Letter.findByIdAndDelete(letterId, {session: session});
 }
 
 //delete all user letters
 exports.deleteAllUserLetters = async (userId, session = null) => {
   await Letter.deleteMany({ userId: userId }, { session: session });
+}
+
+//delete all user letters for one competition
+exports.deleteUserLettersForComp = async (userId, compId, session = null) => {
+  await Letter.deleteMany({ userId: userId, compId: compId }, { session: session });
 }
 
 //delete all competition letters
@@ -50,7 +55,7 @@ exports.addCompDeletedLetters = async (userIds, compId, compName, session = null
   for (let i = 0; i < userIds.length; i++) {
     const letterFields = {
       compId: compId, 
-      message: `Competition '${compName}' has been deleted. The competition goal has been saved as a personal goal.`,
+      message: `Competition ${compName} has been deleted. The competition goal has been saved as a personal goal.`,
       userId: userIds[i], 
       type: 'compDeleted'
     }

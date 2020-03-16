@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ParticipantItem from './ParticipantItem';
 
-const Participants = ({participants, isAdminView, compId, adminIds, adminRequests}) => {
-
-  //TODO
+const Participants = ({participants, adminIds, adminRequests, isAdminView, compId, compName}) => {
 
  //console.log{'Participants')
 
@@ -13,22 +11,23 @@ const Participants = ({participants, isAdminView, compId, adminIds, adminRequest
   if(participants.length === 0) {
     participantList = (
       <li className='collection-item center collection-item-block'>
-        Loading...
+        <div className="spinner"/>
       </li>
     )
   }
   else {
     participantList = (
       participants.map(participant => {
-        let isUserInvited = false
+        let letter = adminRequests.find(request => request.userId === participant._id )
         return (
           <ParticipantItem 
             participant={participant} 
             key={participant._id} 
             isAdminView={isAdminView} 
             compId={compId}
+            compName={compName}
             isUserAdmin={adminIds.includes(participant._id)}
-            isUserInvited={isUserInvited}
+            letter={letter}
           />
         )
       })

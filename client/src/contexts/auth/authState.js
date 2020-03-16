@@ -93,11 +93,11 @@ const AuthState = props => {
   };
 
   //change user password
-  const changeUserPassword = async (formData, _id) => {
+  const changeUserPassword = async (formData, userId) => {
     //console.log('changeUserPassword')
     try { 
       setLoading();
-      const res = await axios.patch(`/api/users/password/${_id}`, formData, config);
+      const res = await axios.patch(`/api/users/password/${userId}`, formData, config);
       dispatch({ type: PASSWORD_SUCCESS, payload: res.data.msg });
     } catch (err) {
       dispatch({ type: PASSWORD_FAIL, payload: err.response.data.msg });
@@ -105,11 +105,11 @@ const AuthState = props => {
   };
 
   //delete user
-  const deleteUser = async (password, _id) => {
+  const deleteUser = async (password, userId) => {
     //console.log('deleteUser')
     try {
       setLoading();
-      const res = await axios.delete(`/api/users/${_id}`, {
+      const res = await axios.delete(`/api/users/${userId}`, {
         config,
         data: {
           password

@@ -3,20 +3,29 @@ import PropTypes from 'prop-types';
 import FriendContext from '../../../../contexts/friends/friendContext';
 import InviteItem from './InviteItem';
 
-const Invites = ({participants, compId, compName, startDate, invites}) => {
+const Invites = ({participants, invitees, requests, compId, compName, startDate, invites}) => {
 
-  //TODO 
-  
- //console.log{'Invites')
+  //console.log{'Invites')
 
   const {friends} = useContext(FriendContext);
-
-  //find friends of user who are not already in competition
+  
+  //get friends who are not already participating in competition
   const participantIds = participants.map(participant => participant._id); 
-  let friendList = friends.filter(friend => !participantIds.includes(friend._id));
+  let userList = friends.filter(friend => !participantIds.includes(friend._id));
+  
+  //eliminate users who have requested to join competition
+  const requestIds = requests.map(request => request._id)
+  userList = userList.filter(user => !requestIds.includes(user._id))
+  
+  //eliminate friends who are already invited - they will be added back in below
+  const inviteeIds = invitees.map(invitee => invitee._id);
+  userList = userList.filter(user => !inviteeIds.includes(user._id));
+
+  //add all invitees (including friends) to userList
+  userList = [...userList, ...invitees]
 
   //create list of invites
-  let inviteList = friendList.map(friend => {
+  let inviteList = userList.map(friend => {
     //determine if user is already invited
     const invite = invites.find(invite => invite.userId === friend._id)
     return (
@@ -45,6 +54,7 @@ const Invites = ({participants, compId, compName, startDate, invites}) => {
 
 Invites.propTypes = {
   participants: PropTypes.array.isRequired,
+  invitees: PropTypes.array,
   compId: PropTypes.string.isRequired,
   compName: PropTypes.string.isRequired,
   startDate: PropTypes.string.isRequired,

@@ -26,8 +26,9 @@ exports.updateTracker = (newDuration, total, type, tracker) => {
   let length = newDuration - tracker.length;
   if (type === 'pass/fail') {
     length = newDuration / 7 * total - tracker.length;
-  } else if (type === 'duration') {
+  } else if (type === 'difference') {
     length = newDuration + 1 - tracker.length;
+    newDuration += 1;
   }
   
   if (length < 0) 

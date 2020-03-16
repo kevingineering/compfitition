@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-const CompInfo = ({goal, time, record, value, isStarted}) => {
+const CompInfo = ({goal, time, record, value, isStarted, isParticipant}) => {
  //console.log{'CompInfo')
 
   const { duration, startDate, description, units, type } = goal;
@@ -70,10 +70,10 @@ const CompInfo = ({goal, time, record, value, isStarted}) => {
           </div>
         </li>
       }
-      {type === 'difference' && record[0] === 0 && 
-        <li className='table-info lr-border'>
+      {type === 'difference' && record[0] === 0 && !isStarted && isParticipant &&  
+        <li className='table-info lr-border center'>
           <span>
-            Make sure to enter your starting value!
+            <strong>Make sure to enter your start number!</strong>
           </span>
         </li>
       }
@@ -86,7 +86,8 @@ CompInfo.propTypes = {
   time: PropTypes.number.isRequired,
   record: PropTypes.array.isRequired,
   value: PropTypes.number.isRequired,
-  isStarted: PropTypes.bool.isRequired
+  isStarted: PropTypes.bool.isRequired,
+  isParticipant: PropTypes.bool.isRequired
 }
 
 export default CompInfo;

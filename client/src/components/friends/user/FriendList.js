@@ -11,7 +11,7 @@ const FriendList = ({friends, loading, filtered, isOwner}) => {
   if (loading) {
     listItems = (
       <li className='collection-item center collection-item-block'>
-        Loading...
+        <div className="spinner"/>
       </li>
     );
   }

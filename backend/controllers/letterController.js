@@ -25,25 +25,26 @@ exports.addLetter = async (req, res) => {
       compId,
       message: '',
       userId,
+      senderId: req.user.id,
       type: type,
       expireAt: startDate
     }
 
     switch(type) {
-      case('toUser'):
+      case 'toUser':
         letterFields.message = `${userName} invited you to join ${compName}!`
         break;
-      case('fromUser'):
+      case 'fromUser':
         letterFields.message = `${userName} has requested to join this competition!`
         break;
-      case('userAdded'):
+      case 'userAdded':
         letterFields.message = `${userName} approved your request to join ${compName}!`
         break;
-      case('userKicked'):
+      case 'userKicked':
         letterFields.message = `You have been removed from ${compName}. The competition goal has been saved as a personal goal.`
         break;
-      case('requestAdmin'):
-        letterFields.message = `${userName} has asked you to be an admin for ${compName}!`
+      case 'requestAdmin':
+        letterFields.message = `You have been asked to be an admin for ${compName}.`
         break;
       default:
         return res.status(500).json({ msg: 'Invalid letter type.'}) 

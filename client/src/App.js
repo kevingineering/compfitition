@@ -7,7 +7,7 @@ import PrivateRoute from './components/routing/PrivateRoute';
 
 import Home from './components/pages/Home';
 import About from './components/pages/About';
-import NotFound from './components/pages/NotFound';
+//import NotFound from './components/pages/NotFound';
 import Navbar from './components/layout/Navbar';
 import Alert from './components/layout/Alert';
 import GoalPage from './components/goals/page/GoalPage';
@@ -19,7 +19,7 @@ import SearchPage from './components/searchableUsers/SearchPage';
 import FriendPage from './components/friends/friend/FriendPage';
 import FriendGoalPage from './components/friends/friend/FriendGoalPage';
 import CompetitionForm from './components/competitions/form/CompetitionForm';
-import CompetitionPage from './components/competitions/CompetitionPage';
+import CompetitionPage from './components/competitions/page/CompetitionPage';
 
 import './App.css';
 

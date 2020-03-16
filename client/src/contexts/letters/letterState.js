@@ -54,11 +54,11 @@ const LetterState = props => {
   };
   
   //delete letter
-  const deleteLetter = async _id => {
+  const deleteLetter = async letterId => {
     //console.log('deleteLetter')
     try {
       setLoading();
-      const res = await axios.delete(`/api/letters/${_id}`);
+      const res = await axios.delete(`/api/letters/${letterId}`);
       dispatch({ type: DELETE_LETTER, payload: res.data });
     } catch (err) {
       dispatch({ type: LETTER_ERROR, payload: err.response.data.msg });

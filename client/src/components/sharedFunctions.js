@@ -1,17 +1,18 @@
 import moment from 'moment';
 
-// const timeHours = moment().startOf('day').diff(startDate, 'hours');
+//returns [boolean, number, boolean]
+export const getTime = (startDate, duration) => {
+  const isStarted = moment().startOf('day').diff(startDate, 'hours') >= 0
+  let time = moment().startOf('day').diff(startDate, 'days')
+  if (time > duration) time = duration
+  const isComplete = time === duration
 
-export const getTime = (startDate) => moment().startOf('day').diff(startDate, 'days');
+  return [isStarted, time, isComplete]
+}
 
-// const utcTime = moment.utc().startOf('day').diff(startDate, 'days');
-
-//decide if a competition has started
-//get the utcTime
-//get the current time
-
+//verifies start date (for new goal) and finish date not in past
 export const verifyDates = (startDate, started, duration) => {
-  const time = getTime(startDate);
+  const [, time, isComplete] = getTime(startDate, duration);
 
   //verify start date not in past
   if(time > 0 && !started) {
@@ -19,11 +20,12 @@ export const verifyDates = (startDate, started, duration) => {
   }
   
   //verify finish date not in past
-  if(duration - time < 0){
+  if(isComplete){
     return 'Finish date cannot be in the past.';
   }
 };
 
+//updates goal with user input
 export const handleGoalChange = (e, setGoal, goal) => {
   if (e.target.name === 'duration' || 
     e.target.name === 'total' || 

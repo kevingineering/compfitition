@@ -41,7 +41,7 @@ const Friends = () => {
           />
           <li className='collection-footer'>
             <Link to='/search' className='text-secondary'>
-              <p className='padding-025'>
+              <p className='padding-04'>
                 <i className='fas fa-plus'/> Add Friend
               </p>
             </Link>

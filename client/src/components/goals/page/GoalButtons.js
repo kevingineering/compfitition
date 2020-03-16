@@ -59,12 +59,12 @@ const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
           >
             Modify Goal
           </Link>
+          <p className='lr-border'/>
         </React.Fragment>
       }
       {/* Delete Button */}
       {!deleteToggle &&
         <React.Fragment>
-          <p className='lr-border'/>
           <button 
             className='btn btn-block btn-primary' 
             onClick={() => setDeleteToggle(true)}

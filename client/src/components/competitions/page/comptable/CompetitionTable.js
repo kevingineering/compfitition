@@ -8,12 +8,11 @@ import CompChart from './CompChart';
 import AlertContext from '../../../../contexts/alerts/alertContext';
 import CompButtons from './CompButtons';
 
-const CompetitionTable = ({isAdminView, isStarted, isActive, isComplete, time, competitionArray }) => {
+const CompetitionTable = ({isAdmin, isAdminView, isStarted, isActive, isComplete, isParticipant, time, competitionArray, goal }) => {
 
  //console.log{'CompetitionTable')
 
   const { 
-    goalCurrent, 
     updateGoalTracker,
     goalsError,
     clearGoalsError
@@ -23,7 +22,7 @@ const CompetitionTable = ({isAdminView, isStarted, isActive, isComplete, time, c
 
   const { setAlert } = useContext(AlertContext);
 
-  const { name, units, tracker, type, _id } = goalCurrent;
+  const { name, units, tracker, type, _id } = goal;
 
   const [record, setRecord] = useState(tracker);
 
@@ -74,19 +73,19 @@ const CompetitionTable = ({isAdminView, isStarted, isActive, isComplete, time, c
   return (
     <div className='competition-table-container'>
       {!Object.entries(competition).length ? (
-        <h2>Loading...</h2>
+        <div className="spinner"/>
       ) : (
         <React.Fragment>
           <h2 className='collection-header'>{name}</h2>
           <ul>
-            {isStarted && 
+            {isStarted &&
               <CompChart 
-                goal={goalCurrent}
+                goal={goal}
                 time={time}
                 competitionArray={competitionArray}
               />
             }
-            {isStarted && !isComplete &&
+            {isStarted && !isComplete && isParticipant &&
               <GoalProgress 
                 type={type}
                 time={time}
@@ -95,22 +94,28 @@ const CompetitionTable = ({isAdminView, isStarted, isActive, isComplete, time, c
                 units={units}
               />
             }
+            {!isStarted && <p className='lr-border'/>}
             <CompInfo 
-              goal={goalCurrent}
+              goal={goal}
               record={record}
               time={time}
               value={value}
               isStarted={isStarted}
+              isParticipant={isParticipant}
             />
           </ul>
-          <CompButtons 
-            isAdminView={isAdminView}
-            isOwner={isOwner}
-            isStarted={isStarted}
-            isActive={isActive}
-            handleSave={handleSave}
-            record={record}
-          />        
+          {isParticipant ? 
+            <CompButtons 
+              isAdmin={isAdmin}
+              isAdminView={isAdminView}
+              isOwner={isOwner}
+              isStarted={isStarted}
+              isActive={isActive}
+              handleSave={handleSave}
+              record={record}
+            />
+            : <hr/>        
+          }
         </React.Fragment>
       )}
     </div>
@@ -118,12 +123,14 @@ const CompetitionTable = ({isAdminView, isStarted, isActive, isComplete, time, c
 }
 
 CompetitionTable.propTypes = {
+  isAdmin: PropTypes.bool.isRequired,
   isAdminView: PropTypes.bool.isRequired,
   isStarted: PropTypes.bool.isRequired,
   isActive: PropTypes.bool.isRequired,
   isComplete: PropTypes.bool.isRequired,
   time: PropTypes.number.isRequired,
-  competitionArray: PropTypes.array.isRequired
+  competitionArray: PropTypes.array.isRequired,
+  goal: PropTypes.object.isRequired,
 }
 
 export default CompetitionTable;

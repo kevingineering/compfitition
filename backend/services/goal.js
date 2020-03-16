@@ -34,6 +34,15 @@ exports.getFriendGoals = async (userId) => {
   return goals;
 }
 
+//get friend goals that are not private
+exports.getGoalByCompIdAndUserId = async (compId, userId) => {
+  const goal = await Goal.findOne({ 
+    compId: compId,
+    user: userId
+  }).sort({ startDate: 1 });
+  return goal;
+}
+
 //update goal by goalId 
 exports.updateGoalById = async (goalId, fields, session = null) => {
   const goal = await Goal.findByIdAndUpdate(
@@ -44,7 +53,7 @@ exports.updateGoalById = async (goalId, fields, session = null) => {
   return goal;
 }
 
-//update compId on goals
+//set compId to null on goals
 exports.updateCompIdOnGoals = async (compId, session = null) => {
   await Goal.updateMany(
     { compId: compId }, 
@@ -110,7 +119,7 @@ exports.updateGoalsByCompIdAndTrimTracker = async (compId, goalFields, newDurati
 exports.removeGoalFromCompetition = async (compId, userId, session = null) => {
   await Goal.findOneAndUpdate(
     { compId: compId, user: userId },
-    { $set: { compId: null }},
+    { $set: {compId: null} },
     { session: session }
   );
 }

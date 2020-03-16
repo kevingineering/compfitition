@@ -19,6 +19,16 @@ router.get('/participants/:compId',
   competitionController.getCompetitionParticipants
 );
 
+router.get('/invitees/:compId', 
+  auth, 
+  competitionController.getCompetitionInvitees
+);
+
+router.get('/goal/:compId/:userId',
+  auth,
+  competitionController.getCompetitionCurrentGoal
+)
+
 router.post('/:goalId', 
   auth, 
   competitionController.createCompetitionByGoalId
@@ -34,7 +44,7 @@ router.patch('/:compId',
   competitionController.updateCompetition
 );
 
-router.patch('/adduser/:compId', 
+router.patch('/adduser/:letterId', 
   auth, 
   competitionController.addUserToCompetition
 );
@@ -49,7 +59,7 @@ router.patch('/kickuser/:compId',
   competitionController.kickUserFromCompetition
   );
 
-router.patch('/addadmin/:compId', 
+router.patch('/addadmin/:letterId', 
   auth, 
   competitionController.addAdminToCompetition
   );

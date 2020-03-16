@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import moment from 'moment';
 import GoalInfo from '../../goals/page/GoalInfo';
 import FriendContext from '../../../contexts/friends/friendContext';
 import GoalChart from '../../goals/page/GoalChart';
+import { getTime } from '../../sharedFunctions';
 
 const FriendGoalPage = () => {
 
@@ -32,12 +32,7 @@ const FriendGoalPage = () => {
   }, []);
 
   //decide if competition has started, is over, or what day we are on
-  let timeHours = moment().startOf('day').diff(startDate, 'hours');
-  const isStarted = timeHours >= 0 ? true : false;
-  let time = moment().startOf('day').diff(startDate, 'days');
-  if (time > duration)
-    time = duration;
-  const isComplete = time === duration ? true : false;
+  const [isStarted, time, isComplete] = getTime(startDate, duration);
 
   //calc goal value
   let value = 0;
@@ -60,7 +55,7 @@ const FriendGoalPage = () => {
   return (
     <div className='form-container'>
     {!Object.entries(friendCurrentGoal).length ? (
-      <h2>Loading...</h2>
+      <div className="spinner"/>
     ) : (
       <React.Fragment>
         <h2 className='collection-header'>{name}</h2>

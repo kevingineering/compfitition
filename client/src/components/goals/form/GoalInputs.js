@@ -5,9 +5,22 @@ import Input from '../../formComponents/Input';
 import Select from '../../formComponents/Select';
 import Switch from '../../formComponents/Switch';
 
-const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) => {
+const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick, handleIsMax, isGoal}) => {
 
  //console.log{'GoalInputs')
+
+  const options = isGoal ? [
+    {value: 'pass/fail', text: 'Pass/Fail (e.g. Stretch every morning)'},
+    {value: 'total', text: 'Total (e.g. Run 100 miles)'},
+    {value: 'difference', text: 'Difference (e.g. Gain 10 lbs)'}
+  ] : [
+    {value: 'pass/fail', text: 'Pass/Fail (e.g. Stretch the most days)'},
+    {value: 'total', text: 'Total (e.g. Run the most miles)'},
+    {value: 'difference', text: 'Difference (e.g. Lose the most weight)'}
+  ]
+
+  const upperCase = isGoal ? 'Goal' : 'Competition'
+  const lowerCase = isGoal ? 'goal' : 'competition'
 
   const { name, duration, startDate, type, description, units, total, isPrivate, initialValue, started } = goal;
 
@@ -17,16 +30,16 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
       <form onSubmit={handleSubmit} autoComplete='off'>
         {/* Name */}
         <Input
-          label='Goal Name'
+          label={`${upperCase} Name`}
           type='text'
           value={name}
           name='name'
           handleChange={handleChange}
           autoFocus={true}
         />
-        {/* Goal Description */}
+        {/* Description */}
         <Input
-          label='Goal Description (optional)'
+          label={`${upperCase} Description (optional)`}
           type='textarea'
           value={description}
           name='description'
@@ -45,7 +58,7 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
         />
         {/* Duration */}
         <Input
-          label='Goal Duration (days)'
+          label={`${upperCase} Duration (days)`}
           type='number'
           value={duration}
           name='duration'
@@ -65,22 +78,20 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
         />          
         {/* Type */}
         <Select 
-          label='What type of goal would you like?'
+          label={`What type of ${lowerCase} would you like?`}
           name='type'
           value={type}
           handleChange={handleChange}
           disabled={started}
-          options={[
-            {value: 'pass/fail', text: 'Pass/Fail (e.g. Drink 8+ cups of water)'},
-            {value: 'total', text: 'Total (e.g. Run 100 miles)'},
-            {value: 'difference', text: 'Difference (e.g. Gain 10 lbs)'}
-          ]}
+          options={options}
         />
         {/* Total */}
         <div className="form-group">
           {type === 'pass/fail' && (
             <Select 
-              label='How many days per week do you want to hit your goal?'
+              label={isGoal ? 
+              'How many days per week do you want to hit your goal?' : 
+              'How many days per week do you want participants to hit the goal?'}
               name='total'
               value={total}
               handleChange={handleChange}
@@ -96,7 +107,7 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
               ]}
             />
           )}
-          {type === 'total' && 
+          {type === 'total' && isGoal &&
             <Input
               label='What total number do you want to hit?'
               type='number'
@@ -110,7 +121,7 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
           {type === 'difference' && (
             <React.Fragment>
               <Input
-                label='What is your start number?'
+                label={`What is your ${isGoal ? '' : '(personal) '}start number?`}
                 type='number'
                 value={initialValue}
                 name='initialValue'
@@ -119,15 +130,17 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
                 max='1000000'
                 disabled={started}
               />
-              <Input
-                label='What number do you want to achieve?'
-                type='number'
-                value={total}
-                name='total'
-                handleChange={handleChange}
-                min='0'
-                max='1000000'
-              />
+              {isGoal &&
+                <Input
+                  label='What number do you want to achieve?'
+                  type='number'
+                  value={total}
+                  name='total'
+                  handleChange={handleChange}
+                  min='0'
+                  max='1000000'
+                />
+              }
             </React.Fragment>
           )}
         </div>
@@ -143,13 +156,32 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick}) =>
         )}
         {/* isPrivate */}
         <Switch 
-          label='Who can see this goal?'
+          label={`Who can see this ${lowerCase}?`}
           isChecked={!isPrivate}
           name='isPrivate'
           handleClick={handleClick}
-          msgChecked='Only I can see this goal.'
-          msgBlank='My friends can see this goal.'
+          msgChecked={isGoal ? 'My friends can see this goal.' : 'Friends of participants can see this competition.'}
+          msgBlank={isGoal ? 'Only I can see this goal.' : 'Only participants can see this competition.'}
         />
+        {/* High or low score wins */}
+        {type !== 'pass/fail' && !isGoal && 
+          <Switch 
+            label='How is this competition decided?'
+            isChecked={total === -1}
+            name='isPrivate'
+            handleClick={handleIsMax}
+            msgChecked={`This competition is won by the user with the 
+              ${type === 'total' ? 
+                `highest total ${units}.` : 
+                'biggest positive change.'
+              }`}
+            msgBlank={`This competition is won by the user with the 
+              ${type === 'total' ? 
+                `lowest total ${units}.` : 
+                'biggest negative change.'
+              }`}
+          />
+        }
         {/* Submit */}
         <input 
           type='submit' 
@@ -165,7 +197,8 @@ GoalInputs.propTypes = {
   goal: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired
+  handleClick: PropTypes.func.isRequired,
+  handleIsMax: PropTypes.func,
 }
 
 export default GoalInputs;

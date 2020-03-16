@@ -7,7 +7,7 @@ import Requests from './Requests';
 
 //contains admin toggle button, Leaderboard, Participants, Invites, Requests, and relinquish admin button
 
-const CompLists = ({isAdmin, isAdminView, setIsAdminView, competitionArray, goal, participants, competition, isStarted, removeAdminFromCompetition, letters}) => {
+const CompLists = ({isAdmin, isAdminView, setIsAdminView, competitionArray, goal, participants, invitees, competition, isStarted, removeAdminFromCompetition, letters}) => {
 
  //console.log{'CompLists')
 
@@ -32,6 +32,7 @@ const CompLists = ({isAdmin, isAdminView, setIsAdminView, competitionArray, goal
 
   return (
     <div>
+      {/* Control Admin View */}
       {isAdmin && 
         <div className='collection competition-lists-container'>
           <button className='btn btn-block btn-primary' onClick={() => setIsAdminView(prevState => !prevState)}>
@@ -39,35 +40,43 @@ const CompLists = ({isAdmin, isAdminView, setIsAdminView, competitionArray, goal
           </button>
         </div>
       }
-      {userRequests.length !== 0 &&
+      {/* Requests for Admin */}
+      {isAdminView && userRequests.length !== 0 &&
         <Requests 
           requests={userRequests}
         />
       }
+      {/* Leaderboard when Started */}
       {isStarted &&
         <Leaderboard 
           competitionArray={competitionArray}
           type={type}
         />
       }
+      {/* Participants */}
       {(isAdminView || !isStarted) && 
         <Participants 
           participants={participants} 
-          isAdminView={isAdminView}
-          compId={competition._id}
           adminIds={competition.adminIds}
           adminRequests={adminRequests}
+          isAdminView={isAdminView}
+          compId={competition._id}
+          compName={name}
         />
       }
+      {/* Invites for Admin */}
       {(isAdminView && !isStarted) &&
         <Invites 
           participants={participants}
+          invitees={invitees}
+          requests={userRequests}
           compId={competition._id}
           compName={name}
           startDate={startDate}
           invites={userInvites}
         />
       }
+      {/* Relinquish Admin Role */}
       {isAdmin && isAdminView &&
         <div className='collection competition-lists-container'>
           <button 
@@ -104,6 +113,7 @@ CompLists.propTypes = {
   competitionArray: PropTypes.array.isRequired,
   goal: PropTypes.object.isRequired,
   participants: PropTypes.array.isRequired,
+  invitees: PropTypes.array,
   competition: PropTypes.object.isRequired,
   isStarted: PropTypes.bool.isRequired,
   letters: PropTypes.array.isRequired,

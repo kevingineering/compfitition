@@ -1,29 +1,35 @@
-import React, {useContext} from 'react';
+import React, { useState, useContext} from 'react';
 import PropTypes from 'prop-types';
 import LetterContext from '../../../../contexts/letters/letterContext';
 import CompetitionContext from '../../../../contexts/competitions/competitionContext';
 
-const ParticipantButtons = ({isUserInvited, compId, userId}) => {
+const ParticipantButtons = ({letter, compId, compName, userId, setUserToggle}) => {
 
  //console.log{'ParticipantButtons')
 
+  const [deleteToggle, setDeleteToggle] = useState(false);
+
   const { kickUserFromCompetition } = useContext(CompetitionContext);
 
-  const { letters } = useContext(LetterContext);
+  const { addLetter, deleteLetter } = useContext(LetterContext);
 
   const handleDeleteRequest = () => {
-    console.log(letters)
+    setUserToggle(false)
+    deleteLetter(letter._id)
   }
 
   const handleSendRequest = () => {
-
+    setUserToggle(false)
+    const fields = {
+      type: 'requestAdmin',
+      compId: compId,
+      compName: compName,
+      userId: userId,
+    }
+    addLetter(fields)
   }
 
-  const handleKickUser = () => {
-    kickUserFromCompetition(compId, userId)
-  }
-
-  let buttons = isUserInvited ? (
+  let buttons = letter ? (
     <React.Fragment>
       <button 
         className='btn btn-split btn-primary height-55' 
@@ -33,7 +39,7 @@ const ParticipantButtons = ({isUserInvited, compId, userId}) => {
       </button>
       <button 
         className='btn btn-split btn-danger height-55' 
-        onClick={handleKickUser}
+        onClick={() => setDeleteToggle(true)}
       >
         Kick User
       </button>
@@ -48,12 +54,32 @@ const ParticipantButtons = ({isUserInvited, compId, userId}) => {
       </button>
       <button 
         className='btn btn-split btn-danger' 
-        onClick={handleKickUser}
+        onClick={() => setDeleteToggle(true)}
       >
         Kick User
       </button>
     </React.Fragment>
   )
+
+  if(deleteToggle) {
+    buttons = (
+      <div className="lr-border">
+        <span className='participant-row block'>Are you sure you want to kick this user? This action cannot be undone.</span>
+        <input
+          type='button'
+          value='No'
+          className='btn btn-primary btn-split margin-0'
+          onClick={() => setDeleteToggle(false)}
+        />
+        <input
+          type='button'
+          value='Yes'
+          className='btn btn-danger btn-split margin-0'
+          onClick={() => kickUserFromCompetition(compId, userId)}
+        />
+      </div>
+    )
+  }
 
   return (
     <React.Fragment>
@@ -63,9 +89,11 @@ const ParticipantButtons = ({isUserInvited, compId, userId}) => {
 }
 
 ParticipantButtons.propTypes = {
-  isUserInvited: PropTypes.bool.isRequired,
+  letter: PropTypes.object,
   compId: PropTypes.string.isRequired,
-  userId: PropTypes.string.isRequired
+  compName: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
+  setUserToggle: PropTypes.func.isRequired,
 }
 
 export default ParticipantButtons;

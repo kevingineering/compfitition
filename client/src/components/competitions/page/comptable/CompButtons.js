@@ -5,7 +5,7 @@ import CompetitionContext from '../../../../contexts/competitions/competitionCon
 import GoalContext from '../../../../contexts/goals/goalContext';
 import AlertContext from '../../../../contexts/alerts/alertContext';
 
-const CompButtons = ({isAdminView, isOwner, isStarted, isActive, handleSave, record}) => {
+const CompButtons = ({isAdmin, isAdminView, isOwner, isStarted, isActive, handleSave, record}) => {
 
  //console.log{'CompButtons')
 
@@ -13,6 +13,7 @@ const CompButtons = ({isAdminView, isOwner, isStarted, isActive, handleSave, rec
     competition, 
     competitionError, 
     deleteCompetition,
+    removeUserFromCompetition,
     clearCompetition,
     clearCompetitionError
   } = useContext(CompetitionContext);
@@ -22,23 +23,33 @@ const CompButtons = ({isAdminView, isOwner, isStarted, isActive, handleSave, rec
   const { setAlert, clearAlert } = useContext(AlertContext);
 
   const [deleteToggle, setDeleteToggle] = useState(false);
+  const [leaveToggle, setLeaveToggle] = useState(false);
 
   let history = useHistory();
 
-  //handleDelete
-  const handleDelete = async () => {
-    await deleteCompetition(competition._id);
+  const afterHandle = (verb) => {
     if (competitionError) {
       setAlert(competitionError);
       clearCompetitionError();
     }
     else {
-      setAlert('Competition deleted!', true);
+      setAlert(`You have ${verb} the competition!`, true);
       history.push('/');
       clearCurrentGoal();
       clearCompetition();
     }
+  }
+
+  //handleDelete
+  const handleDelete = async () => {
+    await deleteCompetition(competition._id);
+    afterHandle('deleted')
   };
+
+  const handleLeave = async () => {
+    await removeUserFromCompetition(competition._id);
+    afterHandle('left')
+  }
 
   return (
     <React.Fragment>
@@ -95,12 +106,41 @@ const CompButtons = ({isAdminView, isOwner, isStarted, isActive, handleSave, rec
           >Yes</button>
         </React.Fragment>
       )}
+      {/* Leave Button */}
+      {!leaveToggle && !isAdmin && 
+        <React.Fragment>
+          <p className='lr-border'/>
+          <button 
+            className='btn btn-block btn-primary' 
+            onClick={() => setLeaveToggle(true)}
+          >
+            Leave Competition
+          </button>
+        </React.Fragment>
+      }
+      {/*Leave module*/}
+      {leaveToggle && !isAdmin && (
+        <React.Fragment>
+          <span className='alert lr-border'>
+            Are you sure you want to leave this competition? Leaving a competition that has started cannot be undone.
+          </span>
+          <button
+            className='btn btn-primary btn-split'
+            onClick={() => setLeaveToggle(false)}
+          >No</button>
+          <button
+            className='btn btn-danger btn-split'
+            onClick={handleLeave}
+          >Yes</button>
+        </React.Fragment>
+      )}
       {(!isStarted || !isActive) && !isAdminView && <hr/>}
     </React.Fragment>
   )
 }
 
 CompButtons.propTypes = {
+  isAdmin: PropTypes.bool.isRequired,
   isAdminView: PropTypes.bool.isRequired,
   isOwner: PropTypes.bool.isRequired,
   isStarted: PropTypes.bool.isRequired,

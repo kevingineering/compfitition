@@ -37,10 +37,14 @@ const SearchResults = () => {
     //eslint-disable-next-line
   }, []);
 
-  let searchList = 'Loading...';
+  let searchList = <div className="spinner"/>;
 
-  if (searchableUsers.length === 0)
-    searchList = <li className='collection-item'>Loading...</li>;
+  if (searchableUsers.length === 0) {
+    searchList = <li className='collection-item'>
+        <div className="spinner"/>
+      </li>;
+
+  }
   else if (searchableUsersFiltered !== null) {
     if (searchableUsersFiltered.length === 0)
       return (

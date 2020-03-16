@@ -59,7 +59,7 @@ const Navbar = () => {
   let themeToggle = (
     <li>
       <button 
-        className='btn btn-primary right padding-070'
+        className='btn btn-primary right theme-button'
         onClick={handleToggle}
       >
         <i className={isNightTheme ? 'fas fa-moon' : 'fas fa-sun'}/>
@@ -104,7 +104,7 @@ const Navbar = () => {
   return (
     <nav className='navbar bg-primary'>
       <h1>
-        <Link to='/'><i className='fas fa-medal'/> CompFITition</Link>
+        <Link to='/'><i className='fas fa-medal'/> Compfitition</Link>
       </h1>
       <ul>
         {themeToggle}

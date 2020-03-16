@@ -6,6 +6,8 @@ import {
   GET_COMPETITION,
   GET_COMPETITION_GOALS,
   GET_COMPETITION_PARTICIPANTS,
+  GET_COMPETITION_INVITEES,
+  GET_COMPETITION_CURRENT_GOAL,
   ADD_COMPETITION,
   DELETE_COMPETITION,
   UPDATE_COMPETITION,
@@ -24,7 +26,9 @@ const CompetitionState = props => {
   const initialState = {
     competition: {},
     competitionGoals: [],
+    competitionCurrentGoal: {},
     competitionParticipants: [],
+    competitionInvitees: [],
     competitionError: null,
     competitionLoading: true
   };
@@ -39,11 +43,11 @@ const CompetitionState = props => {
   };
 
   //get competition
-  const getCompetition = async (_id) => {
+  const getCompetition = async (compId) => {
     //console.log('getCompetition')
     try {
       setLoading();
-      const res = await axios.get(`/api/competitions/${_id}`);
+      const res = await axios.get(`/api/competitions/${compId}`);
       dispatch({ type: GET_COMPETITION, payload: res.data });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
@@ -51,34 +55,54 @@ const CompetitionState = props => {
   };
 
   //get competition goals for all participants
-  const getCompetitionGoals = async (_id) => {
+  const getCompetitionGoals = async (compId) => {
     //console.log('getCompetitionGoals')
     try {
       setLoading();
-      const res = await axios.get(`/api/competitions/goals/${_id}`);
+      const res = await axios.get(`/api/competitions/goals/${compId}`);
       dispatch({ type: GET_COMPETITION_GOALS, payload: res.data });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
     }
   };
 
-  const getCompetitionParticipants = async (_id) => {
+  const getCompetitionParticipants = async (compId) => {
     //console.log('getCompetitionParticipants')
     try {
       setLoading();
-      const res = await axios.get(`/api/competitions/participants/${_id}`);
+      const res = await axios.get(`/api/competitions/participants/${compId}`);
       dispatch({ type: GET_COMPETITION_PARTICIPANTS, payload: res.data });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
     }
   }
 
+  const getCompetitionInvitees = async (compId) => {
+    //console.log('getCompetitionInvitees')
+    try {
+      setLoading();
+      const res = await axios.get(`/api/competitions/invitees/${compId}`);
+      dispatch({ type: GET_COMPETITION_INVITEES, payload: res.data });
+    } catch (err) {
+      dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
+    }
+  }
+
+  const getCompetitionCurrentGoal = async (compId, userId) => {
+    try {
+      const res = await axios.get(`/api/competitions/goal/${compId}/${userId}`);
+      dispatch({ type: GET_COMPETITION_CURRENT_GOAL, payload: res.data });
+    } catch (err) {
+      dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
+    }
+  }
+
   //add competition
-  const addCompetition = async (_id) => {
+  const addCompetition = async (goalId) => {
     try {
       //console.log('addCompetition')
       setLoading();
-      const res = await axios.post(`/api/competitions/${_id}`);
+      const res = await axios.post(`/api/competitions/${goalId}`);
       dispatch({ type: ADD_COMPETITION, payload: res.data});
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
@@ -86,11 +110,11 @@ const CompetitionState = props => {
   };
 
   //delete competition
-  const deleteCompetition = async (_id) => {
-    console.log('deleteCompetition')
+  const deleteCompetition = async (compId) => {
+    //console.log('deleteCompetition')
     try {
       setLoading();
-      await axios.delete(`/api/competitions/${_id}`);
+      await axios.delete(`/api/competitions/${compId}`);
       dispatch({ type: DELETE_COMPETITION });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
@@ -109,22 +133,22 @@ const CompetitionState = props => {
     }
   };
 
-  const addUserToCompetition = async (_id) => {
+  const addUserToCompetition = async (letterId) => {
     //console.log('addUserToCompetition')
     try{
       setLoading();
-      const res = await axios.patch(`/api/competitions/adduser/${_id}`);
+      const res = await axios.patch(`/api/competitions/adduser/${letterId}`);
       dispatch({ type: ADD_USER_TO_COMPETITION, payload: res.data });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
     }
   };
 
-  const removeUserFromCompetition = async (_id) => {
+  const removeUserFromCompetition = async (compId) => {
     //console.log('removeUserFromCompetition')
     try{
       setLoading();
-      await axios.patch(`/api/competitions/removeuser/${_id}`);
+      await axios.patch(`/api/competitions/removeuser/${compId}`);
       dispatch({ type: REMOVE_USER_FROM_COMPETITION });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
@@ -142,11 +166,11 @@ const CompetitionState = props => {
     }
   };
 
-  const addAdminToCompetition = async (compId, newAdminId) => {
+  const addAdminToCompetition = async (letterId) => {
     //console.log('addAdminToCompetition')
     try{
       setLoading();
-      const res = await axios.patch(`/api/competitions/addadmin/${compId}`, newAdminId, config);
+      const res = await axios.patch(`/api/competitions/addadmin/${letterId}`);
       dispatch({ type: ADD_ADMIN_TO_COMPETITION, payload: res.data });
     } catch (err) {
       dispatch({ type: COMPETITION_ERROR, payload: err.response.data.msg });
@@ -187,12 +211,16 @@ const CompetitionState = props => {
     value={{
       competition: state.competition,
       competitionGoals: state.competitionGoals,
+      competitionCurrentGoal: state.competitionCurrentGoal,
       competitionParticipants: state.competitionParticipants,
+      competitionInvitees: state.competitionInvitees,
       competitionError: state.competitionError,
       competitionLoading: state.competitionLoading,
       getCompetition,
       getCompetitionGoals,
+      getCompetitionCurrentGoal,
       getCompetitionParticipants,
+      getCompetitionInvitees,
       addCompetition,
       deleteCompetition,
       updateCompetition,

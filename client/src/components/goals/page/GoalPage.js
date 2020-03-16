@@ -1,12 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import moment from 'moment';
 import GoalProgress from './GoalProgress';
 import GoalInfo from './GoalInfo';
 import GoalButtons from './GoalButtons';
 import AlertContext from '../../../contexts/alerts/alertContext';
 import GoalContext from '../../../contexts/goals/goalContext';
 import GoalChart from './GoalChart';
+import { getTime } from '../../sharedFunctions';
 
 const GoalPage = () => {
 
@@ -45,12 +45,7 @@ const GoalPage = () => {
   }, []);
 
   //decide if competition has started, is over, or what day we are on
-  let timeHours = moment().startOf('day').diff(startDate, 'hours');
-  const isStarted = timeHours >= 0 ? true : false;
-  let time = moment().startOf('day').diff(startDate, 'days');
-  if (time > duration)
-    time = duration;
-  const isComplete = time === duration ? true : false;
+  const [isStarted, time, isComplete] = getTime(startDate, duration)
 
   //calc goal value
   let value = 0;
@@ -84,7 +79,7 @@ const GoalPage = () => {
   return (
     <div className='form-container'>
     {!Object.entries(goalCurrent).length ? (
-      <h2>Loading...</h2>
+      <div className="spinner"/>
     ) : (
       <React.Fragment>
         <h2 className='collection-header'>{name}</h2>

@@ -10,9 +10,9 @@ variables:
   # Azure Resource Manager connection created during pipeline creation
   azureSubscription: 'c07b01d0-c535-48b0-b899-544b53df2318'
   # Web app name
-  webAppName: 'Compfitition'
+  webAppName: Compfitition
   # Environment name
-  environmentName: 'Compfitition'
+  environmentName: Compfitition
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
   #Could include next line to show more detailed deployment information
@@ -32,12 +32,6 @@ stages:
       inputs:
         versionSpec: '10.x'
       displayName: 'Install Node.js'
-
-    - task: AzureKeyVault@1
-      inputs:
-        azureSubscription: 'Compfitition Subscription(c305819f-2f31-461b-9853-0a122e2cc497)'
-        KeyVaultName: 'CompfititionCredentials'
-        SecretsFilter: '*'
 
     - script: |
         npm run client-install
@@ -69,7 +63,11 @@ stages:
     strategy:
       runOnce:
         deploy:
-          steps:            
+          steps:     
+          - task: AzureKeyVault@1
+            inputs:
+              azureSubscription: 'Compfitition Subscription (c305819f-2f31-461b-9853-0a122e2cc497)'
+              KeyVaultName: 'CompfititionCredentials'
           - task: AzureWebApp@1
             displayName: 'Azure Web App Deploy: Compfitition'
             inputs:
@@ -78,4 +76,4 @@ stages:
               appName: $(webAppName)
               runtimeStack: 'NODE|10.10'
               package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
-              startUpCommand: 'npm run start'
+              startUpCommand: 'npm start'

@@ -43,8 +43,7 @@ const GoalForm = () => {
       if (moment(goalCurrent.startDate).startOf('day') < moment.utc().startOf('day')) {
         setGoal({
           ...goalCurrent, 
-          started: true,
-          initialValue: goalCurrent.tracker[0] 
+          started: true
         })
         setAlert('This goal has already begun, so some attributes cannot be changed.');
       }
@@ -116,6 +115,7 @@ const GoalForm = () => {
       handleSubmit={handleSubmit}
       handleChange={handleChange}
       handleClick={handleClick}
+      isGoal={true}
     />
   );
 };

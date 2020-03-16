@@ -46,6 +46,29 @@ exports.getCompetitionParticipants = async(req, res) => {
   }
 }
 
+exports.getCompetitionInvitees = async (req, res) => {
+  try {
+    //get competition letters
+    const letters = await letterService.getLettersByCompId(req.params.compId)
+    if(!letters)
+      return null
+    
+    //filter out invites from letters
+    invites = letters.filter(letter => letter.type === 'toUser')
+    if(!invites)
+      return null
+
+    //get ids from invites
+    const idArray = invites.map(invite => invite.userId)
+
+    //get users
+    const users = await userService.getUsersInArray(idArray, '_id firstName lastName')
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error.' });
+  }
+}
+
 exports.createCompetitionByGoalId = async (req, res) => {
   try {
     //verify goal exists
@@ -110,10 +133,12 @@ exports.deleteCompetition = async(req, res) => {
       return res.status(404).json({msg: 'Competition does not exist.'})
 
     //get template goal 
-    const goal = (await goalService.getGoalsByUserId(req.params.compId))[0]
+    let goal = (await goalService.getGoalsByUserId(req.params.compId))
+
+    goal = goal[0]
 
     //verify template goal found
-    if(!competition)
+    if(!goal)
       return res.status(404).json({msg: 'Competition goal not found.'})
 
     //verify admin
@@ -227,8 +252,9 @@ exports.updateCompetition = async(req, res) => {
       let length = newDuration - tracker.length;
       if (type === 'pass/fail') {
         length = newDuration / 7 * total - tracker.length;
-      } else if (type === 'duration') {
+      } else if (type === 'difference') {
         length = newDuration + 1 - tracker.length;
+        newDuration += 1;
       }
 
       const ses1 = await mongoose.startSession();
@@ -288,25 +314,35 @@ exports.updateCompetition = async(req, res) => {
 
 exports.addUserToCompetition = async(req, res) => {
   try {
-    let competition = await competitionService.getCompetitionById(req.params.compId);    
+    let letter = await letterService.getLetterById(req.params.letterId)
+
+    //verify letter exists
+    if(!letter)
+      return res.status(404).json({msg: 'Letter does not exist.'})
+
+    let competition = await competitionService.getCompetitionById(letter.compId);    
 
     //verify competition exists
     if(!competition)
       return res.status(404).json({msg: 'Competition does not exist.'})
 
     //verify user not already in competition
-    if(competition.userIds.includes(req.user.id))
+    if(competition.userIds.includes(letter.userId))
       return res.status(400).json({msg: 'User is already in competition.'})
 
     //get template goal
-    const goal = await goalService.getGoalsByUserId(req.params.compId);
+    let goal = await goalService.getGoalsByUserId(letter.compId);
+
+    goal = goal[0]
+
     if(!goal)
       return res.status(404).json({msg: 'Competition goal not found.'})
+
     const { name, duration, startDate, type, description, units, total, isPrivate, tracker } = goal;
 
     //create goal for user from template goal
     const goalFields = {
-      user: req.user.id,
+      user: letter.userId,
       name, 
       duration, 
       startDate, 
@@ -315,22 +351,22 @@ exports.addUserToCompetition = async(req, res) => {
       units,
       total,
       isPrivate, 
-      compId: req.params.compId,
+      compId: letter.compId,
       tracker
     };
 
+    //add user goal, add userId to Competition.userIds array, and delete letter
     const ses1 = await mongoose.startSession();
       ses1.startTransaction();
 
-      await addNewGoal(goalFields, ses1);
-
-      //add userId to userIds array
-      competition = await competitionService.addUserToCompetition(req.params.compId, req.user.id, ses1)
+      goal = await goalService.addNewGoal(goalFields, ses1);
+      competition = await competitionService.addUserToCompetition(letter.compId, letter.userId, ses1)
+      await letterService.deleteLetterById(req.params.letterId, ses1)
 
     await ses1.commitTransaction();
 
     //return competition
-    res.json(competition);
+    res.json({competition, goal});
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }
@@ -355,7 +391,7 @@ exports.removeUserFromCompetition = async(req, res) => {
     const ses1 = await mongoose.startSession();
       ses1.startTransaction();
       //reset user goal so it is not part of competition
-      goalService.removeGoalFromCompetition(req.params.compid, req.user.id, ses1)
+      await goalService.removeGoalFromCompetition(req.params.compId, req.user.id, ses1)
 
       //remove userId from userIds array
       await competitionService.removeUserFromCompetition(req.params.compId, req.user.id, ses1);
@@ -364,6 +400,7 @@ exports.removeUserFromCompetition = async(req, res) => {
 
     res.json({msg: 'User removed from competition.'});
   } catch (err) {
+    console.log(err)
     res.status(500).json({ msg: 'Server error.' });
   }
 }
@@ -390,14 +427,34 @@ exports.kickUserFromCompetition = async(req, res) => {
     if(!competition.adminIds.includes(req.user.id))
       return res.status(401).json({msg: 'You are not an admin. Only admins can kick a competition participant.'})
 
+    let goal = await goalService.getGoalsByUserId(req.params.compId)
+
+    goal = goal[0]
+
+    if(!goal)
+      return res.status(401).json({msg: 'Competition goal not found.'})
+
+    let letterFields = {
+      compId: req.params.compId,
+      message: `You have been removed from ${goal.name}. The competition goal has been saved as a personal goal.`,
+      userId: kickeeId,
+      type: 'userKicked'
+    }
+
     const ses1 = await mongoose.startSession();
       ses1.startTransaction();
 
       //reset user goal so it is not part of competition
-      goalService.removeGoalFromCompetition(req.params.compid, kickeeId, ses1)
+      await goalService.removeGoalFromCompetition(req.params.compId, kickeeId, ses1)
 
       //remove userId from userIds array
       competition = await competitionService.removeUserFromCompetition(req.params.compId, kickeeId, ses1)
+
+      //delete letters to user
+      await letterService.deleteUserLettersForComp(kickeeId, req.params.compId, ses1)
+
+      //add letter telling them they were deleted
+      await letterService.addNewLetter(letterFields, ses1)
 
     await ses1.commitTransaction();
 
@@ -409,29 +466,35 @@ exports.kickUserFromCompetition = async(req, res) => {
 
 exports.addAdminToCompetition = async(req, res) => {
   try {
-    const {newAdminId} = req.body;
+    let letter = await letterService.getLetterById(req.params.letterId)
 
-    let competition = await competitionService.getCompetitionById(req.params.compId);
+    //verify letter exists
+    if(!letter)
+      return res.status(404).json({msg: 'Letter does not exist.'})
+
+    let competition = await competitionService.getCompetitionById(letter.compId);
 
     //verify competition exists
     if(!competition)
       return res.status(404).json({msg: 'Competition does not exist.'})
 
     //verify user not already admin
-    if(competition.adminIds.includes(newAdminId))
+    if(competition.adminIds.includes(req.user.id))
       return res.status(400).json({msg: 'User is already admin.'})
 
     //verify user is a part of competition
-    if(!competition.userIds.includes(newAdminId))
+    if(!competition.userIds.includes(req.user.id))
       return res.status(404).json({msg: 'User must be a participant in competition before they can be an admin.'})
 
-    //verify admin
-    if (!competition.adminIds.includes(req.user.id))
-      return res.status(401).json({msg: 'Only admin can add another admin.'});
+    //add user goal, add userId to Competition.userIds array, and delete letter
+    const ses1 = await mongoose.startSession();
+      ses1.startTransaction();
 
-    //add admin to adminIds
-    competition = await competitionService.addAdminToCompetition( req.params.compId, newAdminId);
+      competition = await competitionService.addAdminToCompetition(letter.compId, req.user.id, ses1)
+      await letterService.deleteLetterById(req.params.letterId, ses1)
 
+    await ses1.commitTransaction();
+    
     //return competition
     res.json(competition);
   } catch (err) {
@@ -460,6 +523,20 @@ exports.removeAdminFromCompetition = async(req, res) => {
 
     //return competition
     res.json(competition);
+  } catch (err) {
+    res.status(500).json({ msg: 'Server error.' });
+  }
+}
+
+exports.getCompetitionCurrentGoal = async (req, res) => {
+  try {
+    const goal = await goalService.getGoalByCompIdAndUserId(req.params.compId, req.params.userId);
+    
+    //verify goal exists
+    if (!goal)
+      return res.json({msg: 'Goal not found!'})
+
+    res.json(goal);
   } catch (err) {
     res.status(500).json({ msg: 'Server error.' });
   }

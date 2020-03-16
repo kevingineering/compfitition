@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import FriendContext from '../../../contexts/friends/friendContext';
 
-const DeleteFriend = ({_id})=> {
+const DeleteFriend = ({userId})=> {
 
  //console.log{'DeleteFriend')
 
@@ -15,16 +15,16 @@ const DeleteFriend = ({_id})=> {
   let history = useHistory();
 
   const handleDelete = () =>  {
-    deleteFriend(_id);
+    deleteFriend(userId);
     history.push('/');
   }
 
   return (
     <div>
-      <form className='width-225'>
+      <form className='width-275'>
         <input
           type='button'
-          value='Delete Friend?'
+          value='Delete Friendship?'
           className='btn btn-block btn-primary btn-h2 margin-0'
           onClick={() => setDeleteToggle(true)}
         />
@@ -53,7 +53,7 @@ const DeleteFriend = ({_id})=> {
 }
 
 DeleteFriend.propTypes = {
-  _id: PropTypes.string.isRequired
+  userId: PropTypes.string.isRequired
 }
 
 export default DeleteFriend;

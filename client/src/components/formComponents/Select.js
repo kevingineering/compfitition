@@ -25,7 +25,7 @@ Select.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   //value can be number or string
-  disabled: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   handleChange: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
 }

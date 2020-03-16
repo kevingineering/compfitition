@@ -14,7 +14,7 @@ const GoalList = ({goals, isOwner, isGoal, loading}) => {
   if (loading) {
     itemList = (
       <li className='collection-item'>
-        Loading...
+        <div className="spinner"/>
       </li>
     )
   }

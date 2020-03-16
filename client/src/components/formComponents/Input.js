@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Input = ({name, label, type, value, handleChange, min, max, autofocus, disabled, warning}) => {
+const Input = ({name, label, type, value, handleChange, min, max, autofocus, disabled=false, warning}) => {
   
   //console.log('Input')
 
@@ -18,6 +18,7 @@ const Input = ({name, label, type, value, handleChange, min, max, autofocus, dis
             {...(max && {max: max})}
             {...(disabled && {disabled: true})}
             {...(autofocus && {autofocus: true})}
+            spellCheck='false'
           />
         ) : (
           <textarea

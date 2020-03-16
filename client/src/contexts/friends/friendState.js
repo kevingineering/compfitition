@@ -32,7 +32,7 @@ const FriendState = props => {
   };
 
   const [state, dispatch] = useReducer(FriendReducer, initialState);
-
+  
   //get friends
   const getFriends = async () => {
     //console.log('getFriends')

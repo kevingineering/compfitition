@@ -9,6 +9,7 @@ import {
   UPDATE_GOAL,
   UPDATE_GOAL_TRACKER,
   SET_CURRENT_GOAL,
+  SET_CURRENT_GOAL_BY_COMP,
   CLEAR_CURRENT_GOAL,
   //SET_GOAL_LOADING,
   GOAL_ERROR,
@@ -106,6 +107,11 @@ const GoalState = props => {
     dispatch({ type: SET_CURRENT_GOAL, payload: _id });
   };
 
+  const setCurrentGoalByComp = compId => {
+    //console.log('setCurrentGoalByComp')
+    dispatch({ type: SET_CURRENT_GOAL_BY_COMP, payload: compId })
+  }
+
   //clear current
   const clearCurrentGoal = () => {
     //console.log('clearCurrentGoal')
@@ -137,6 +143,7 @@ const GoalState = props => {
       updateGoal,
       updateGoalTracker,
       setCurrentGoal,
+      setCurrentGoalByComp,
       clearCurrentGoal,
       clearGoals,
       clearGoalsError

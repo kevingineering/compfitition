@@ -48,7 +48,7 @@ const GoalTable = ({goals, isPast, isGoal, isOwner, name, loading}) => {
                     to={isGoal ? '/goalform' : '/competitionform'} 
                     className='text-secondary'
                   >
-                    <p className='padding-025'>
+                    <p className='padding-04'>
                       <i className='fas fa-plus'/> Add {type}
                     </p>
                   </Link>

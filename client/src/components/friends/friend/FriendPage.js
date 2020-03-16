@@ -28,7 +28,7 @@ const FriendPage = () => {
         <FriendGoals/>
         <FriendFriends/>
       </div>
-      <DeleteFriend _id={friendCurrent._id}/>
+      <DeleteFriend userId={friendCurrent._id}/>
     </React.Fragment>
   )
 };
