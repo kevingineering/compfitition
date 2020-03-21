@@ -1,22 +1,22 @@
-import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
-import FriendContext from '../../../contexts/friends/friendContext';
+import React, { useState, useContext } from 'react'
+import PropTypes from 'prop-types'
+import { useHistory } from 'react-router-dom'
+import FriendContext from '../../../contexts/friends/friendContext'
 
 const DeleteFriend = ({userId})=> {
 
  //console.log{'DeleteFriend')
 
-  const friendContext = useContext(FriendContext);
-  const { deleteFriend } = friendContext;
+  const friendContext = useContext(FriendContext)
+  const { deleteFriend } = friendContext
 
-  const [deleteToggle, setDeleteToggle] = useState(false);
+  const [deleteToggle, setDeleteToggle] = useState(false)
 
-  let history = useHistory();
+  let history = useHistory()
 
   const handleDelete = () =>  {
-    deleteFriend(userId);
-    history.push('/');
+    deleteFriend(userId)
+    history.push('/')
   }
 
   return (
@@ -33,18 +33,14 @@ const DeleteFriend = ({userId})=> {
             <p className='lr-border center search-email'>
               <strong>Are you sure you want to delete this friendship?</strong>
             </p>
-            <input
-              type='button'
-              value='No'
+            <button
               className='btn btn-primary btn-split margin-0'
               onClick={() => setDeleteToggle(false)}
-            />
-            <input
-              type='button'
-              value='Yes'
+            >No</button>
+            <button
               className='btn btn-danger btn-split margin-0'
               onClick={handleDelete}
-            />
+            >Yes</button>
           </div>
         )}
       </form>
@@ -56,4 +52,4 @@ DeleteFriend.propTypes = {
   userId: PropTypes.string.isRequired
 }
 
-export default DeleteFriend;
+export default DeleteFriend

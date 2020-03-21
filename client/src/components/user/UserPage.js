@@ -1,20 +1,20 @@
-import React, { useContext, useState, useEffect } from 'react';
-import AuthContext from '../../contexts/auth/authContext';
-import AlertContext from '../../contexts/alerts/alertContext';
-import UserInfo from './UserInfo';
-import EditModule from './EditModule';
-import PasswordModule from './PasswordModule';
-import DeleteModule from './DeleteModule';
+import React, { useContext, useState, useEffect } from 'react'
+import AuthContext from '../../contexts/auth/authContext'
+import AlertContext from '../../contexts/alerts/alertContext'
+import UserInfo from './UserInfo'
+import EditModule from './EditModule'
+import PasswordModule from './PasswordModule'
+import DeleteModule from './DeleteModule'
 
 const UserPage = () => {
 
  //console.log{'UserPage')
 
-  const authContext = useContext(AuthContext);
-  const { user, updateUser, changeUserPassword, deleteUser, userError, clearUserError } = authContext;
+  const authContext = useContext(AuthContext)
+  const { user, updateUser, changeUserPassword, deleteUser, userError, clearUserError } = authContext
   
-  const alertContext = useContext(AlertContext);
-  const { setAlert, clearAlert } = alertContext;
+  const alertContext = useContext(AlertContext)
+  const { setAlert, clearAlert } = alertContext
   
   const [current, setCurrent] = useState({
     firstName: '',
@@ -25,50 +25,50 @@ const UserPage = () => {
     oldPassword: '',
     newPassword: '',
     newPassword2: ''
-  });
+  })
 
-  const [passwordToggle, setPasswordToggle] = useState(false);
-  const [editToggle, setEditToggle] = useState(false);
-  const [deleteToggle, setDeleteToggle] = useState(false);
+  const [passwordToggle, setPasswordToggle] = useState(false)
+  const [editToggle, setEditToggle] = useState(false)
+  const [deleteToggle, setDeleteToggle] = useState(false)
 
   //populate current with user values
   useEffect(() => {
-    setCurrent({...current, ...user});
+    setCurrent({...current, ...user})
     return () => {
-      clearAlert();
+      clearAlert()
     }
     //eslint-disable-next-line
-  }, [user, editToggle]);
+  }, [user, editToggle])
 
   //set alert if error
   useEffect(() => {
     if (userError) {
       switch(userError) {
         case 'User updated!':
-          setEditToggle(false);
-          break;
+          setEditToggle(false)
+          break
         case 'Password changed!':
-          setPasswordToggle(false);
-          setCurrent({...current, oldPassword: '', newPassword: '', newPassword2: ''});
-          break;
+          setPasswordToggle(false)
+          setCurrent({...current, oldPassword: '', newPassword: '', newPassword2: ''})
+          break
         case 'User deleted':
-          setDeleteToggle(false);
-          break;
+          setDeleteToggle(false)
+          break
         default: 
-          setAlert(userError);
+          setAlert(userError)
       }
     }
-    clearUserError();
+    clearUserError()
     //eslint-disable-next-line
-  }, [userError]);
+  }, [userError])
 
   const handleChange = e => {
-    setCurrent({...current, [e.target.name]: e.target.value});
-  };
+    setCurrent({...current, [e.target.name]: e.target.value})
+  }
   
   const handleClick = () => {
-    setCurrent({ ...current, isSearchable: !current.isSearchable });
-  };
+    setCurrent({ ...current, isSearchable: !current.isSearchable })
+  }
 
   return (
     <div className='form-container'>
@@ -113,4 +113,4 @@ const UserPage = () => {
   )
 }
 
-export default UserPage;
+export default UserPage

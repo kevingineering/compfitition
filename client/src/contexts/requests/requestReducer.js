@@ -5,7 +5,7 @@ import {
   REQUEST_ERROR,
   CLEAR_REQUESTS,
   SET_REQUESTS_LOADING
-} from '../types';
+} from '../types'
 
 export default (state, action) => {
   switch(action.type) {
@@ -53,6 +53,6 @@ export default (state, action) => {
         requestsLoading: true
       }
     default: 
-      return state;
+      return state
   }
 }

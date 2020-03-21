@@ -14,7 +14,7 @@ import {
   USER_DELETED_FAIL,
   SET_AUTH_LOADING,
   CLEAR_AUTH_ERROR
-} from '../types';
+} from '../types'
 
 export default (state, action) => {
   switch(action.type) {
@@ -46,7 +46,7 @@ export default (state, action) => {
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case USER_DELETED_SUCCESS:
-      localStorage.removeItem('token');
+      localStorage.removeItem('token')
       return {
         ...state,
         token: null,
@@ -56,7 +56,7 @@ export default (state, action) => {
         userLoading: false
       }
     case LOGOUT:
-      localStorage.removeItem('token');
+      localStorage.removeItem('token')
       return {
         ...state,
         token: null,
@@ -86,5 +86,5 @@ export default (state, action) => {
       }
     default: 
       return state
-  };
-};
+  }
+}

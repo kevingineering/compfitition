@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import GoalContext from '../../../contexts/goals/goalContext';
-import AlertContext from '../../../contexts/alerts/alertContext';
+import React, { useState, useContext } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import GoalContext from '../../../contexts/goals/goalContext'
+import AlertContext from '../../../contexts/alerts/alertContext'
 
 const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
 
@@ -14,26 +14,26 @@ const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
     goalsError, 
     deleteGoal, 
     clearGoalsError
-  } = useContext(GoalContext);
+  } = useContext(GoalContext)
 
-  const { setAlert, clearAlert } = useContext(AlertContext);
+  const { setAlert, clearAlert } = useContext(AlertContext)
 
-  const [deleteToggle, setDeleteToggle] = useState(false);
+  const [deleteToggle, setDeleteToggle] = useState(false)
 
-  let history = useHistory();
+  let history = useHistory()
 
   const handleDelete = async () => {
-    await deleteGoal(goalCurrent._id);
+    await deleteGoal(goalCurrent._id)
     if (goalsError) {
-      setAlert(goalsError);
-      clearGoalsError();
+      setAlert(goalsError)
+      clearGoalsError()
     }
     else {
-      setAlert('Goal deleted!', true);
-      history.push('/');
-      clearCurrentGoal();
+      setAlert('Goal deleted!', true)
+      history.push('/')
+      clearCurrentGoal()
     }
-  };
+  }
 
   return (
     <React.Fragment>
@@ -59,7 +59,7 @@ const GoalButtons = ({isStarted, isActive, isOwner, handleSave, record}) => {
           >
             Modify Goal
           </Link>
-          <p className='lr-border'/>
+          {!deleteToggle && <p className='lr-border'/>}
         </React.Fragment>
       }
       {/* Delete Button */}
@@ -102,4 +102,4 @@ GoalButtons.propTypes = {
   record: PropTypes.array.isRequired
 }
 
-export default GoalButtons;
+export default GoalButtons

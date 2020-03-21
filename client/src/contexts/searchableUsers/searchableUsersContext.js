@@ -1,5 +1,5 @@
-import { createContext } from 'react';
+import { createContext } from 'react'
 
-const searchableUsersContext = createContext();
+const searchableUsersContext = createContext()
 
-export default searchableUsersContext;
+export default searchableUsersContext

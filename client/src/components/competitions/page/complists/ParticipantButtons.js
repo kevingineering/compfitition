@@ -1,17 +1,17 @@
-import React, { useState, useContext} from 'react';
-import PropTypes from 'prop-types';
-import LetterContext from '../../../../contexts/letters/letterContext';
-import CompetitionContext from '../../../../contexts/competitions/competitionContext';
+import React, { useState, useContext} from 'react'
+import PropTypes from 'prop-types'
+import LetterContext from '../../../../contexts/letters/letterContext'
+import CompetitionContext from '../../../../contexts/competitions/competitionContext'
 
 const ParticipantButtons = ({letter, compId, compName, userId, setUserToggle}) => {
 
  //console.log{'ParticipantButtons')
 
-  const [deleteToggle, setDeleteToggle] = useState(false);
+  const [deleteToggle, setDeleteToggle] = useState(false)
 
-  const { kickUserFromCompetition } = useContext(CompetitionContext);
+  const { kickUserFromCompetition } = useContext(CompetitionContext)
 
-  const { addLetter, deleteLetter } = useContext(LetterContext);
+  const { addLetter, deleteLetter } = useContext(LetterContext)
 
   const handleDeleteRequest = () => {
     setUserToggle(false)
@@ -32,13 +32,13 @@ const ParticipantButtons = ({letter, compId, compName, userId, setUserToggle}) =
   let buttons = letter ? (
     <React.Fragment>
       <button 
-        className='btn btn-split btn-primary height-55' 
+        className='btn btn-split btn-primary height-65' 
         onClick={handleDeleteRequest}
       >
         Delete Admin Request
       </button>
       <button 
-        className='btn btn-split btn-danger height-55' 
+        className='btn btn-split btn-danger height-65' 
         onClick={() => setDeleteToggle(true)}
       >
         Kick User
@@ -65,18 +65,14 @@ const ParticipantButtons = ({letter, compId, compName, userId, setUserToggle}) =
     buttons = (
       <div className="lr-border">
         <span className='participant-row block'>Are you sure you want to kick this user? This action cannot be undone.</span>
-        <input
-          type='button'
-          value='No'
+        <button
           className='btn btn-primary btn-split margin-0'
           onClick={() => setDeleteToggle(false)}
-        />
-        <input
-          type='button'
-          value='Yes'
+        >No</button>
+        <button
           className='btn btn-danger btn-split margin-0'
           onClick={() => kickUserFromCompetition(compId, userId)}
-        />
+        >Yes</button>
       </div>
     )
   }
@@ -96,4 +92,4 @@ ParticipantButtons.propTypes = {
   setUserToggle: PropTypes.func.isRequired,
 }
 
-export default ParticipantButtons;
+export default ParticipantButtons

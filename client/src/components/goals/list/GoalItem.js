@@ -1,63 +1,51 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import GoalContext from '../../../contexts/goals/goalContext';
-import FriendContext from '../../../contexts/friends/friendContext';
-import CompetitionContext from '../../../contexts/competitions/competitionContext';
-import { getTime } from '../../sharedFunctions';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import moment from 'moment'
+import { getTime } from '../../sharedFunctions'
 
-const GoalItem = ({isOwner, isGoal, goal: { _id, name, startDate, duration, tracker, type, units, compId }}) => {
+const GoalItem = ({isOwner, isGoal, goal}) => {
 
  //console.log{'GoalItem')
 
-  const { setCurrentGoal } = useContext(GoalContext);
-  const { setCurrentFriendGoal, friendCurrent } = useContext(FriendContext);
-  const { getCompetition, getCompetitionCurrentGoal } = useContext(CompetitionContext);
+  const { _id, name, startDate, duration, tracker, type, units, compId } = goal;
 
-  const [isStarted, time, isComplete] = getTime(startDate, duration);
+  const [isStarted, time, isComplete] = getTime(startDate, duration)
 
   //calc progress
-  let progressTag = '';
-  let progressMsg = '';
-  let count = 0;
+  let progressTag = ''
+  let progressMsg = ''
+  let count = 0
   if (type === 'pass/fail'){
     for (let i = 0; i < tracker.length; i++) {
-      if (tracker[i]) count++;
+      if (tracker[i]) count++
     }
     progressTag = 'Success: '
     progressMsg = `${count} / ${isComplete ? tracker.length : time + 1}`
   }
   else if (type === 'total') {
     for (let i = 0; i < tracker.length; i++) {
-      count += tracker[i];
+      count += tracker[i]
     }
     progressTag = 'Total: '
     progressMsg = `${count} ${units}`
   }
   else {
     let temp = tracker.filter(value => value !== null)
-    let count = temp.pop() - tracker[0];
+    let count = temp.pop() - tracker[0]
     progressTag = 'Change: '
     progressMsg = `${count > 0 ? '+' : ''}${count} ${units}`
   }
-
-  const handleClick = async () => {
-    isOwner ? setCurrentGoal(_id) : setCurrentFriendGoal(_id);
-    !isGoal && await getCompetition(compId);
-    !isGoal && !isOwner && await getCompetitionCurrentGoal(compId, friendCurrent._id)
-  };
 
   return (
     <li className='collection-item'>
       <div className='flex'>
         <h3 className='vertical-center'>
           <Link 
-            onClick={handleClick} 
             to={isGoal ? (
-                isOwner ? '/goal' : '/friend/goal'
+                isOwner ? '/goal/' + _id : '/friend/goal/' + _id
               ) : (
-                '/competition'
+                '/competition/' + compId
             )}>
             {name}
           </Link>
@@ -87,12 +75,13 @@ const GoalItem = ({isOwner, isGoal, goal: { _id, name, startDate, duration, trac
         </div>
       ) : (
         <span className='right hide-sm'>
-          <strong>Final {progressTag}</strong>{progressMsg}</span>
+          <strong>Final {progressTag}</strong>{progressMsg}
+        </span>
       )
       }
     </li>
-  );
-};
+  )
+}
 
 GoalItem.propTypes = {
   goal: PropTypes.object.isRequired,
@@ -100,4 +89,4 @@ GoalItem.propTypes = {
   isOwner: PropTypes.bool.isRequired
 }
 
-export default GoalItem;
+export default GoalItem

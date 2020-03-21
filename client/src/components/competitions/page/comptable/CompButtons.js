@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import CompetitionContext from '../../../../contexts/competitions/competitionContext';
-import GoalContext from '../../../../contexts/goals/goalContext';
-import AlertContext from '../../../../contexts/alerts/alertContext';
+import React, { useState, useContext } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import CompetitionContext from '../../../../contexts/competitions/competitionContext'
+import GoalContext from '../../../../contexts/goals/goalContext'
+import AlertContext from '../../../../contexts/alerts/alertContext'
 
 const CompButtons = ({isAdmin, isAdminView, isOwner, isStarted, isActive, handleSave, record}) => {
 
@@ -16,38 +16,38 @@ const CompButtons = ({isAdmin, isAdminView, isOwner, isStarted, isActive, handle
     removeUserFromCompetition,
     clearCompetition,
     clearCompetitionError
-  } = useContext(CompetitionContext);
+  } = useContext(CompetitionContext)
 
-  const { clearCurrentGoal } = useContext(GoalContext);
+  const { clearCurrentGoal } = useContext(GoalContext)
 
-  const { setAlert, clearAlert } = useContext(AlertContext);
+  const { setAlert, clearAlert } = useContext(AlertContext)
 
-  const [deleteToggle, setDeleteToggle] = useState(false);
-  const [leaveToggle, setLeaveToggle] = useState(false);
+  const [deleteToggle, setDeleteToggle] = useState(false)
+  const [leaveToggle, setLeaveToggle] = useState(false)
 
-  let history = useHistory();
+  let history = useHistory()
 
   const afterHandle = (verb) => {
     if (competitionError) {
-      setAlert(competitionError);
-      clearCompetitionError();
+      setAlert(competitionError)
+      clearCompetitionError()
     }
     else {
-      setAlert(`You have ${verb} the competition!`, true);
-      history.push('/');
-      clearCurrentGoal();
-      clearCompetition();
+      setAlert(`You have ${verb} the competition!`, true)
+      history.push('/')
+      clearCurrentGoal()
+      clearCompetition()
     }
   }
 
   //handleDelete
   const handleDelete = async () => {
-    await deleteCompetition(competition._id);
+    await deleteCompetition(competition._id)
     afterHandle('deleted')
-  };
+  }
 
   const handleLeave = async () => {
-    await removeUserFromCompetition(competition._id);
+    await removeUserFromCompetition(competition._id)
     afterHandle('left')
   }
 
@@ -149,4 +149,4 @@ CompButtons.propTypes = {
   record: PropTypes.array.isRequired,
 }
 
-export default CompButtons;
+export default CompButtons

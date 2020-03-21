@@ -1,6 +1,6 @@
-import React from 'react';
-import Chart from 'react-google-charts';
-import PropTypes from 'prop-types';
+import React from 'react'
+import Chart from 'react-google-charts'
+import PropTypes from 'prop-types'
 
 const GoalChartDifference = ({ duration, units, record, time }) => {
 
@@ -18,9 +18,9 @@ const GoalChartDifference = ({ duration, units, record, time }) => {
       record[0],
       `Start \n ${record[0]} ${units}`
     ]
-  ];
+  ]
 
-  const chartMax = (time === duration) ? duration : time + 1;
+  const chartMax = (time === duration) ? duration : time + 1
 
   //set dataPoints - time + 1 because we are storing start value in [0]
   for (let i = 1; i <= time + 1; i++) {
@@ -29,7 +29,7 @@ const GoalChartDifference = ({ duration, units, record, time }) => {
         i, 
         record[i], 
         `Day ${i} \n ${record[i]} ${units}`,
-      ]);
+      ])
     }
   }
 
@@ -69,14 +69,14 @@ const GoalChartDifference = ({ duration, units, record, time }) => {
         }}
       />
     </div>
-  );
-};
+  )
+}
 
 GoalChartDifference.propTypes = {
   duration: PropTypes.number.isRequired,
   units: PropTypes.string.isRequired,
   record: PropTypes.array.isRequired,
   time: PropTypes.number.isRequired
-};
+}
   
-export default GoalChartDifference;
+export default GoalChartDifference

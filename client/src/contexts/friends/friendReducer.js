@@ -12,7 +12,7 @@ import {
   CLEAR_FRIENDS,
   FILTER_FRIENDS,
   CLEAR_FRIENDS_FILTER
-} from '../types';
+} from '../types'
 
 export default (state, action) => {
   switch(action.type) {
@@ -102,7 +102,7 @@ export default (state, action) => {
             friend.lastName.match(regex) ||
             friend.email.match(regex) || 
             friend.alias.match(regex)
-          );
+          )
         })
       }
     case CLEAR_FRIENDS_FILTER:

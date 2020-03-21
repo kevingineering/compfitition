@@ -1,27 +1,27 @@
-import React, { useContext, useEffect } from 'react';
-import SearchItem from './SearchItem';
-import SearchableUsersContext from '../../contexts/searchableUsers/searchableUsersContext';
-import FriendContext from '../../contexts/friends/friendContext';
-import RequestContext from '../../contexts/requests/requestContext';
+import React, { useContext, useEffect } from 'react'
+import SearchItem from './SearchItem'
+import SearchableUsersContext from '../../contexts/searchableUsers/searchableUsersContext'
+import FriendContext from '../../contexts/friends/friendContext'
+import RequestContext from '../../contexts/requests/requestContext'
 
 const SearchResults = () => {
 
  //console.log{'SearchResults')
 
-  const searchableUsersContext = useContext(SearchableUsersContext);
-  const { searchableUsers, searchableUsersFiltered } = searchableUsersContext;
+  const searchableUsersContext = useContext(SearchableUsersContext)
+  const { searchableUsers, searchableUsersFiltered } = searchableUsersContext
 
-  const friendContext = useContext(FriendContext);
-  const { friendIds } = friendContext;
+  const friendContext = useContext(FriendContext)
+  const { friendIds } = friendContext
 
-  const requestContext = useContext(RequestContext);
-  const { requestsSent, requestsReceived, getRequests } = requestContext;
+  const requestContext = useContext(RequestContext)
+  const { requestsSent, requestsReceived, getRequests } = requestContext
 
   const sentArray = requestsSent.map(request => {
-    return request.requestee;
+    return request.requestee
   })
   const receivedArray = requestsReceived.map(request => {
-    return request.requester;
+    return request.requester
   })
 
   //configure results and send friend status down to child
@@ -33,17 +33,16 @@ const SearchResults = () => {
   */
  
   useEffect(() => {
-    getRequests();
+    getRequests()
     //eslint-disable-next-line
-  }, []);
+  }, [])
 
-  let searchList = <div className="spinner"/>;
+  let searchList = ''
 
   if (searchableUsers.length === 0) {
     searchList = <li className='collection-item'>
         <div className="spinner"/>
-      </li>;
-
+      </li>
   }
   else if (searchableUsersFiltered !== null) {
     if (searchableUsersFiltered.length === 0)
@@ -53,26 +52,26 @@ const SearchResults = () => {
         </li>
       )
     searchList = searchableUsersFiltered.map(user => {
-      let status = 'stranger';
+      let status = 'stranger'
       if (friendIds.includes(user._id)) {
-        status = 'friend';
+        status = 'friend'
       } else if (receivedArray.includes(user._id)) {
-        status = 'received';
+        status = 'received'
       } else if (sentArray.includes(user._id)) {
-        status = 'sent';
+        status = 'sent'
       }
       return <SearchItem key={user._id} user={user} status={status} />
     })
   }
   else {
     searchList = searchableUsers.map(user => {
-      let status = 'stranger';
+      let status = 'stranger'
       if (friendIds.includes(user._id)) {
-        status = 'friend';
+        status = 'friend'
       } else if (receivedArray.includes(user._id)) {
-        status = 'received';
+        status = 'received'
       } else if (sentArray.includes(user._id)) {
-        status = 'sent';
+        status = 'sent'
       }
       return <SearchItem key={user._id} user={user} status={status} />
     })
@@ -81,7 +80,7 @@ const SearchResults = () => {
     <React.Fragment>
       {searchList}
     </React.Fragment>
-  );
+  )
 }
 
-export default SearchResults;
+export default SearchResults

@@ -1,29 +1,29 @@
-import React from 'react';
-import Chart from 'react-google-charts';
-import PropTypes from 'prop-types';
+import React from 'react'
+import Chart from 'react-google-charts'
+import PropTypes from 'prop-types'
 
 const CompChartTotal = ({competitionArray, units, type }) => {
  //console.log{'CompChartTotal')
 
   //format data array and configure tooltip 
-  let dataPointsZero = ['x'];
-  let dataPointsOne = [0];
-  let dataPointsBeyond = [];
+  let dataPointsZero = ['x']
+  let dataPointsOne = [0]
+  let dataPointsBeyond = []
 
   //the length of the values coming after
   //has fewer edge cases than using time
-  let valuesLength = 0;
+  let valuesLength = 0
   //the maximum value for the chart, one more than the leader's score
-  let maxValue = 0;
+  let maxValue = 0
 
   if (competitionArray.length !== 0) {
-    valuesLength = competitionArray[0][2].length;
-    const max1 = competitionArray[0][1] + 1;
-    const max2 = competitionArray[competitionArray.length -1][1] + 1;
+    valuesLength = competitionArray[0][2].length
+    const max1 = competitionArray[0][1] + 1
+    const max2 = competitionArray[competitionArray.length -1][1] + 1
     maxValue = max1 > max2? max1 : max2
   }
 
-  let tooltipMsg = type === 'total' ? 'Total: ' : 'Successes: ';
+  let tooltipMsg = type === 'total' ? 'Total: ' : 'Successes: '
 
   //configure dataPoints [0] and[1]
   for (let i = 0; i < competitionArray.length; i++) {
@@ -38,16 +38,16 @@ const CompChartTotal = ({competitionArray, units, type }) => {
 
   //configure rest of dataPoints
   for (let i = 0; i < valuesLength; i++) {
-    let list = [i + 1];
+    let list = [i + 1]
     for (let j = 0; j < competitionArray.length; j++)
       list.push(
         competitionArray[j][2][i],
         `Day ${i + 1} \n ${tooltipMsg} ${competitionArray[j][2][i]} ${units}`
       )
-    dataPointsBeyond.push(list);
+    dataPointsBeyond.push(list)
   }
 
-  let dataPoints = [dataPointsZero, dataPointsOne, ...dataPointsBeyond];
+  let dataPoints = [dataPointsZero, dataPointsOne, ...dataPointsBeyond]
   
   return (
     competitionArray.length === 0 ? 
@@ -98,4 +98,4 @@ CompChartTotal.propTypes = {
   type: PropTypes.string.isRequired
 }
 
-export default CompChartTotal;
+export default CompChartTotal

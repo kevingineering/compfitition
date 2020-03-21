@@ -1,15 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import GoalItem from './GoalItem';
+import React from 'react'
+import PropTypes from 'prop-types'
+import GoalItem from './GoalItem'
 
 const GoalList = ({goals, isOwner, isGoal, loading}) => {
   
  //console.log{'GoalList')
 
   //create list
-  let itemList = null;
+  let itemList = null
 
-  let type = isGoal ? 'goals' : 'competitions';
+  let type = isGoal ? 'goals' : 'competitions'
 
   if (loading) {
     itemList = (
@@ -33,7 +33,7 @@ const GoalList = ({goals, isOwner, isGoal, loading}) => {
           }
         </p>
       </li>
-    );
+    )
   }
   else {
     itemList = (
@@ -46,7 +46,7 @@ const GoalList = ({goals, isOwner, isGoal, loading}) => {
             isGoal={isGoal}
           />)}
       </React.Fragment>
-    );
+    )
   }
 
   return (
@@ -63,4 +63,4 @@ GoalList.propTypes = {
   loading: PropTypes.bool.isRequired
 }
 
-export default GoalList;
+export default GoalList

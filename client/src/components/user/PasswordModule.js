@@ -1,20 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Input from '../formComponents/Input';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Input from '../formComponents/Input'
 
 const PasswordModule = ({current, handleChange, setPasswordToggle, setAlert, changeUserPassword}) => {
 
  //console.log{'PasswordModule')
 
-  const { _id, oldPassword, newPassword, newPassword2 } = current;
+  const { _id, oldPassword, newPassword, newPassword2 } = current
 
   const handlePassword = async () => {
     if (newPassword !== newPassword2)
-      setAlert('Passwords do not match.');
+      setAlert('Passwords do not match.')
     else {
-      await changeUserPassword({oldPassword, newPassword, newPassword2}, _id);
+      await changeUserPassword({oldPassword, newPassword, newPassword2}, _id)
     }
-  };
+  }
 
   return (
     <form autoComplete='off'>
@@ -67,4 +67,4 @@ PasswordModule.propTypes = {
   setAlert: PropTypes.func.isRequired,
   changeUserPassword: PropTypes.func.isRequired
 }
-export default PasswordModule;
+export default PasswordModule

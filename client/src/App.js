@@ -1,30 +1,30 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import React from 'react'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 
-import Contexts from './contexts/Contexts';
-import setAuthToken from './utils/setAuthToken';
-import PrivateRoute from './components/routing/PrivateRoute';
+import Contexts from './contexts/Contexts'
+import setAuthToken from './utils/setAuthToken'
+import PrivateRoute from './components/routing/PrivateRoute'
 
-import Home from './components/pages/Home';
-import About from './components/pages/About';
-//import NotFound from './components/pages/NotFound';
-import Navbar from './components/layout/Navbar';
-import Alert from './components/layout/Alert';
-import GoalPage from './components/goals/page/GoalPage';
-import GoalForm from './components/goals/form/GoalForm';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
-import UserPage from './components/user/UserPage';
-import SearchPage from './components/searchableUsers/SearchPage';
-import FriendPage from './components/friends/friend/FriendPage';
-import FriendGoalPage from './components/friends/friend/FriendGoalPage';
-import CompetitionForm from './components/competitions/form/CompetitionForm';
-import CompetitionPage from './components/competitions/page/CompetitionPage';
+import Home from './components/pages/Home'
+import About from './components/pages/About'
+//import NotFound from './components/pages/NotFound'
+import Navbar from './components/layout/Navbar'
+import Alert from './components/layout/Alert'
+import GoalPage from './components/goals/page/GoalPage'
+import GoalForm from './components/goals/form/GoalForm'
+import Register from './components/auth/Register'
+import Login from './components/auth/Login'
+import UserPage from './components/user/UserPage'
+import SearchPage from './components/searchableUsers/SearchPage'
+import FriendPage from './components/friends/friend/FriendPage'
+import FriendGoalPage from './components/friends/friend/FriendGoalPage'
+import CompetitionForm from './components/competitions/form/CompetitionForm'
+import CompetitionPage from './components/competitions/page/CompetitionPage'
 
-import './App.css';
+import './App.css'
 
 if (localStorage.token) {
-  setAuthToken(localStorage.token);
+  setAuthToken(localStorage.token)
 }
 
 const App = () => {
@@ -36,24 +36,27 @@ const App = () => {
         <div className="container">
           <Alert/>
           <Switch>
+            <Route exact path='/login' component={Login}/>
             <Route exact path='/register' component={Register}/>
             <Route exact path='/about' component={About}/>
-            <Route exact path='/login' component={Login}/>
-            <PrivateRoute exact path='/user' component={UserPage}/>
             <PrivateRoute exact path='/' component={Home}/>
+            <PrivateRoute exact path='/user' component={UserPage}/>
             <PrivateRoute exact path='/goalform' component={GoalForm}/>
-            <PrivateRoute exact path='/goal' component={GoalPage}/>
+            {/* Add routing */}
+            <PrivateRoute exact path='/goal/:goalId' component={GoalPage}/>
             <PrivateRoute exact path='/search' component={SearchPage}/>
             <PrivateRoute exact path='/friend' component={FriendPage}/>
-            <PrivateRoute exact path='/friend/goal' component={FriendGoalPage}/>
+            {/* Add routing */}
+            <PrivateRoute exact path='/friend/goal/:goalId' component={FriendGoalPage}/>
             <PrivateRoute exact path='/competitionform' component={CompetitionForm}/>
-            <PrivateRoute path='/competition' component={CompetitionPage}/>
+            {/* Add routing */}
+            <PrivateRoute path='/competition/:compId' component={CompetitionPage}/>
             <Redirect to='/login' />
           </Switch>
         </div>
       </Router>
     </Contexts>
-  );
-};
+  )
+}
 
-export default App;
+export default App

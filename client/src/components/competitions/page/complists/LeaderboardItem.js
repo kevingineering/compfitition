@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const LeaderboardItem = ({name, count, type}) => {
 
  //console.log{'Leaderboard Item')
 
-  let progress = (type === 'difference') ? `${count > 0 ? '+' : ''}${count}` : count;
+  let progress = (type === 'difference') ? `${count > 0 ? '+' : ''}${count}` : count
 
   return (
     <div className='table-info space-between lr-border'>
@@ -21,4 +21,4 @@ LeaderboardItem.propTypes = {
   type: PropTypes.string.isRequired
 }
 
-export default LeaderboardItem;
+export default LeaderboardItem

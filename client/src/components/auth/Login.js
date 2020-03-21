@@ -1,56 +1,56 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import AuthContext from '../../contexts/auth/authContext';
-import AlertContext from '../../contexts/alerts/alertContext';
-import Input from '../formComponents/Input';
+import React, { useState, useEffect, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
+import AuthContext from '../../contexts/auth/authContext'
+import AlertContext from '../../contexts/alerts/alertContext'
+import Input from '../formComponents/Input'
 
 const Login = () => {
 
  //console.log{'Login')
   
-  const authContext = useContext(AuthContext);
-  const { loginUser, userError, clearUserError, isAuthenticated } = authContext;
+  const authContext = useContext(AuthContext)
+  const { loginUser, userError, clearUserError, isAuthenticated } = authContext
 
-  const alertContext = useContext(AlertContext);
-  const { setAlert, clearAlert } = alertContext;
+  const alertContext = useContext(AlertContext)
+  const { setAlert, clearAlert } = alertContext
 
-  let history = useHistory();
+  let history = useHistory()
 
   //redirect if authenticated, set alert if error
   useEffect(() => {
     if (isAuthenticated) {
-      history.push('/');
+      history.push('/')
     }
 
     if (userError) {
-      setAlert(userError);
-      clearUserError();
+      setAlert(userError)
+      clearUserError()
     }
     //eslint-disable-next-line
-  }, [isAuthenticated, userError]);
+  }, [isAuthenticated, userError])
 
   //clear alert before redirect
   useEffect(() => {
     return () => {
-      clearAlert();
+      clearAlert()
     }
     //eslint-disable-next-line
-  }, []);
+  }, [])
 
   const [user, setUser] = useState({
     email: '',
     password: ''
-  });
+  })
 
-  const { email, password } = user;
+  const { email, password } = user
 
   const handleSubmit = async e => {
-    e.preventDefault();
-    await loginUser(user);
+    e.preventDefault()
+    await loginUser(user)
   }
 
   const handleChange = e => {
-    setUser({...user, [e.target.name]: e.target.value});
+    setUser({...user, [e.target.name]: e.target.value})
   }
 
   return (
@@ -82,4 +82,4 @@ const Login = () => {
   )
 }
 
-export default Login;
+export default Login

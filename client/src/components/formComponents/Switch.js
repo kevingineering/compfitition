@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const Switch = ({label, name, isChecked, handleClick, msgChecked, msgBlank}) => {
 
@@ -33,4 +33,4 @@ Switch.propTypes = {
   msgBlank: PropTypes.string.isRequired
 }
 
-export default Switch;
+export default Switch

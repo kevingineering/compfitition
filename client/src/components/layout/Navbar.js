@@ -1,34 +1,34 @@
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
-import AuthContext from '../../contexts/auth/authContext';
-import GoalContext from '../../contexts/goals/goalContext';
-import FriendContext from '../../contexts/friends/friendContext';
-import RequestContext from '../../contexts/requests/requestContext';
+import React, { useContext, useState } from 'react'
+import { Link } from 'react-router-dom'
+import AuthContext from '../../contexts/auth/authContext'
+import GoalContext from '../../contexts/goals/goalContext'
+import FriendContext from '../../contexts/friends/friendContext'
+import RequestContext from '../../contexts/requests/requestContext'
 
 const Navbar = () => {
 
  //console.log{'Navbar')
 
-  const authContext = useContext(AuthContext);
-  const { isAuthenticated, user, logoutUser } = authContext;
+  const authContext = useContext(AuthContext)
+  const { isAuthenticated, user, logoutUser } = authContext
 
-  const goalContext = useContext(GoalContext);
-  const { clearGoals } = goalContext;
+  const goalContext = useContext(GoalContext)
+  const { clearGoals } = goalContext
   
-  const friendContext = useContext(FriendContext);
-  const { clearFriends } = friendContext;
+  const friendContext = useContext(FriendContext)
+  const { clearFriends } = friendContext
 
-  const requestContext = useContext(RequestContext);
-  const { clearRequests } = requestContext;
+  const requestContext = useContext(RequestContext)
+  const { clearRequests } = requestContext
 
-  const [isNightTheme, setIsNightTheme] = useState(false);
+  const [isNightTheme, setIsNightTheme] = useState(false)
 
   const handleLogout = () => {
-    logoutUser();
-    clearGoals();
-    clearFriends();
-    clearRequests();
-  };
+    logoutUser()
+    clearGoals()
+    clearFriends()
+    clearRequests()
+  }
 
   //logic for changing themes
   const changeTheme = (status) => {
@@ -52,7 +52,7 @@ const Navbar = () => {
   //handles toggle clicked
   const handleToggle = () => {
     setIsNightTheme(prevState => !prevState)
-    changeTheme(!isNightTheme);
+    changeTheme(!isNightTheme)
   }
 
   //button for light/dark theme
@@ -77,7 +77,7 @@ const Navbar = () => {
         <Link to='/login'>Log In</Link>
       </li>
     </React.Fragment>
-  );
+  )
   
   //signed in links
   if (isAuthenticated && user) {
@@ -98,7 +98,7 @@ const Navbar = () => {
           </a>
         </li>
       </React.Fragment>
-    );
+    )
   }
 
   return (
@@ -111,7 +111,7 @@ const Navbar = () => {
         {links}
       </ul>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

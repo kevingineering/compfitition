@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import GoalChartDifference from './GoalChartDifference';
-import GoalChartTotal from './GoalChartTotal';
-import GoalChartPassFail from './GoalChartPassFail';
+import React from 'react'
+import PropTypes from 'prop-types'
+import GoalChartDifference from './GoalChartDifference'
+import GoalChartTotal from './GoalChartTotal'
+import GoalChartPassFail from './GoalChartPassFail'
 
 const GoalChart = ({goal, record, setRecord, time, isComplete, isOwner}) => {
 
  //console.log{'GoalChart')
 
-  const {duration, units, total, type, startDate} = goal;
+  const {duration, units, total, type, startDate} = goal
 
   return (
     <div>
@@ -54,4 +54,4 @@ GoalChart.propTypes = {
   isOwner: PropTypes.bool.isRequired
 }
 
-export default GoalChart;
+export default GoalChart

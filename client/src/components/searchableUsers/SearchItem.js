@@ -1,49 +1,49 @@
-import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import userimg from '../../resources/userimg.png';
-import RequestContext from '../../contexts/requests/requestContext';
-import FriendContext from '../../contexts/friends/friendContext';
+import React, { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import userimg from '../../resources/userimg.png'
+import RequestContext from '../../contexts/requests/requestContext'
+import FriendContext from '../../contexts/friends/friendContext'
 
 const SearchItem = ({status, user: {firstName, lastName, email, _id}}) => {
 
  //console.log{'SearchItem')
 
-  let history = useHistory();
+  let history = useHistory()
 
-  const requestContext = useContext(RequestContext);
-  const { addRequest, deleteRequest } = requestContext;
+  const requestContext = useContext(RequestContext)
+  const { addRequest, deleteRequest } = requestContext
 
-  const friendContext = useContext(FriendContext);
-  const { addFriend, setCurrentFriend } = friendContext;
+  const friendContext = useContext(FriendContext)
+  const { addFriend, setCurrentFriend } = friendContext
 
   //configure button(s) based on status
-  let buttonMsg = 'Add';
+  let buttonMsg = 'Add'
   if (status === 'friend') {
-    buttonMsg = 'Friend!';
+    buttonMsg = 'Friend!'
   } else if (status === 'received') {
-    buttonMsg = 'Accept';
+    buttonMsg = 'Accept'
   } else if (status === 'sent') {
-    buttonMsg = 'Delete';
+    buttonMsg = 'Delete'
   }
 
   const handleClick = e => {
     if (status === 'stranger') {
-      addRequest(_id);
+      addRequest(_id)
     } else if (status === 'friend') {
-      setCurrentFriend(_id);
+      setCurrentFriend(_id)
       history.push('/friend')
     } else if (status === 'received' && e.target.name === 'btn1') {
-      addFriend(_id);
-      deleteRequest(_id);
+      addFriend(_id)
+      deleteRequest(_id)
     } else if (status === 'received' && e.target.name === 'btn2') {
-      deleteRequest(_id);
+      deleteRequest(_id)
     } else if (status === 'sent') {
-      deleteRequest(_id);
+      deleteRequest(_id)
     }
   }
   
-  const avatar = null;
+  const avatar = null
 
   return (
     <li className='search-item'>
@@ -89,12 +89,12 @@ const SearchItem = ({status, user: {firstName, lastName, email, _id}}) => {
         </div>
       </div>
     </li>
-  );
-};
+  )
+}
 
 SearchItem.propTypes = {
   user: PropTypes.object.isRequired,
   status: PropTypes.string.isRequired,
-};
+}
 
-export default SearchItem;
+export default SearchItem

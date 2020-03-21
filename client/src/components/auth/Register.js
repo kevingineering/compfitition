@@ -1,42 +1,42 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import AuthContext from '../../contexts/auth/authContext';
-import AlertContext from '../../contexts/alerts/alertContext';
-import Input from '../formComponents/Input';
-import Switch from '../formComponents/Switch';
+import React, { useState, useEffect, useContext } from 'react'
+import { useHistory } from 'react-router-dom'
+import AuthContext from '../../contexts/auth/authContext'
+import AlertContext from '../../contexts/alerts/alertContext'
+import Input from '../formComponents/Input'
+import Switch from '../formComponents/Switch'
 
 const Register = () => {
 
  //console.log{'Register')
 
-  const authContext = useContext(AuthContext);
-  const { registerUser, userError, clearUserError, isAuthenticated } = authContext;
+  const authContext = useContext(AuthContext)
+  const { registerUser, userError, clearUserError, isAuthenticated } = authContext
 
-  const alertContext = useContext(AlertContext);
-  const { setAlert, clearAlert } = alertContext;
+  const alertContext = useContext(AlertContext)
+  const { setAlert, clearAlert } = alertContext
 
-  let history = useHistory();
+  let history = useHistory()
 
   //redirect if authenticated, set alert if error
   useEffect(() => {
     if (isAuthenticated) {
-      history.push('/');
+      history.push('/')
     }
 
     if (userError) {
-      setAlert(userError);
-      clearUserError();
+      setAlert(userError)
+      clearUserError()
     }
     //eslint-disable-next-line
-  }, [userError, isAuthenticated]);
+  }, [userError, isAuthenticated])
 
   //clear alert before redirect
   useEffect(() => {
     return () => {
-      clearAlert();
+      clearAlert()
     }
     //eslint-disable-next-line
-  }, []);
+  }, [])
 
   const [user, setUser] = useState({
     firstName: '',
@@ -46,24 +46,24 @@ const Register = () => {
     email: '',
     password: '',
     password2: ''
-  });
+  })
 
-  const { firstName, lastName, alias, isSearchable, email, password, password2 } = user;
+  const { firstName, lastName, alias, isSearchable, email, password, password2 } = user
 
   const handleSubmit = async e => {
-    e.preventDefault();
+    e.preventDefault()
     if (password !== password2)
-      setAlert('Passwords do not match.');
-    else await registerUser(user);
+      setAlert('Passwords do not match.')
+    else await registerUser(user)
   }
 
   const handleChange = e => {
-    setUser({...user, [e.target.name]: e.target.value});
+    setUser({...user, [e.target.name]: e.target.value})
   }
 
   const handleClick = e => {
-    setUser({ ...user, isSearchable: !isSearchable });
-  };
+    setUser({ ...user, isSearchable: !isSearchable })
+  }
 
   return (
     <div className='form-container'>
@@ -133,7 +133,7 @@ const Register = () => {
         />
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

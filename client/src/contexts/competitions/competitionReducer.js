@@ -16,7 +16,7 @@ import {
   CLEAR_COMPETITION,
   COMPETITION_ERROR,
   CLEAR_COMPETITION_ERROR
-} from '../types';
+} from '../types'
 
 export default (state, action) => {
   switch(action.type) {
@@ -92,6 +92,6 @@ export default (state, action) => {
         competitionError: null
       }
     default: 
-      return state;
+      return state
   }
 }

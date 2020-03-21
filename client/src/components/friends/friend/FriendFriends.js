@@ -1,18 +1,18 @@
-import React, { useContext, useState, useEffect } from 'react';
-import FriendContext from '../../../contexts/friends/friendContext';
-import FriendList from '../user/FriendList';
+import React, { useContext, useState, useEffect } from 'react'
+import FriendContext from '../../../contexts/friends/friendContext'
+import FriendList from '../user/FriendList'
 
 const FriendFriends = () => {
 
  //console.log{'FriendFriends')
 
-  const friendContext = useContext(FriendContext);
-  const { friendCurrent, getCurrentFriendFriends, friendCurrentFriends, friendsLoading } = friendContext;
+  const friendContext = useContext(FriendContext)
+  const { friendCurrent, getCurrentFriendFriends, friendCurrentFriends, friendsLoading } = friendContext
   
-  const [isFriendsOpen, setIsFriendsOpen] = useState(true);
+  const [isFriendsOpen, setIsFriendsOpen] = useState(true)
 
   useEffect(() => {
-    getCurrentFriendFriends(friendCurrent._id);
+    getCurrentFriendFriends(friendCurrent._id)
     //eslint-disable-next-line
   }, [friendCurrent])
 
@@ -38,7 +38,7 @@ const FriendFriends = () => {
         </React.Fragment>
       }
     </ul>
-  );
-};
+  )
+}
 
-export default FriendFriends;
+export default FriendFriends

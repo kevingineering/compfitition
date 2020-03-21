@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ParticipantItem from './ParticipantItem';
+import React from 'react'
+import PropTypes from 'prop-types'
+import ParticipantItem from './ParticipantItem'
 
 const Participants = ({participants, adminIds, adminRequests, isAdminView, compId, compName}) => {
 
  //console.log{'Participants')
 
-  let participantList = '';
+  let participantList = ''
   
   if(participants.length === 0) {
     participantList = (
@@ -31,7 +31,7 @@ const Participants = ({participants, adminIds, adminRequests, isAdminView, compI
           />
         )
       })
-    );
+    )
   }
 
   return (
@@ -41,7 +41,7 @@ const Participants = ({participants, adminIds, adminRequests, isAdminView, compI
           <h3>Participants</h3>
         </li>
         {participantList}
-        <hr/>
+        {participants.length !== 0 && <hr/>}
       </ul>
     </div>
   )
@@ -55,4 +55,4 @@ Participants.propTypes = {
   adminRequests: PropTypes.array.isRequired,
 }
 
-export default Participants;
+export default Participants

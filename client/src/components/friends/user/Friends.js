@@ -1,22 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import FriendContext from '../../../contexts/friends/friendContext';
-import FriendSearchbar from './FriendSearchbar';
-import FriendRequests from './FriendRequests';
-import FriendList from './FriendList';
+import React, { useContext, useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import FriendContext from '../../../contexts/friends/friendContext'
+import FriendSearchbar from './FriendSearchbar'
+import FriendRequests from './FriendRequests'
+import FriendList from './FriendList'
 
 const Friends = () => {
 
  //console.log{'Friends')
 
-  const friendContext = useContext(FriendContext);
-  const { getFriends, friends, friendsFiltered, friendsLoading } = friendContext;
+  const friendContext = useContext(FriendContext)
+  const { getFriends, friends, friendsFiltered, friendsLoading } = friendContext
   
-  const [isFriendsOpen, setIsFriendsOpen] = useState(true);
+  const [isFriendsOpen, setIsFriendsOpen] = useState(true)
   useEffect(() => {
-    getFriends();
+    getFriends()
     //eslint-disable-next-line
-  }, []);
+  }, [])
 
   return (
     <ul className='collection'>
@@ -49,7 +49,7 @@ const Friends = () => {
         </React.Fragment>
       }
     </ul>
-  );
-};
+  )
+}
 
-export default Friends;
+export default Friends

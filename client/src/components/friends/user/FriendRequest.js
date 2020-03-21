@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import RequestContext from '../../../contexts/requests/requestContext';
-import FriendContext from '../../../contexts/friends/friendContext';
-import userimg from '../../../resources/userimg.png';
+import React, { useContext } from 'react'
+import PropTypes from 'prop-types'
+import RequestContext from '../../../contexts/requests/requestContext'
+import FriendContext from '../../../contexts/friends/friendContext'
+import userimg from '../../../resources/userimg.png'
 
 const FriendRequest = ({ request: {requester, firstName, lastName, email }}) => {
   
@@ -10,22 +10,22 @@ const FriendRequest = ({ request: {requester, firstName, lastName, email }}) => 
   
   //originally had each button a different color, changed them to all black/white
 
-  const requestContext = useContext(RequestContext);
-  const { deleteRequest } = requestContext;
+  const requestContext = useContext(RequestContext)
+  const { deleteRequest } = requestContext
 
-  const friendContext = useContext(FriendContext);
-  const { addFriend } = friendContext;
+  const friendContext = useContext(FriendContext)
+  const { addFriend } = friendContext
 
   const handleAccept = e => {
-    addFriend(requester);
-    deleteRequest(requester);
+    addFriend(requester)
+    deleteRequest(requester)
   }
 
   const handleReject = e => {
-    deleteRequest(requester);
+    deleteRequest(requester)
   }
 
-  const avatar = null;
+  const avatar = null
 
   return (
     <div>
@@ -69,4 +69,4 @@ FriendRequest.propTypes = {
   request: PropTypes.object.isRequired
 }
 
-export default FriendRequest;
+export default FriendRequest

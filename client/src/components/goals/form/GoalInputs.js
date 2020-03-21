@@ -1,9 +1,9 @@
-import React from 'react';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import Input from '../../formComponents/Input';
-import Select from '../../formComponents/Select';
-import Switch from '../../formComponents/Switch';
+import React from 'react'
+import moment from 'moment'
+import PropTypes from 'prop-types'
+import Input from '../../formComponents/Input'
+import Select from '../../formComponents/Select'
+import Switch from '../../formComponents/Switch'
 
 const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick, handleIsMax, isGoal}) => {
 
@@ -22,7 +22,7 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick, han
   const upperCase = isGoal ? 'Goal' : 'Competition'
   const lowerCase = isGoal ? 'goal' : 'competition'
 
-  const { name, duration, startDate, type, description, units, total, isPrivate, initialValue, started } = goal;
+  const { name, duration, startDate, type, description, units, total, isPrivate, initialValue, started } = goal
 
   return (
     <div className='form-container'>
@@ -189,8 +189,8 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick, han
         />
       </form>
     </div>
-  );
-};
+  )
+}
 
 GoalInputs.propTypes = {
   message: PropTypes.string.isRequired,
@@ -201,4 +201,4 @@ GoalInputs.propTypes = {
   handleIsMax: PropTypes.func,
 }
 
-export default GoalInputs;
+export default GoalInputs

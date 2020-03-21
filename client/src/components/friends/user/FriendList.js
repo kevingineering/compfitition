@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import FriendItem from './FriendItem';
+import React from 'react'
+import PropTypes from 'prop-types'
+import FriendItem from './FriendItem'
 
 const FriendList = ({friends, loading, filtered, isOwner}) => {
  //console.log{'FriendList')
 
   //populate list
-  let listItems = '';
+  let listItems = ''
 
   if (loading) {
     listItems = (
-      <li className='collection-item center collection-item-block'>
+      <li className='collection-item center'>
         <div className="spinner"/>
       </li>
-    );
+    )
   }
   else if (friends.length === 0) {
     listItems = (
@@ -28,7 +28,7 @@ const FriendList = ({friends, loading, filtered, isOwner}) => {
           null
         }
       </li>
-    );
+    )
   }
   else if (filtered !== null) {
     filtered === [] ? (
@@ -67,4 +67,4 @@ FriendList.propTypes = {
   isOwner: PropTypes.bool.isRequired
 }
 
-export default FriendList;
+export default FriendList

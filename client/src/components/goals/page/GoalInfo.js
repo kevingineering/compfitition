@@ -1,13 +1,13 @@
-import React from 'react';
-import { round } from 'mathjs';
-import moment from 'moment';
-import PropTypes from 'prop-types';
+import React from 'react'
+import { round } from 'mathjs'
+import moment from 'moment'
+import PropTypes from 'prop-types'
 
 const GoalInfo = ({goal, time, record, value, isStarted}) => {
 
  //console.log{'GoalInfo')
 
-  const { duration, startDate, description, units, total, type } = goal;
+  const { duration, startDate, description, units, total, type } = goal
 
   let topLeftTag = 'Start Date: '
   let topLeftMsg = `${moment.utc(startDate).format('MMMM Do, YYYY')}`
@@ -41,14 +41,14 @@ const GoalInfo = ({goal, time, record, value, isStarted}) => {
       topRightTag = (time === duration) ? 'Duration: ' : 'Day: '
       topRightMsg = (time === duration) ? `${duration} days` : `${time + 1} / ${duration}`
       middleLeftTag = 'Total: '
-      middleLeftMsg = `${value} / ${total} ${units}`;
+      middleLeftMsg = `${value} / ${total} ${units}`
       middleRightTag = 'Goal Completion: '
-      middleRightMsg = `${round(value / total * 100)}%`;
+      middleRightMsg = `${round(value / total * 100)}%`
     }
     //pass/fail
     else if (type === 'pass/fail') {
-      topRightTag = null;
-      topRightMsg = null;
+      topRightTag = null
+      topRightMsg = null
       middleLeftTag = 'Success To Date: '
       middleLeftMsg = `${value} / ${time > duration ? record.length : time + 1} (${round(value / (time + 1) * 100)}%)`
       bottomLeftTag = 'Success Total: '
@@ -127,4 +127,4 @@ GoalInfo.propTypes = {
   value: PropTypes.number.isRequired,
   isStarted: PropTypes.bool.isRequired
 }
-export default GoalInfo;
+export default GoalInfo

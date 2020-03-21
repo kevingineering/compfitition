@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import LetterContext from '../../contexts/letters/letterContext';
-import CompetitionContext from '../../contexts/competitions/competitionContext';
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import LetterContext from '../../contexts/letters/letterContext'
 
 const NotificationItem = ({letter}) => {
 
@@ -10,22 +9,13 @@ const NotificationItem = ({letter}) => {
 
   const { deleteLetter } = useContext(LetterContext)
 
-  const { getCompetition, getCompetitionCurrentGoal } = useContext(CompetitionContext);
-
-  const { _id, message, type, compId, senderId } = letter
-
-  let contents = '';
-
+  const { _id, message, type, compId } = letter
+  
   const handleDismiss = () => {
-    deleteLetter(_id);
-    //TODO - rerender when letter deleted
+    deleteLetter(_id)
   }
-
-  const handleLink = async () => {
-    await getCompetition(compId)
-    await getCompetitionCurrentGoal(compId, senderId)
-  }
-
+  
+  let contents = ''
   //note 'fromUser' letters are filtered out by backend
   switch(type) {
     //link to competition page, accept or reject letter there
@@ -34,13 +24,12 @@ const NotificationItem = ({letter}) => {
       contents = (
         <Link 
           className='table-info block'
-          onClick={handleLink} 
-          to='/competition' 
+          to={`/competition/${compId}`}
         >
           {message}
         </Link>
       )
-      break;
+      break
     //show and dismiss
     case 'userAdded':
     case 'userKicked':
@@ -58,9 +47,9 @@ const NotificationItem = ({letter}) => {
           </div>
         </div>
       )
-      break;
+      break
     default:
-      break;
+      break
   }
 
   return (
@@ -74,4 +63,4 @@ NotificationItem.propTypes = {
   letter: PropTypes.object.isRequired
 }
 
-export default NotificationItem;
+export default NotificationItem

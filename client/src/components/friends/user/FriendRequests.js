@@ -1,16 +1,16 @@
-import React, { useContext, useEffect } from 'react';
-import RequestContext from '../../../contexts/requests/requestContext';
-import FriendRequest from './FriendRequest';
+import React, { useContext, useEffect } from 'react'
+import RequestContext from '../../../contexts/requests/requestContext'
+import FriendRequest from './FriendRequest'
 
 const FriendRequests = () => {
 
  //console.log{'FriendRequests')
 
-  const requestContext = useContext(RequestContext);
-  const { getRequests, requestsReceived } = requestContext;
+  const requestContext = useContext(RequestContext)
+  const { getRequests, requestsReceived } = requestContext
 
   useEffect(() => {
-    getRequests();
+    getRequests()
     //eslint-disable-next-line
   }, [])
 
@@ -29,4 +29,4 @@ const FriendRequests = () => {
   )
 }
 
-export default FriendRequests;
+export default FriendRequests

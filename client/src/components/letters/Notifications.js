@@ -1,12 +1,12 @@
-import React, { useContext, useEffect } from 'react';
-import LetterContext from '../../contexts/letters/letterContext';
-import NotificationList from './NotificationList';
+import React, { useContext, useEffect } from 'react'
+import LetterContext from '../../contexts/letters/letterContext'
+import NotificationList from './NotificationList'
 
 const Notifications = () => {
 
  //console.log{'Notifications')
 
-  const { getLetters, letters } = useContext(LetterContext);
+  const { getLetters, letters } = useContext(LetterContext)
 
   useEffect(() => {
     getLetters()
@@ -25,4 +25,4 @@ const Notifications = () => {
   )
 }
 
-export default Notifications;
+export default Notifications

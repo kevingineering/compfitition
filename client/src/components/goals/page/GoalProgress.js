@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const GoalProgress = ({type, time, record, setRecord, units}) => {
 
  //console.log{'GoalProgress')
 
   //first value of difference array is start value, so we need to add one to get the current day's value
-  let day = time;
+  let day = time
   if (type === 'difference')
-    day = time + 1;
+    day = time + 1
   
   //state for controlled variables
-  const [today, setToday] = useState(record[day]);
-  const [yesterday, setYesterday] = useState(record[time - 1]);
+  const [today, setToday] = useState(record[day])
+  const [yesterday, setYesterday] = useState(record[time - 1])
 
   //if value is less than zero, null
   //if value is empty ('') and type === 'difference' do not record
@@ -21,37 +21,37 @@ const GoalProgress = ({type, time, record, setRecord, units}) => {
   //diffence tracks only today, total tracks today and yesterday
   const handleChange = e => {
     if (e.target.value < 0)
-      return null;
+      return null
     if (e.target.name === 'today') {
-      setToday(e.target.value);
+      setToday(e.target.value)
       if (type === 'difference')
         setRecord(record.map((value, index) => {
           if (index === time + 1) {
             if (e.target.value === '')
-              return null;
-            value = parseFloat(e.target.value);
+              return null
+            value = parseFloat(e.target.value)
           }
-          return value;
-        }));
+          return value
+        }))
       else if (type === 'total')
         setRecord(record.map((value, index) => {
           if (index === time) {
             if (e.target.value === '')
-              value = 0;
-            else value = parseFloat(e.target.value);
+              value = 0
+            else value = parseFloat(e.target.value)
           }
-        return value;
-      }));
+        return value
+      }))
     } 
     else {
-      setYesterday(e.target.value);
+      setYesterday(e.target.value)
       setRecord(record.map((value, index) => {
         if (index === time - 1) {
           if (e.target.value === '')
-            value = 0;
-          else value = parseFloat(e.target.value);
+            value = 0
+          else value = parseFloat(e.target.value)
         }
-        return value;
+        return value
       }))
     }
   }
@@ -114,4 +114,4 @@ GoalProgress.propTypes = {
   units: PropTypes.string.isRequired
 }
 
-export default GoalProgress;
+export default GoalProgress

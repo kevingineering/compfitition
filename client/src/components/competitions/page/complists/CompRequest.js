@@ -3,7 +3,7 @@ import CompetitionContext from '../../../../contexts/competitions/competitionCon
 import LetterContext from '../../../../contexts/letters/letterContext'
 import PropTypes from 'prop-types'
 
-const CompRequest = ({letters, user, isParticipant, compId, compName, startDate}) => {
+const CompRequest = ({letters, user, isParticipant, compId, compName, startDate, isStarted}) => {
   const { addUserToCompetition, addAdminToCompetition } = useContext(CompetitionContext)
   const { addLetter, deleteLetter } = useContext(LetterContext)
 
@@ -43,7 +43,7 @@ const CompRequest = ({letters, user, isParticipant, compId, compName, startDate}
   let jsxElements = ''
 
   //determine type of letter and show
-  if (!isParticipant && !userLetter) {
+  if (!isParticipant && !userLetter && !isStarted) {
     jsxElements = (
       <button className='btn btn-block btn-primary' onClick={handleRequest}>
         <h3>Request to join competition</h3>
@@ -95,6 +95,7 @@ CompRequest.propTypes = {
   compId: PropTypes.string.isRequired,
   compName: PropTypes.string.isRequired,
   startDate: PropTypes.string.isRequired,
+  isStarted: PropTypes.bool.isRequired,
 }
 
 export default CompRequest

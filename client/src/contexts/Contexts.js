@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 
-import GoalState from './goals/goalState';
-import AlertState from './alerts/alertState';
-import AuthState from './auth/authState';
-import SearchableUsersState from './searchableUsers/searchableUsersState';
-import RequestState from './requests/requestState';
-import FriendState from './friends/friendState';
-import CompetitionState from './competitions/competitionState';
-import LetterState from './letters/letterState';
+import GoalState from './goals/goalState'
+import AlertState from './alerts/alertState'
+import AuthState from './auth/authState'
+import SearchableUsersState from './searchableUsers/searchableUsersState'
+import RequestState from './requests/requestState'
+import FriendState from './friends/friendState'
+import CompetitionState from './competitions/competitionState'
+import LetterState from './letters/letterState'
 
 const Contexts = props => {
 
@@ -34,4 +34,4 @@ const Contexts = props => {
   )
 }
 
-export default Contexts;
+export default Contexts

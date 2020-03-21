@@ -1,6 +1,6 @@
-import React from 'react';
-import NotificationItem from './NotificationItem';
-import PropTypes from 'prop-types';
+import React from 'react'
+import NotificationItem from './NotificationItem'
+import PropTypes from 'prop-types'
 
 const NotificationList = ({letters}) => {
 
@@ -29,4 +29,4 @@ NotificationList.propTypes = {
   letters: PropTypes.array.isRequired,
 }
 
-export default NotificationList;
+export default NotificationList

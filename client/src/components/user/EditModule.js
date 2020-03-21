@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Input from '../formComponents/Input';
-import Switch from '../formComponents/Switch';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Input from '../formComponents/Input'
+import Switch from '../formComponents/Switch'
 
 const EditModule = ({current, handleChange, handleClick, setEditToggle, setAlert, updateUser}) => {
 
@@ -9,17 +9,17 @@ const EditModule = ({current, handleChange, handleClick, setEditToggle, setAlert
 
   const handleEdit = async () => {
     if (firstName === '') 
-      setAlert('Please enter a first name.');
+      setAlert('Please enter a first name.')
     else if (lastName === '')
-      setAlert('Please enter a last name.');
+      setAlert('Please enter a last name.')
     else if (email === '')
-      setAlert('Please enter an email.');
+      setAlert('Please enter an email.')
     else {
-      await updateUser(current);
+      await updateUser(current)
     }
-  };
+  }
 
-  const { firstName, lastName, alias, email, isSearchable } = current;
+  const { firstName, lastName, alias, email, isSearchable } = current
 
   return (
     <form autoComplete='off'>
@@ -90,4 +90,4 @@ EditModule.propTypes = {
   updateUser: PropTypes.func.isRequired
 }
 
-export default EditModule;
+export default EditModule

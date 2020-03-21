@@ -6,7 +6,7 @@ const ParticipantItem = ({participant: {_id, firstName, alias}, isAdminView, com
 
  //console.log{'ParticipantItem')
 
-  const [userToggle, setUserToggle] = useState(false);
+  const [userToggle, setUserToggle] = useState(false)
 
   let name = (isAdminView && !isUserAdmin) ? (
     <React.Fragment>
@@ -55,4 +55,4 @@ ParticipantItem.propTypes = {
   letter: PropTypes.object,
 }
 
-export default ParticipantItem;
+export default ParticipantItem

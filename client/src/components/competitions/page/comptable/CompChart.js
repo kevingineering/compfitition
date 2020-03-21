@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import CompChartDifference from './CompChartDifference';
-import CompChartTotal from './CompChartTotal';
+import React from 'react'
+import PropTypes from 'prop-types'
+import CompChartDifference from './CompChartDifference'
+import CompChartTotal from './CompChartTotal'
 
 const CompChart = ({competitionArray, goal, time}) => {
-  const {duration, units, type} = goal;
+  const {duration, units, type} = goal
 
  //console.log{'CompChart')
 
@@ -35,4 +35,4 @@ CompChart.propTypes = {
   time: PropTypes.number.isRequired
 }
 
-export default CompChart;
+export default CompChart

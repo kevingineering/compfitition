@@ -1,28 +1,29 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import FriendContext from '../../../contexts/friends/friendContext';
-import AlertContext from '../../../contexts/alerts/alertContext';
-import userimg from '../../../resources/userimg.png';
+import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import FriendContext from '../../../contexts/friends/friendContext'
+import AlertContext from '../../../contexts/alerts/alertContext'
+import userimg from '../../../resources/userimg.png'
 
 const FriendItem = ({friend: {firstName, lastName, alias, _id}}) => {
 
  //console.log{'FriendItem')
 
-  const friendContext = useContext(FriendContext);
-  const { friendIds, setCurrentFriend } = friendContext;
+  const friendContext = useContext(FriendContext)
+  const { friendIds, setCurrentFriend } = friendContext
 
-  const alertContext = useContext(AlertContext);
-  const { setAlert } = alertContext;
+  const alertContext = useContext(AlertContext)
+  const { setAlert } = alertContext
 
+  //TODO - change routing and get current friend on friend page? 
   const handleClick = () => {
     if (friendIds.includes(_id)) {
-      setCurrentFriend(_id);
+      setCurrentFriend(_id)
     }
     else setAlert('You are not friends with this user.')
   }
 
-  const avatar = null;
+  const avatar = null
 
   return (
     <li className='search-item'>
@@ -49,6 +50,6 @@ const FriendItem = ({friend: {firstName, lastName, alias, _id}}) => {
 
 FriendItem.propTypes = {
   friend: PropTypes.object.isRequired
-};
+}
 
 export default FriendItem

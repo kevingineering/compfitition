@@ -1,28 +1,28 @@
-import React, { useContext, useEffect } from 'react';
-import SearchableUsersContext from '../../contexts/searchableUsers/searchableUsersContext';
-import SearchResults from './SearchResults';
-import SearchBar from './SearchBar';
+import React, { useContext, useEffect } from 'react'
+import SearchableUsersContext from '../../contexts/searchableUsers/searchableUsersContext'
+import SearchResults from './SearchResults'
+import SearchBar from './SearchBar'
 
 const SearchPage = () => {
 
  //console.log{'SearchPage')
 
-  const searchableUsersContext = useContext(SearchableUsersContext);
+  const searchableUsersContext = useContext(SearchableUsersContext)
   const { 
     getSearchableUsers, 
     filterSearchableUsers, 
     clearSearchableUsers, 
     clearSearchableUsersFilter
-  } = searchableUsersContext;
+  } = searchableUsersContext
 
   //get users and clear everything when navigating away from page
   useEffect(() => {
-    getSearchableUsers();
+    getSearchableUsers()
     return () => {
-      clearSearchableUsers();
+      clearSearchableUsers()
     }
     //eslint-disable-next-line
-  }, []);
+  }, [])
 
   return (
     <div className='form-container'>
@@ -38,7 +38,7 @@ const SearchPage = () => {
         <SearchResults/>
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default SearchPage;
+export default SearchPage

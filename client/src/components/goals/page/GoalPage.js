@@ -1,84 +1,94 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import GoalProgress from './GoalProgress';
-import GoalInfo from './GoalInfo';
-import GoalButtons from './GoalButtons';
-import AlertContext from '../../../contexts/alerts/alertContext';
-import GoalContext from '../../../contexts/goals/goalContext';
-import GoalChart from './GoalChart';
-import { getTime } from '../../sharedFunctions';
+import React, { useState, useContext, useEffect } from 'react'
+import GoalProgress from './GoalProgress'
+import GoalInfo from './GoalInfo'
+import GoalButtons from './GoalButtons'
+import AlertContext from '../../../contexts/alerts/alertContext'
+import GoalContext from '../../../contexts/goals/goalContext'
+import GoalChart from './GoalChart'
+import { getTime } from '../../sharedFunctions'
 
-const GoalPage = () => {
+const GoalPage = (props) => {
 
- //console.log{'GoalPage')
+  //console.log('GoalPage')
 
-  const { goalCurrent, goalsError, updateGoalTracker, clearGoalsError } = useContext(GoalContext);
-  const { setAlert, clearAlert } = useContext(AlertContext);
+  const { 
+    setCurrentGoal, 
+    goalCurrent, 
+    goalsError, 
+    updateGoalTracker, 
+    clearGoalsError 
+  } = useContext(GoalContext)
 
-  const { name, duration, startDate, units, tracker, type, _id } = goalCurrent;
- 
-  const [record, setRecord] = useState(tracker);
+  const { setAlert, clearAlert } = useContext(AlertContext)
 
-  let history = useHistory();
+  const { name, duration, startDate, units, tracker, type, _id } = goalCurrent || {}
+  
+  const [record, setRecord] = useState(tracker)
 
-  !Object.entries(goalCurrent).length && history.push('/');
-
-  //clear alert before redirect
+  //set current goal and clear alert before redirect
   useEffect(() => {
+    setCurrentGoal(props.match.params.goalId)
     return () => {
-      clearAlert();
+      clearAlert()
     }
     //eslint-disable-next-line
-  }, []);
+  }, [])
+
+  //set record to tracker
+  useEffect(() => {
+    setRecord(tracker)
+    //eslint-disable-next-line
+  }, [goalCurrent])
+
+  //decide if competition has started, is over, and what day we are on
+  const [isStarted, time, isComplete] = getTime(startDate, duration)
 
   //fill missed past values in tracker array
   useEffect(() => {
-    if (type === 'pass/fail') {
+    console.log(record, time - 1)
+    if (record && record[time -1] === null && type === 'pass/fail') {
       setRecord(record.map((value, index) => {
         if (index < time && value === null) {
-          value = false;
+          value = false
         }
-        return value;
-      }));
+        return value
+      }))
     }
     //eslint-disable-next-line
-  }, []);
-
-  //decide if competition has started, is over, or what day we are on
-  const [isStarted, time, isComplete] = getTime(startDate, duration)
-
+  }, [record, time])
+  
   //calc goal value
-  let value = 0;
-  if (type === 'difference') {
-    let temp = record.filter(value => value !== null)
-    value = temp.pop() - record[0];
-  } else if (type === 'total') {
-    for (let i = 0; i < record.length; i++ ) {
-      value += record[i];
-    }
-  } else if (type === 'pass/fail') {
-    for (let i = 0; i < record.length; i++ ) {
-      if (record[i] === true) 
-        value++;
+  let value = 0
+  if(record) {
+    if (type === 'difference') {
+      let temp = record.filter(value => value !== null)
+      value = temp.pop() - record[0]
+    } else if (type === 'total') {
+      for (let i = 0; i < record.length; i++ ) {
+        value += record[i]
+      }
+    } else if (type === 'pass/fail') {
+      for (let i = 0; i < record.length; i++ ) {
+        if (record[i] === true) 
+        value++
+      }
     }
   }
 
   const handleSave = async (record) => {
-    await updateGoalTracker(record, _id);
+    await updateGoalTracker(record, _id)
     if (goalsError) {
-      setAlert(goalsError);
-      clearGoalsError();
+      setAlert(goalsError)
+      clearGoalsError()
     }
     else {
-      setAlert('Goal saved!');
+      setAlert('Goal saved!')
     }
   }
-  
-  let isOwner = true;
 
   return (
     <div className='form-container'>
-    {!Object.entries(goalCurrent).length ? (
+    {(!record) ? (
       <div className="spinner"/>
     ) : (
       <React.Fragment>
@@ -91,7 +101,7 @@ const GoalPage = () => {
               setRecord={setRecord} 
               time={time}
               isComplete={isComplete}
-              isOwner={isOwner}
+              isOwner={true}
               isStarted={isStarted}
             />
           }
@@ -115,7 +125,7 @@ const GoalPage = () => {
         <GoalButtons 
           isStarted={isStarted}
           isActive={time < duration} 
-          isOwner={isOwner}
+          isOwner={true}
           handleSave={handleSave}
           record={record}
         />
@@ -123,6 +133,6 @@ const GoalPage = () => {
     )}
     </div>
   )
-};
+}
 
-export default GoalPage;
+export default GoalPage

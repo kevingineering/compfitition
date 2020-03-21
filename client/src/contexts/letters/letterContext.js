@@ -1,5 +1,5 @@
-import { createContext } from 'react';
+import { createContext } from 'react'
 
-const letterContext = createContext();
+const letterContext = createContext()
 
-export default letterContext;
+export default letterContext

@@ -11,7 +11,7 @@ import {
   GOAL_ERROR,
   CLEAR_GOALS,
   CLEAR_GOALS_ERROR
-} from '../types';
+} from '../types'
 
 export default (state, action) => {
   switch(action.type) {
@@ -83,6 +83,6 @@ export default (state, action) => {
         goalsError: null
       }
     default: 
-      return state;
+      return state
   }
 }

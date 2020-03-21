@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Input from '../formComponents/Input';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Input from '../formComponents/Input'
 
 const DeleteModule = ({current, handleChange, setDeleteToggle, setAlert, deleteUser}) => {
 
  //console.log{'DeleteModule')
 
-  const { _id, oldPassword } = current;
+  const { _id, oldPassword } = current
 
   const handleDelete = async () => {
     if (oldPassword === '')
-      setAlert('Please enter your password.');
+      setAlert('Please enter your password.')
     else {
-      await deleteUser(oldPassword, _id);
+      await deleteUser(oldPassword, _id)
     }
   }
 
@@ -50,4 +50,4 @@ DeleteModule.propTypes = {
   deleteUser: PropTypes.func.isRequired
 }
 
-export default DeleteModule;
+export default DeleteModule

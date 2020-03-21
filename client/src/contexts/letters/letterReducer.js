@@ -5,7 +5,7 @@ import {
   LETTER_ERROR,
   CLEAR_LETTERS,
   SET_LETTERS_LOADING
-} from '../types';
+} from '../types'
 
 export default (state, action) => {
   switch(action.type) {
@@ -47,6 +47,6 @@ export default (state, action) => {
         lettersLoading: true
       }
     default: 
-      return state;
+      return state
   }
 }

@@ -1,20 +1,20 @@
-import React from 'react';
-import moment from 'moment';
-import PropTypes from 'prop-types';
+import React from 'react'
+import moment from 'moment'
+import PropTypes from 'prop-types'
 
 const CompInfo = ({goal, time, record, value, isStarted, isParticipant}) => {
  //console.log{'CompInfo')
 
-  const { duration, startDate, description, units, type } = goal;
+  const { duration, startDate, description, units, type } = goal
 
   let topLeftTag = 'Start Date: '
   let topLeftMsg = moment.utc(startDate).format('MMMM Do, YYYY')
   let topRightTag = (time === duration) ? 'Duration: ' : 'Day: '
-  let topRightMsg = (time === duration) ? `${duration} days` : `${time + 1} / ${duration}`;
-  let bottomLeftTag = null;
-  let bottomLeftMsg = null;
-  let bottomRightTag = null;
-  let bottomRightMsg = null;
+  let topRightMsg = (time === duration) ? `${duration} days` : `${time + 1} / ${duration}`
+  let bottomLeftTag = null
+  let bottomLeftMsg = null
+  let bottomRightTag = null
+  let bottomRightMsg = null
 
   if (isStarted) {
     //difference
@@ -35,7 +35,7 @@ const CompInfo = ({goal, time, record, value, isStarted, isParticipant}) => {
     topRightMsg = `${duration} days`
     if (type === 'difference') {
       bottomLeftTag = 'Start: '
-      bottomLeftMsg = `${record[0]} ${units}`;
+      bottomLeftMsg = `${record[0]} ${units}`
     }
   }
   
@@ -90,4 +90,4 @@ CompInfo.propTypes = {
   isParticipant: PropTypes.bool.isRequired
 }
 
-export default CompInfo;
+export default CompInfo

@@ -1,21 +1,21 @@
-import React from 'react';
-import Chart from 'react-google-charts';
-import PropTypes from 'prop-types';
+import React from 'react'
+import Chart from 'react-google-charts'
+import PropTypes from 'prop-types'
 
 const CompChartDifference = ({competitionArray, units, time, duration}) => {
 
  //console.log{'CompChartDifference')
 
   //format data array and configure tooltip 
-  let dataPointsZero = ['x'];
-  let dataPointsOne = [0];
-  let dataPointsBeyond = [];
+  let dataPointsZero = ['x']
+  let dataPointsOne = [0]
+  let dataPointsBeyond = []
 
   //the length of the values coming after
   //has fewer edge cases than using time
-  let valuesLength = 0;
+  let valuesLength = 0
   if (competitionArray.length !== 0) {
-    valuesLength = competitionArray[0][2].length;
+    valuesLength = competitionArray[0][2].length
   }
 
   //configure dataPoints [0] and[1]
@@ -30,16 +30,16 @@ const CompChartDifference = ({competitionArray, units, time, duration}) => {
   }
 
   //configure rest of dataPoints
-  let maxValue = 0;
-  let minValue = 0;
+  let maxValue = 0
+  let minValue = 0
   for (let i = 1; i < valuesLength; i++) {
-    let list = [i];
+    let list = [i]
     for (let j = 0; j < competitionArray.length; j++) {
       let value = (competitionArray[j][2][i] === null) ? 
         null :
-        competitionArray[j][2][i] - competitionArray[j][2][0];
-      if (value < minValue) minValue = value;
-      if (value > maxValue) maxValue = value;
+        competitionArray[j][2][i] - competitionArray[j][2][0]
+      if (value < minValue) minValue = value
+      if (value > maxValue) maxValue = value
       list.push(
         value,
         `Day ${i}
@@ -47,12 +47,12 @@ const CompChartDifference = ({competitionArray, units, time, duration}) => {
         Current: ${competitionArray[j][2][i]} ${units}`
       )
     }
-    dataPointsBeyond.push(list);
+    dataPointsBeyond.push(list)
   }
 
-  let dataPoints = [dataPointsZero, dataPointsOne, ...dataPointsBeyond];
+  let dataPoints = [dataPointsZero, dataPointsOne, ...dataPointsBeyond]
 
-  const chartMax = (time === duration) ? duration : time + 1;
+  const chartMax = (time === duration) ? duration : time + 1
 
   return (
     competitionArray.length === 0 ? 
@@ -105,4 +105,4 @@ CompChartDifference.propTypes = {
   duration: PropTypes.number.isRequired
 }
 
-export default CompChartDifference;
+export default CompChartDifference

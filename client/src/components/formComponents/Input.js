@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from 'react'
+import PropTypes from 'prop-types'
 
 const Input = ({name, label, type, value, handleChange, min, max, autofocus, disabled=false, warning}) => {
   
@@ -48,4 +48,4 @@ Input.propTypes = {
   warning: PropTypes.object
 }
 
-export default Input;
+export default Input

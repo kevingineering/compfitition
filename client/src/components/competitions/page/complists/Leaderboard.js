@@ -1,23 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import LeaderboardItem from './LeaderboardItem';
+import React from 'react'
+import PropTypes from 'prop-types'
+import LeaderboardItem from './LeaderboardItem'
 
 const Leaderboard = ({competitionArray, type}) => {
 
  //console.log{'Leaderboard')
 
   let leaderboardList = (
-    <li className='collection-item center collection-item-block'>
+    <li className='collection-item center'>
       <div className="spinner"/>
     </li>
-  );
+  )
   
   if(competitionArray.length !== 0) {
     leaderboardList = (
       competitionArray.map((goal, index) => {
         return <LeaderboardItem name={goal[0]} count={goal[1]} type={type} key={index} />
       })
-    );
+    )
   }
 
   return (
@@ -27,15 +27,15 @@ const Leaderboard = ({competitionArray, type}) => {
           <h3>Leaderboard</h3>
         </li>
         {leaderboardList}
-        <hr/>
+        {competitionArray.length !== 0 && <hr/>}
       </ul>
     </div>
-  );
-};
+  )
+}
 
 Leaderboard.propTypes = {
   competitionArray: PropTypes.array.isRequired,
   type: PropTypes.string.isRequired
 }
 
-export default Leaderboard;
+export default Leaderboard

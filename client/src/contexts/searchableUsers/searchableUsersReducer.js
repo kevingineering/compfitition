@@ -4,7 +4,7 @@ import {
   CLEAR_SEARCHABLE_USERS_FILTER,
   SEARCHABLE_USERS_ERROR,
   CLEAR_SEARCHABLE_USERS
-} from '../types';
+} from '../types'
 
 export default (state, action) => {
   switch(action.type) {
@@ -30,7 +30,7 @@ export default (state, action) => {
             user.firstName.match(regex) ||
             user.lastName.match(regex) ||
             user.email.match(regex)
-          );
+          )
         })
       }
     case CLEAR_SEARCHABLE_USERS_FILTER:
@@ -44,6 +44,6 @@ export default (state, action) => {
         searchableUsersError: action.payload
       }
     default: 
-      return state;
-  };
-};
+      return state
+  }
+}

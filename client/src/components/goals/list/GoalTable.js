@@ -1,20 +1,20 @@
-import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import GoalList from './GoalList';
-import GoalContext from '../../../contexts/goals/goalContext';
+import React, { useState, useContext } from 'react'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import GoalList from './GoalList'
+import GoalContext from '../../../contexts/goals/goalContext'
 
 const GoalTable = ({goals, isPast, isGoal, isOwner, name, loading}) => {
 
  //console.log{'GoalTable')
 
-  const { clearCurrentGoal } = useContext(GoalContext);
+  const { clearCurrentGoal } = useContext(GoalContext)
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(true)
 
-  const owner = name ? name + "'s " : null;
-  const status = isPast ? 'Past ' : 'Current ';
-  const type = isGoal ? 'Goal' : 'Competition';
+  const owner = name ? name + "'s " : null
+  const status = isPast ? 'Past ' : 'Current '
+  const type = isGoal ? 'Goal' : 'Competition'
 
   const handleAdd = () => {
     clearCurrentGoal()
@@ -71,4 +71,4 @@ GoalTable.propTypes = {
   loading: PropTypes.bool.isRequired
 }
 
-export default GoalTable;
+export default GoalTable

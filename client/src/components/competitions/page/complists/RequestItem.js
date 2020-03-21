@@ -8,7 +8,7 @@ const RequestItem = ({request}) => {
  //console.log('RequestItem')
 
   const { addUserToCompetition } = useContext(CompetitionContext)
-  const { deleteLetter } = useContext(LetterContext);
+  const { deleteLetter } = useContext(LetterContext)
 
 
   const handleAccept = () => {

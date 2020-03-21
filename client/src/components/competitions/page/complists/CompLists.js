@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Leaderboard from './Leaderboard';
-import Participants from './Participants';
-import Invites from './Invites';
-import PropTypes from 'prop-types';
-import Requests from './Requests';
+import React, { useState } from 'react'
+import Leaderboard from './Leaderboard'
+import Participants from './Participants'
+import Invites from './Invites'
+import PropTypes from 'prop-types'
+import Requests from './Requests'
 
 //contains admin toggle button, Leaderboard, Participants, Invites, Requests, and relinquish admin button
 
@@ -11,12 +11,12 @@ const CompLists = ({isAdmin, isAdminView, setIsAdminView, competitionArray, goal
 
  //console.log{'CompLists')
 
-  const [relinquishToggle, setRelinquishToggle] = useState(false);
+  const [relinquishToggle, setRelinquishToggle] = useState(false)
 
-  const { type, name, startDate} = goal;
+  const { type, name, startDate} = goal
 
   const handleDelete = () => {
-    removeAdminFromCompetition(competition._id);
+    removeAdminFromCompetition(competition._id)
     setIsAdminView(false)
   }
 
@@ -119,4 +119,4 @@ CompLists.propTypes = {
   letters: PropTypes.array.isRequired,
 }
 
-export default CompLists;
+export default CompLists

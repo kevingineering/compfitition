@@ -1,24 +1,24 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import moment from 'moment';
-import GoalContext from '../../../contexts/goals/goalContext';
-import CompetitionContext from '../../../contexts/competitions/competitionContext';
-import AlertContext from '../../../contexts/alerts/alertContext';
-import GoalInputs from '../../goals/form/GoalInputs';
-import { verifyDates, handleGoalChange } from '../../sharedFunctions';
+import React, { useState, useContext, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+import moment from 'moment'
+import GoalContext from '../../../contexts/goals/goalContext'
+import CompetitionContext from '../../../contexts/competitions/competitionContext'
+import AlertContext from '../../../contexts/alerts/alertContext'
+import GoalInputs from '../../goals/form/GoalInputs'
+import { verifyDates, handleGoalChange } from '../../sharedFunctions'
 
 const CompetitionForm = () => {
 
  //console.log{'CompetitionForm')
 
-  const goalContext = useContext(GoalContext);
-  const { addGoal, goalCurrent, setCurrentGoal, getGoals } = goalContext;
+  const goalContext = useContext(GoalContext)
+  const { addGoal, goalCurrent, setCurrentGoal, getGoals } = goalContext
 
-  const alertContext = useContext(AlertContext);
-  const { setAlert, clearAlert } = alertContext;
+  const alertContext = useContext(AlertContext)
+  const { setAlert, clearAlert } = alertContext
 
-  const competitionContext = useContext(CompetitionContext);
-  const { addCompetition, updateCompetition, competition } = competitionContext;
+  const competitionContext = useContext(CompetitionContext)
+  const { addCompetition, updateCompetition, competition } = competitionContext
 
   //started determines if goal has begun
   //initialValue is used with difference goals 
@@ -34,23 +34,23 @@ const CompetitionForm = () => {
     compId: null,
     initialValue: 0,
     started: false
-  });
+  })
   
   //runs necessary functions before redirect
-  const [isSubmit, setIsSubmit] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false)
 
   //helps update competition with useEffect
-  const [isUpdate, setIsUpdate] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false)
 
   //on start, control if adding or updating competition
   useEffect(() => {
     if (Object.entries(goalCurrent).length) {
-      setIsUpdate(true);
+      setIsUpdate(true)
       setGoal({ 
         ...goalCurrent, 
         startDate: moment.utc(goalCurrent.startDate).startOf('day'),
         initialValue: goalCurrent.tracker[0]
-      });
+      })
       if (moment(goalCurrent.startDate).startOf('day') < moment().startOf('day')) {
         setGoal({
           ...goalCurrent, 
@@ -64,62 +64,62 @@ const CompetitionForm = () => {
 
   //if adding, create competition, clear alert, and redirect
   //if updating, get goals, set updated goal as current, clear alert, and redirect
-  let history = useHistory();
+  let history = useHistory()
   useEffect(() => {
     if (isSubmit && !isUpdate) {
       let temp = async () => {
-        await addCompetition(goalCurrent._id);
-        clearAlert();
-        history.push('/competition');
+        await addCompetition(goalCurrent._id)
+        clearAlert()
+        history.push('/competition')
       }
-      temp();
+      temp()
     }
     else if (isSubmit && isUpdate) {
       let temp = async () => {
-        await getGoals();
-        setCurrentGoal(goalCurrent._id);
-        clearAlert();
-        history.push('/competition');
+        await getGoals()
+        setCurrentGoal(goalCurrent._id)
+        clearAlert()
+        history.push('/competition')
       }
-      temp();
+      temp()
     }
     //eslint-disable-next-line
   }, [isSubmit, isUpdate])
   
   //destructure goal 
-  const { name, duration, startDate, type, units, total, isPrivate, started } = goal;
+  const { name, duration, startDate, type, units, total, isPrivate, started } = goal
   
   //add or update competition
   const handleSubmit = async e => {
-    e.preventDefault();
+    e.preventDefault()
     
-    const msg = verifyDates(startDate, started, duration);
+    const msg = verifyDates(startDate, started, duration)
 
     //try to submit 
     if(!msg && name && duration && startDate && type && total && (units || type === 'pass/fail')) {
       //add/update competition and tell user
       if (message === 'Modify Competition') {
-        await updateCompetition({goal, _id: competition._id});
-        setAlert('Competition updated!', true);
+        await updateCompetition({goal, _id: competition._id})
+        setAlert('Competition updated!', true)
       } else {
-        await addGoal(goal);
-        setAlert('Competition added!', true);
+        await addGoal(goal)
+        setAlert('Competition added!', true)
       }
-      setIsSubmit(true);
+      setIsSubmit(true)
     }
     else 
-      setAlert(msg || 'Please enter all fields.');
-  };
+      setAlert(msg || 'Please enter all fields.')
+  }
 
   //update state with inputs
   const handleChange = e => {
-    handleGoalChange(e, setGoal, goal);
+    handleGoalChange(e, setGoal, goal)
   }
 
   //update isPrivate state with input
   const handleClick = e => {
-    setGoal({ ...goal, isPrivate: !isPrivate });
-  };
+    setGoal({ ...goal, isPrivate: !isPrivate })
+  }
 
   const handleIsMax = () => {
     if (total === -1)
@@ -128,7 +128,7 @@ const CompetitionForm = () => {
       setGoal({ ...goal, total: -1})
   }
   
-  const message = Object.entries(goalCurrent).length ? 'Modify Competition' : 'Add Competition';
+  const message = Object.entries(goalCurrent).length ? 'Modify Competition' : 'Add Competition'
 
   return (
     <GoalInputs
@@ -140,7 +140,7 @@ const CompetitionForm = () => {
       handleIsMax={handleIsMax}
       isGoal={false}
     />   
-  );
-};
+  )
+}
 
-export default CompetitionForm;
+export default CompetitionForm

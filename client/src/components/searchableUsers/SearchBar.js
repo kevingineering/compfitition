@@ -1,19 +1,19 @@
-import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef } from 'react'
+import PropTypes from 'prop-types'
 
 const SearchBar = ({filter, clear}) => {
 
  //console.log{'SearchBar')
 
   //useState is async, so we use useRef which is sync
-  const text = useRef('');
+  const text = useRef('')
 
   const handleChange = e => {
     if (text.current.value)
-      filter(e.target.value);
+      filter(e.target.value)
     else
-      clear();
-  };
+      clear()
+  }
 
   return (
     <form>
@@ -32,4 +32,4 @@ SearchBar.propTypes = {
   clear: PropTypes.func.isRequired
 }
 
-export default SearchBar;
+export default SearchBar
