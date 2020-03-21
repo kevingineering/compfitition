@@ -7,7 +7,7 @@ const routes = require('./backend/routes/index')
 const app = express()
 
 //connect to DB
-//connectDB()
+connectDB()
 
 //adds json body parser to our express object - calls next for us, so we move to next middleware after request body is parsed, automatically creates and populates req.body
 app.use(express.json({ extended: true }))
