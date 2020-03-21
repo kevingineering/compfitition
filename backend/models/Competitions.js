@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const CompetitionSchema = mongoose.Schema({
   //goalId is of template goal
@@ -21,6 +21,6 @@ const CompetitionSchema = mongoose.Schema({
     required: true,
     ref: 'User'
   }]
-});
+})
 
-module.exports = mongoose.model('Competition', CompetitionSchema);
+module.exports = mongoose.model('Competition', CompetitionSchema)

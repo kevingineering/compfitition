@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const RequestSchema = mongoose.Schema({
   //requester is id of individual sending request
@@ -31,6 +31,6 @@ const RequestSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   }
-});
+})
 
-module.exports = mongoose.model('Request', RequestSchema);
+module.exports = mongoose.model('Request', RequestSchema)

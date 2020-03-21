@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 //note that there are three kinds of goals:
   //solo goal
@@ -78,6 +78,6 @@ const GoalSchema = mongoose.Schema({
     type: Array,
     required: true
   }
-});
+})
 
-module.exports = mongoose.model('Goal', GoalSchema);
+module.exports = mongoose.model('Goal', GoalSchema)

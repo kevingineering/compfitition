@@ -1,28 +1,28 @@
-const Letter = require('../models/Letters');
+const Letter = require('../models/Letters')
 
 //add new letter
 exports.addNewLetter = async (letterFields, session = null) => {
   const newLetter = new Letter(letterFields)
-  await newLetter.save({ session: session });
-  return newLetter;
+  await newLetter.save({ session: session })
+  return newLetter
 }
 
 //get letter by letterId - TODO - IS THIS NECESSARY?
 exports.getLetterById = async (letterId) => {
-  const letter = await Letter.findById(letterId);
-  return letter;
+  const letter = await Letter.findById(letterId)
+  return letter
 }
 
 //get user letters that aren't 'fromUser'
 exports.getLettersByUserId = async (userId) => {
-  const letters = await Letter.find({ userId: userId, type: {$ne: 'fromUser'} });
-  return letters;
+  const letters = await Letter.find({ userId: userId, type: {$ne: 'fromUser'} })
+  return letters
 }
 
 //get comp letters with type 'fromUser', 'toUser', or 'requestAdmin'
 exports.getLettersByCompId = async (compId) => {
-  const letters = await Letter.find({ compId: compId, $or: [{type: 'fromUser'}, {type: 'toUser'}, {type: 'requestAdmin'}] });
-  return letters;
+  const letters = await Letter.find({ compId: compId, $or: [{type: 'fromUser'}, {type: 'toUser'}, {type: 'requestAdmin'}] })
+  return letters
 }
 
 //TODO update letter expiration by compId
@@ -32,22 +32,22 @@ exports.updateLetterExpirationDate = async (compId, date, session = null) => {
 
 //delete letter
 exports.deleteLetterById = async (letterId, session = null) => {
-  await Letter.findByIdAndDelete(letterId, {session: session});
+  await Letter.findByIdAndDelete(letterId, {session: session})
 }
 
 //delete all user letters
 exports.deleteAllUserLetters = async (userId, session = null) => {
-  await Letter.deleteMany({ userId: userId }, { session: session });
+  await Letter.deleteMany({ userId: userId }, { session: session })
 }
 
 //delete all user letters for one competition
 exports.deleteUserLettersForComp = async (userId, compId, session = null) => {
-  await Letter.deleteMany({ userId: userId, compId: compId }, { session: session });
+  await Letter.deleteMany({ userId: userId, compId: compId }, { session: session })
 }
 
 //delete all competition letters
 exports.deleteAllCompetitionLetters = async (compId, session = null) => {
-  await Letter.deleteMany({ compId: compId }, { session: session });
+  await Letter.deleteMany({ compId: compId }, { session: session })
 }
 
 //does not interact with database, but calls function that does
@@ -59,6 +59,6 @@ exports.addCompDeletedLetters = async (userIds, compId, compName, session = null
       userId: userIds[i], 
       type: 'compDeleted'
     }
-    await this.addNewLetter(letterFields, session);
+    await this.addNewLetter(letterFields, session)
   }
 }

@@ -3,40 +3,40 @@
   //'difference' - number of days plus one (start value)
   //'pass/fail' - number of weeks times number of days per week
 exports.createTracker = (newDuration, total, type, initialValue) => {
-  let length = newDuration;
+  let length = newDuration
   if (type === 'pass/fail') {
-    length = newDuration / 7 * total;
+    length = newDuration / 7 * total
   } else if (type === 'difference') {
-    length += 1;
+    length += 1
   }
 
-  let tracker = new Array(length);
+  let tracker = new Array(length)
   if (type === 'total') {
-    tracker = tracker.fill(0);
+    tracker = tracker.fill(0)
   }
   if (type === 'difference') {
-    tracker[0] = initialValue;
+    tracker[0] = initialValue
   }
 
-  return tracker;
+  return tracker
 }
 
 //update tracker
 exports.updateTracker = (newDuration, total, type, tracker) => {
-  let length = newDuration - tracker.length;
+  let length = newDuration - tracker.length
   if (type === 'pass/fail') {
-    length = newDuration / 7 * total - tracker.length;
+    length = newDuration / 7 * total - tracker.length
   } else if (type === 'difference') {
-    length = newDuration + 1 - tracker.length;
-    newDuration += 1;
+    length = newDuration + 1 - tracker.length
+    newDuration += 1
   }
   
   if (length < 0) 
-    newTracker = tracker.splice(0, newDuration);
+    newTracker = tracker.splice(0, newDuration)
   else if ( type === 'total')
     newTracker = tracker.concat(new Array(length).fill(0))
   else 
-    newTracker = tracker.concat(new Array(length).fill(null));
+    newTracker = tracker.concat(new Array(length).fill(null))
 
-  return newTracker;
+  return newTracker
 }

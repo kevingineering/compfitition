@@ -1,17 +1,17 @@
-const letterService = require('../services/letter');
+const letterService = require('../services/letter')
 
 exports.getLetters = async(req, res) => {
   try {
-    let letters = [];
+    let letters = []
     if (req.params.compId) {
-      letters = await letterService.getLettersByCompId(req.params.compId);
+      letters = await letterService.getLettersByCompId(req.params.compId)
     } else {
-      letters = await letterService.getLettersByUserId(req.user.id);
+      letters = await letterService.getLettersByUserId(req.user.id)
     }
-    res.json(letters);
+    res.json(letters)
   } catch (err) {
    //console.log{err)
-    res.status(500).json({ msg: 'Server error.' });
+    res.status(500).json({ msg: 'Server error.' })
   }
 }
 
@@ -33,29 +33,29 @@ exports.addLetter = async (req, res) => {
     switch(type) {
       case 'toUser':
         letterFields.message = `${userName} invited you to join ${compName}!`
-        break;
+        break
       case 'fromUser':
         letterFields.message = `${userName} has requested to join this competition!`
-        break;
+        break
       case 'userAdded':
         letterFields.message = `${userName} approved your request to join ${compName}!`
-        break;
+        break
       case 'userKicked':
         letterFields.message = `You have been removed from ${compName}. The competition goal has been saved as a personal goal.`
-        break;
+        break
       case 'requestAdmin':
         letterFields.message = `You have been asked to be an admin for ${compName}.`
-        break;
+        break
       default:
         return res.status(500).json({ msg: 'Invalid letter type.'}) 
     }
 
     const letter = await letterService.addNewLetter(letterFields)
 
-    res.json({ msg: 'Invite sent.', letter });
+    res.json({ msg: 'Invite sent.', letter })
   } catch (err) {
    //console.log{err)
-    res.status(500).json({ msg: 'Server error.' });
+    res.status(500).json({ msg: 'Server error.' })
   }
 }
 
@@ -74,6 +74,6 @@ exports.deleteLetter = async (req, res) => {
     res.json({ msg: 'Letter deleted.', letterId: req.params.letterId})
   } catch (err) {
    //console.log{err)
-    res.status(500).json({ msg: 'Server error.' });
+    res.status(500).json({ msg: 'Server error.' })
   }
 }

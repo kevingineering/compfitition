@@ -1,4 +1,4 @@
-const mongoose = require ('mongoose');
+const mongoose = require ('mongoose')
 
 //connect to DB - process.env is nodemon.json when in dev
 const connectDB = async () => {
@@ -9,12 +9,12 @@ const connectDB = async () => {
       useCreateIndex: true, 
       useUnifiedTopology: true,
       useFindAndModify: false      
-    });
-    console.log('MongoDB connected...');
+    })
+    console.log('MongoDB connected...')
   } catch (err) {
-    console.log(err);
-    process.exit(1);
+    console.log(err)
+    process.exit(1)
   }
-};
+}
 
-module.exports = connectDB;
+module.exports = connectDB

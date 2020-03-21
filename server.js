@@ -1,24 +1,24 @@
-const express = require('express');
-const path = require('path');
-const connectDB = require('./dbConnection');
-const routes = require('./backend/routes/index');
+const express = require('express')
+const path = require('path')
+const connectDB = require('./dbConnection')
+const routes = require('./backend/routes/index')
 
 //initialize express object 
-const app = express();
+const app = express()
 
 //connect to DB
-connectDB();
+connectDB()
 
 //adds json body parser to our express object - calls next for us, so we move to next middleware after request body is parsed, automatically creates and populates req.body
-app.use(express.json({ extended: false }));
+app.use(express.json({ extended: false }))
 
 //all routes in route folder
-app.use(routes);
+app.use(routes)
 
 //serve static assets (build folder) if in production
 if(process.env.NODE_ENV === 'production') {
   //sets static folder to build folder
-  app.use(express.static('client/build'));
+  app.use(express.static('client/build'))
   //returns index.html for routes not handled above
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
@@ -31,7 +31,7 @@ else {
 }
 
 //environmental port (if deployed) or local port 5000
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000
 
 //start server
-app.listen(port, () => console.log(`Server started on port ${port}`));
+app.listen(port, () => console.log(`Server started on port ${port}`))

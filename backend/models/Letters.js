@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const LetterSchema = mongoose.Schema({
   //compId indicates competition letter is associated with
@@ -34,6 +34,6 @@ const LetterSchema = mongoose.Schema({
     type: Date,
     index: { expires: '-5m'}
   }
-});
+})
 
-module.exports = mongoose.model('Letter', LetterSchema);
+module.exports = mongoose.model('Letter', LetterSchema)
