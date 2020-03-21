@@ -13,7 +13,7 @@ connectDB()
 app.use(express.json({ extended: true }))
 
 //all routes in route folder
-//app.use(routes)
+app.use(routes)
 
 //serve static assets (build folder) if in production
 if(process.env.NODE_ENV === 'production') {
