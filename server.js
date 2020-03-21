@@ -1,6 +1,6 @@
 const express = require('express')
 const path = require('path')
-//const connectDB = require('./dbConnection')
+const connectDB = require('./dbConnection')
 const routes = require('./backend/routes/index')
 
 //initialize express object 
