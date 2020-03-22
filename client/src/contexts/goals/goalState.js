@@ -91,7 +91,6 @@ const GoalState = props => {
       const res = await axios.patch(`/api/goals/tracker/${_id}`, {tracker}, config)
       dispatch({ type: UPDATE_GOAL_TRACKER, payload: res.data })
     } catch (err) {
-      console.log(err)
       dispatch({ type: GOAL_ERROR, payload: err.response.data.msg })
     }
   }

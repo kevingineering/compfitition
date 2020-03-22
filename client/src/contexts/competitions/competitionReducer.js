@@ -57,7 +57,6 @@ export default (state, action) => {
         competitionLoading: false
       }
     case GET_COMPETITION_CURRENT_GOAL:
-      console.log(action.payload)
       return {
         ...state,
         competitionCurrentGoal: action.payload

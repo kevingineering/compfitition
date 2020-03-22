@@ -400,7 +400,6 @@ exports.removeUserFromCompetition = async(req, res) => {
 
     res.json({msg: 'User removed from competition.'})
   } catch (err) {
-    console.log(err)
     res.status(500).json({ msg: 'Server error.' })
   }
 }

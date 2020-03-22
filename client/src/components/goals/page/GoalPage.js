@@ -45,7 +45,6 @@ const GoalPage = (props) => {
 
   //fill missed past values in tracker array
   useEffect(() => {
-    console.log(record, time - 1)
     if (record && record[time -1] === null && type === 'pass/fail') {
       setRecord(record.map((value, index) => {
         if (index < time && value === null) {
