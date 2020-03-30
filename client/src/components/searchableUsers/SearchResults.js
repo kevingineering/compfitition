@@ -78,6 +78,12 @@ const SearchResults = () => {
   }
   return (
     <React.Fragment>
+      {
+        searchList[0] && 
+        (searchList[0].props.status === 'received' || 
+        searchList[0].props.status === 'sent') && 
+        <p className='lr-border'/>
+      }
       {searchList}
     </React.Fragment>
   )

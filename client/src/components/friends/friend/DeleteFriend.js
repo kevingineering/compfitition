@@ -21,7 +21,7 @@ const DeleteFriend = ({userId})=> {
 
   return (
     <div>
-      <form className='width-275'>
+      <form className='width-175'>
         <input
           type='button'
           value='Delete Friendship?'

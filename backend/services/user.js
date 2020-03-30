@@ -29,7 +29,7 @@ exports.getUserByEmail = async (email) => {
 exports.getUsersInArray = async (idArray, selectString) => {
   const users = await User.find(
     { _id: { $in: idArray }}
-  ).select(selectString)
+  ).select(selectString).sort({ firstName: 1})
   return users
 }
 
@@ -37,7 +37,7 @@ exports.getUsersInArray = async (idArray, selectString) => {
 exports.getSearchableUsers = async (userId) => {
   const users = await User.find(
     { isSearchable: true, _id: { $ne: userId }}
-  ).select('_id firstName lastName email')
+  ).select('_id firstName lastName email').sort({ firstName: 1})
   return users
 }
 
@@ -52,7 +52,7 @@ exports.getFriendFriends = async (userId, array) => {
       { isSearchable: true },
       { friends: { $in: userId }}
     ]
-  }).select('firstName lastName email alias _id ')
+  }).select('firstName lastName email alias _id ').sort({ firstName: 1})
   return friendArray
 }
 

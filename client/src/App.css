@@ -192,6 +192,7 @@ img {
 
 .width-80 {
   width: 80px;
+  flex-shrink: 0;
   display: inline-block;
   text-align: left;
 }
@@ -200,8 +201,8 @@ img {
   max-width: 325px;
 }
 
-.width-275 {
-  max-width: 275px;
+.width-175 {
+  max-width: 175px;
   margin: auto;
 }
 
@@ -503,7 +504,7 @@ g > g > circle[r="6.5"] {
 }
 
 .search-btn {
-  padding: 0.3rem 0.6rem;
+  padding: 0.2rem 0.6rem;
   border: none;
   border-radius: 2rem;
   cursor: pointer;

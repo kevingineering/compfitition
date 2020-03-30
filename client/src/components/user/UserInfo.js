@@ -7,6 +7,8 @@ const UserInfo = ({current, setEditToggle, setPasswordToggle, setDeleteToggle}) 
 
   const { firstName, lastName, alias, isSearchable, email } = current
 
+  let message = `Other users ${isSearchable ? 'can' : 'cannot'} search for me using my name and email.`
+
   return (
     <React.Fragment>
       <ul>
@@ -34,12 +36,12 @@ const UserInfo = ({current, setEditToggle, setPasswordToggle, setDeleteToggle}) 
             {email}
           </span>
         </li>
-        <li>
+        <li className='flex'>
           <span className='width-80'>
             <strong>Privacy:</strong>
           </span>
           <span>
-            Other users {isSearchable ? 'can' : 'cannot'} search for me using my name and email.
+            {message}
           </span>
         </li>
       </ul>
