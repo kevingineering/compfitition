@@ -167,7 +167,7 @@ const GoalInputs = ({message, goal, handleSubmit, handleChange, handleClick, han
         {type !== 'pass/fail' && !isGoal && 
           <Switch 
             label='How is this competition decided?'
-            isChecked={total === -1}
+            isChecked={total !== -1}
             name='isPrivate'
             handleClick={handleIsMax}
             msgChecked={`This competition is won by the user with the 
