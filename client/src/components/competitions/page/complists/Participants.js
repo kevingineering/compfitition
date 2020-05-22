@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ParticipantItem from './ParticipantItem'
+import LoadingSpinner from '../../../layout/LoadingSpinner'
 
 const Participants = ({participants, adminIds, adminRequests, isAdminView, compId, compName}) => {
 
@@ -11,7 +12,7 @@ const Participants = ({participants, adminIds, adminRequests, isAdminView, compI
   if(participants.length === 0) {
     participantList = (
       <li className='collection-item center collection-item-block'>
-        <div className="spinner"/>
+        <LoadingSpinner />
       </li>
     )
   }

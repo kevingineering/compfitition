@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import FriendItem from './FriendItem'
+import LoadingSpinner from '../../layout/LoadingSpinner'
 
 const FriendList = ({friends, loading, filtered, isOwner}) => {
  //console.log{'FriendList')
@@ -11,7 +12,7 @@ const FriendList = ({friends, loading, filtered, isOwner}) => {
   if (loading) {
     listItems = (
       <li className='collection-item center'>
-        <div className="spinner"/>
+        <LoadingSpinner />
       </li>
     )
   }

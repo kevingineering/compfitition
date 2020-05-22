@@ -9,6 +9,7 @@ import CreateArray from './comptable/CreateArray'
 import CompLists from './complists/CompLists'
 import CompRequest from './complists/CompRequest'
 import { getTime } from '../../sharedFunctions'
+import LoadingSpinner from '../../layout/LoadingSpinner'
 
 const CompetitionPage = (props) => {
 
@@ -120,7 +121,7 @@ const CompetitionPage = (props) => {
       competitionParticipants.length !== competitionGoals.length ||
       !goalUsed || 
       Object.entries(goalUsed).length === 0
-    ) ? <div className="spinner"/> :
+    ) ? <LoadingSpinner /> :
     <div className='competition-container'>
       <div className='grid-2-1'>
         <div>

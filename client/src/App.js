@@ -7,7 +7,7 @@ import PrivateRoute from './components/routing/PrivateRoute'
 
 import Home from './components/pages/Home'
 import About from './components/pages/About'
-//import NotFound from './components/pages/NotFound'
+import NotFound from './components/pages/NotFound'
 import Navbar from './components/layout/Navbar'
 import Alert from './components/layout/Alert'
 import GoalPage from './components/goals/page/GoalPage'
@@ -42,16 +42,14 @@ const App = () => {
             <PrivateRoute exact path='/' component={Home}/>
             <PrivateRoute exact path='/user' component={UserPage}/>
             <PrivateRoute exact path='/goalform' component={GoalForm}/>
-            {/* Add routing */}
             <PrivateRoute exact path='/goal/:goalId' component={GoalPage}/>
             <PrivateRoute exact path='/search' component={SearchPage}/>
             <PrivateRoute exact path='/friend' component={FriendPage}/>
-            {/* Add routing */}
             <PrivateRoute exact path='/friend/goal/:goalId' component={FriendGoalPage}/>
             <PrivateRoute exact path='/competitionform' component={CompetitionForm}/>
-            {/* Add routing */}
             <PrivateRoute path='/competition/:compId' component={CompetitionPage}/>
             <Redirect to='/login' />
+            <Route component={NotFound} />
           </Switch>
         </div>
       </Router>

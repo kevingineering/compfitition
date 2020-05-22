@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import LeaderboardItem from './LeaderboardItem'
+import LoadingSpinner from '../../../layout/LoadingSpinner'
 
 const Leaderboard = ({competitionArray, type}) => {
 
@@ -8,7 +9,7 @@ const Leaderboard = ({competitionArray, type}) => {
 
   let leaderboardList = (
     <li className='collection-item center'>
-      <div className="spinner"/>
+      <LoadingSpinner />
     </li>
   )
   

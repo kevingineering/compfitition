@@ -6,6 +6,7 @@ import AlertContext from '../../../contexts/alerts/alertContext'
 import GoalContext from '../../../contexts/goals/goalContext'
 import GoalChart from './GoalChart'
 import { getTime } from '../../sharedFunctions'
+import LoadingSpinner from '../../layout/LoadingSpinner'
 
 const GoalPage = (props) => {
 
@@ -88,7 +89,7 @@ const GoalPage = (props) => {
   return (
     <div className='form-container'>
     {(!record) ? (
-      <div className="spinner"/>
+      <LoadingSpinner />
     ) : (
       <React.Fragment>
         <h2 className='collection-header'>{name}</h2>

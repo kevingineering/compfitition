@@ -3,6 +3,7 @@ import SearchItem from './SearchItem'
 import SearchableUsersContext from '../../contexts/searchableUsers/searchableUsersContext'
 import FriendContext from '../../contexts/friends/friendContext'
 import RequestContext from '../../contexts/requests/requestContext'
+import LoadingSpinner from '../layout/LoadingSpinner'
 
 const SearchResults = () => {
 
@@ -41,7 +42,7 @@ const SearchResults = () => {
 
   if (searchableUsers.length === 0) {
     searchList = <li className='collection-item'>
-        <div className="spinner"/>
+        <LoadingSpinner />
       </li>
   }
   else if (searchableUsersFiltered !== null) {

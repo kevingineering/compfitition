@@ -7,6 +7,7 @@ import CompInfo from './CompInfo'
 import CompChart from './CompChart'
 import AlertContext from '../../../../contexts/alerts/alertContext'
 import CompButtons from './CompButtons'
+import LoadingSpinner from '../../../layout/LoadingSpinner'
 
 const CompetitionTable = ({isAdmin, isAdminView, isStarted, isActive, isComplete, isParticipant, time, competitionArray, goal }) => {
 
@@ -73,7 +74,7 @@ const CompetitionTable = ({isAdmin, isAdminView, isStarted, isActive, isComplete
   return (
     <div className='competition-table-container'>
       {!Object.entries(competition).length ? (
-        <div className="spinner"/>
+        <LoadingSpinner />
       ) : (
         <React.Fragment>
           <h2 className='collection-header'>{name}</h2>

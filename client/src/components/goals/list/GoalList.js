@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import GoalItem from './GoalItem'
+import LoadingSpinner from '../../layout/LoadingSpinner'
 
 const GoalList = ({goals, isOwner, isGoal, loading}) => {
   
@@ -14,7 +15,7 @@ const GoalList = ({goals, isOwner, isGoal, loading}) => {
   if (loading) {
     itemList = (
       <li className='collection-item'>
-        <div className="spinner"/>
+        <LoadingSpinner />
       </li>
     )
   }
