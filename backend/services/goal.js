@@ -3,8 +3,14 @@ const Goal = require('../models/Goals')
 //add new goal
 exports.addNewGoal = async (goalFields, session = null) => {
   const goal = new Goal(goalFields)
-  await goal.save({session: session})
+  await goal.save({ session: session })
   return goal
+}
+
+//get all goals
+exports.getAllGoals = async () => {
+  const goals = await Goal.find()
+  return goals
 }
 
 //get goal by goalId
@@ -27,27 +33,27 @@ exports.getGoalsByCompId = async (compId) => {
 
 //get friend goals that are not private
 exports.getFriendGoals = async (userId) => {
-  const goals = await Goal.find({ 
-    user: userId, 
-    isPrivate : false
+  const goals = await Goal.find({
+    user: userId,
+    isPrivate: false,
   }).sort({ startDate: 1 })
   return goals
 }
 
 //get friend goals that are not private
 exports.getGoalByCompId = async (compId) => {
-  const goal = await Goal.findOne({ 
-    user: compId
+  const goal = await Goal.findOne({
+    user: compId,
   }).sort({ startDate: 1 })
   return goal
 }
 
-//update goal by goalId 
+//update goal by goalId
 exports.updateGoalById = async (goalId, fields, session = null) => {
   const goal = await Goal.findByIdAndUpdate(
     goalId,
     { $set: fields },
-    { new: true, session: session}
+    { new: true, session: session }
   )
   return goal
 }
@@ -55,7 +61,7 @@ exports.updateGoalById = async (goalId, fields, session = null) => {
 //set compId to null on goals
 exports.updateCompIdOnGoals = async (compId, session = null) => {
   await Goal.updateMany(
-    { compId: compId }, 
+    { compId: compId },
     { compId: null },
     { session: session }
   )
@@ -74,42 +80,68 @@ exports.updateGoalsByUserId = async (userId, goalFields, session = null) => {
 exports.updateGoalsByCompId = async (compId, goalFields, session = null) => {
   await Goal.updateMany(
     { compId: compId },
-    { $set: goalFields }, 
+    { $set: goalFields },
     { session: session }
   )
 }
 
 //update goals by userId and extend tracker
-exports.updateGoalsByUserIdAndAppendTracker = async (userId, goalFields, array, session = null) => {
+exports.updateGoalsByUserIdAndAppendTracker = async (
+  userId,
+  goalFields,
+  array,
+  session = null
+) => {
   await Goal.findOneAndUpdate(
     { user: userId },
-    { $set: goalFields, $push: { tracker: array} },
+    { $set: goalFields, $push: { tracker: array } },
     { session: session }
   )
 }
 
 //update goals by compId and extend tracker
-exports.updateGoalsByCompIdAndAppendTracker = async (compId, goalFields, array, session = null) => {
+exports.updateGoalsByCompIdAndAppendTracker = async (
+  compId,
+  goalFields,
+  array,
+  session = null
+) => {
   await Goal.updateMany(
     { compId: compId },
-    { $set: goalFields, $push: { tracker: array} }, 
+    { $set: goalFields, $push: { tracker: array } },
     { session: session }
   )
 }
 
-exports.updateGoalsByUserIdAndTrimTracker = async (userId, goalFields, newDuration, session = null) => {
+exports.updateGoalsByUserIdAndTrimTracker = async (
+  userId,
+  goalFields,
+  newDuration,
+  session = null
+) => {
   await Goal.findOneAndUpdate(
     { user: userId },
-    { $set: goalFields, $push: { tracker: { $each: [ ], $slice: newDuration }}},
+    {
+      $set: goalFields,
+      $push: { tracker: { $each: [], $slice: newDuration } },
+    },
     { session: session }
   )
 }
 
 //update goals by compId and extend tracker
-exports.updateGoalsByCompIdAndTrimTracker = async (compId, goalFields, newDuration, session = null) => {
+exports.updateGoalsByCompIdAndTrimTracker = async (
+  compId,
+  goalFields,
+  newDuration,
+  session = null
+) => {
   await Goal.updateMany(
     { compId: compId },
-    { $set: goalFields, $push: { tracker: { $each: [ ], $slice: newDuration }}}, 
+    {
+      $set: goalFields,
+      $push: { tracker: { $each: [], $slice: newDuration } },
+    },
     { session: session }
   )
 }
@@ -118,7 +150,7 @@ exports.updateGoalsByCompIdAndTrimTracker = async (compId, goalFields, newDurati
 exports.removeGoalFromCompetition = async (compId, userId, session = null) => {
   await Goal.findOneAndUpdate(
     { compId: compId, user: userId },
-    { $set: {compId: null} },
+    { $set: { compId: null } },
     { session: session }
   )
 }
@@ -130,16 +162,10 @@ exports.deleteGoalById = async (goalId) => {
 
 //delete goal by userId
 exports.deleteGoalByUserId = async (userId, session = null) => {
-  await Goal.findOneAndDelete(
-    { user: userId },
-    { session: session }
-  )
+  await Goal.findOneAndDelete({ user: userId }, { session: session })
 }
 
 //delete many goals by userId
 exports.deleteAllUserGoals = async (userId, session = null) => {
-  await Goal.deleteMany(
-    { user: userId }, 
-    { session: session}
-  )
+  await Goal.deleteMany({ user: userId }, { session: session })
 }

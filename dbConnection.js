@@ -1,14 +1,13 @@
-const mongoose = require ('mongoose')
+const mongoose = require('mongoose')
 
 //connect to DB - process.env is nodemon.json when in dev
 const connectDB = async () => {
   try {
-    await mongoose
-    .connect(process.env.mongoURI, {
-      useNewUrlParser: true, 
-      useCreateIndex: true, 
+    await mongoose.connect(process.env.mongoURI, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
       useUnifiedTopology: true,
-      useFindAndModify: false      
+      useFindAndModify: false,
     })
     console.log('MongoDB connected...')
   } catch (err) {
